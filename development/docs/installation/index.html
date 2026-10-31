@@ -324,7 +324,7 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><div class="table-wrapper"><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
-</pre></td><td class="rouge-code"><pre>git submodule add https://github.com/N3b3x/hf-ads7952-driver.git external/hf-ads7952-driver
+</pre></td><td class="rouge-code"><pre>git submodule add https://github.com/hardfoc/hf-ads7952-driver.git external/hf-ads7952-driver
 git submodule update <span class="nt">--init</span> <span class="nt">--recursive</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div>
 
@@ -355,7 +355,7 @@ git submodule update <span class="nt">--init</span> <span class="nt">--recursive
 </pre></td><td class="rouge-code"><pre><span class="nb">include</span><span class="p">(</span>FetchContent<span class="p">)</span>
 <span class="nf">FetchContent_Declare</span><span class="p">(</span>
     hf_ads7952
-    GIT_REPOSITORY https://github.com/N3b3x/hf-ads7952-driver.git
+    GIT_REPOSITORY https://github.com/hardfoc/hf-ads7952-driver.git
     GIT_TAG        main
 <span class="p">)</span>
 <span class="nf">FetchContent_MakeAvailable</span><span class="p">(</span>hf_ads7952<span class="p">)</span>

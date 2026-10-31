@@ -379,7 +379,7 @@
   },"54": {
     "doc": "🔩 CMake Integration",
     "title": "Via FetchContent",
-    "content": "| 1 2 3 4 5 6 7 8 . | include(FetchContent) FetchContent_Declare( hf_ads7952 GIT_REPOSITORY https://github.com/N3b3x/hf-ads7952-driver.git GIT_TAG main ) FetchContent_MakeAvailable(hf_ads7952) target_link_libraries(your_target PRIVATE hf::ads7952) . | . ",
+    "content": "| 1 2 3 4 5 6 7 8 . | include(FetchContent) FetchContent_Declare( hf_ads7952 GIT_REPOSITORY https://github.com/hardfoc/hf-ads7952-driver.git GIT_TAG main ) FetchContent_MakeAvailable(hf_ads7952) target_link_libraries(your_target PRIVATE hf::ads7952) . | . ",
     "url": "/hf-ads7952/development/docs/cmake_integration/#via-fetchcontent",
     
     "relUrl": "/docs/cmake_integration/#via-fetchcontent"
@@ -855,14 +855,14 @@
   },"122": {
     "doc": "🛠️ Installation",
     "title": "Option 1 — Git Submodule (Recommended)",
-    "content": "Add as a submodule to your project: . | 1 2 . | git submodule add https://github.com/N3b3x/hf-ads7952-driver.git external/hf-ads7952-driver git submodule update --init --recursive . | . Then in your CMakeLists.txt: . | 1 2 . | add_subdirectory(external/hf-ads7952-driver) target_link_libraries(your_target PRIVATE hf::ads7952) . | . ",
+    "content": "Add as a submodule to your project: . | 1 2 . | git submodule add https://github.com/hardfoc/hf-ads7952-driver.git external/hf-ads7952-driver git submodule update --init --recursive . | . Then in your CMakeLists.txt: . | 1 2 . | add_subdirectory(external/hf-ads7952-driver) target_link_libraries(your_target PRIVATE hf::ads7952) . | . ",
     "url": "/hf-ads7952/development/docs/installation/#option-1--git-submodule-recommended",
     
     "relUrl": "/docs/installation/#option-1--git-submodule-recommended"
   },"123": {
     "doc": "🛠️ Installation",
     "title": "Option 2 — CMake FetchContent",
-    "content": "| 1 2 3 4 5 6 7 8 . | include(FetchContent) FetchContent_Declare( hf_ads7952 GIT_REPOSITORY https://github.com/N3b3x/hf-ads7952-driver.git GIT_TAG main ) FetchContent_MakeAvailable(hf_ads7952) target_link_libraries(your_target PRIVATE hf::ads7952) . | . ",
+    "content": "| 1 2 3 4 5 6 7 8 . | include(FetchContent) FetchContent_Declare( hf_ads7952 GIT_REPOSITORY https://github.com/hardfoc/hf-ads7952-driver.git GIT_TAG main ) FetchContent_MakeAvailable(hf_ads7952) target_link_libraries(your_target PRIVATE hf::ads7952) . | . ",
     "url": "/hf-ads7952/development/docs/installation/#option-2--cmake-fetchcontent",
     
     "relUrl": "/docs/installation/#option-2--cmake-fetchcontent"
