@@ -12,8 +12,8 @@ permalink: /
 
 [![C++](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.cppreference.com/w/cpp/20)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![CI](https://github.com/N3b3x/hf-ads7952-driver/actions/workflows/esp32-examples-build-ci.yml/badge.svg?branch=main)](https://github.com/N3b3x/hf-ads7952-driver/actions/workflows/esp32-examples-build-ci.yml)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://n3b3x.github.io/hf-ads7952-driver/)
+[![CI](https://github.com/hardfoc/hf-ads7952-driver/actions/workflows/esp32-examples-build-ci.yml/badge.svg?branch=main)](https://github.com/hardfoc/hf-ads7952-driver/actions/workflows/esp32-examples-build-ci.yml)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://hardfoc.github.io/hf-ads7952-driver/)
 
 ## 📚 Table of Contents
 1. [Overview](#-overview)
@@ -29,7 +29,7 @@ permalink: /
 
 ## 📦 Overview
 
-> **📖 [📚🌐 Live Complete Documentation](https://n3b3x.github.io/hf-ads7952-driver/)** —
+> **📖 [📚🌐 Live Complete Documentation](https://hardfoc.github.io/hf-ads7952-driver/)** —
 > Interactive guides, examples, and step-by-step tutorials
 
 **HF-ADS7952** is a portable C++20 driver for the **ADS7952** 12-channel, 12-bit SAR ADC from Texas Instruments. It delivers up to 1 MSPS conversion rates over a 16-bit full-duplex SPI interface with support for manual channel selection, two auto-sequencing modes, configurable input range (Vref / 2×Vref), per-channel alarm thresholds, 4 GPIO pins with alarm routing, and power-down control.
