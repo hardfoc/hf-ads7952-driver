@@ -62,7 +62,7 @@ target_link_libraries(your_target PRIVATE hf::ads7952)
 include(FetchContent)
 FetchContent_Declare(
     hf_ads7952
-    GIT_REPOSITORY https://github.com/N3b3x/hf-ads7952-driver.git
+    GIT_REPOSITORY https://github.com/hardfoc/hf-ads7952-driver.git
     GIT_TAG        main
 )
 FetchContent_MakeAvailable(hf_ads7952)

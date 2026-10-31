@@ -308,7 +308,7 @@ If your issue is not listed here:
 1. Check the [ADS7952 datasheet](datasheet/) (SLAS605C) for device-specific behavior
 2. Use a logic analyzer to capture and decode SPI traffic
 3. Run the [Integration Test Suite](examples.md#4-integration-test-suite) to validate hardware
-4. Open an issue on the [GitHub repository](https://github.com/N3b3x/hf-ads7952-driver/issues)
+4. Open an issue on the [GitHub repository](https://github.com/hardfoc/hf-ads7952-driver/issues)
 
 ---
 

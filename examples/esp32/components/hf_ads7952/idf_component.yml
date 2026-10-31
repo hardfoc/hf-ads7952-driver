@@ -8,8 +8,8 @@ maintainers:
 license: "GPL-3.0"
 
 url: https://www.ti.com/product/ADS7952
-repository: https://github.com/N3b3x/hf-ads7952
-issues: https://github.com/N3b3x/hf-ads7952/issues
+repository: https://github.com/hardfoc/hf-ads7952
+issues: https://github.com/hardfoc/hf-ads7952/issues
 
 targets:
   - esp32
