@@ -18,13 +18,13 @@ has programmed into the chip.
 | Read | `ReadChannel(ch)`, `ReadAllChannels()`, `RawManualFrames(ch, out, n)` | `ReadResult`, `ChannelReadings`, frame count |
 | Modes | `EnterManualMode(ch)`, `EnterAuto1Mode(reset)`, `EnterAuto2Mode(reset)`, `GetMode()` | `bool` |
 | Sequences | `ProgramAuto1Channels(mask)`, `ProgramAuto2LastChannel(ch)` | `bool` |
-| Alarms and GPIOs | `ProgramAlarm()`, `ProgramAlarmVoltage()`, `ProgramGPIO(config)`, `SetGPIOOutputs(bits)` | `bool` (`void` for outputs) |
+| Alarms and GPIOs | `ProgramAlarm()`, `ProgramAlarmVoltage()`, `ProgramGPIO(config)`, `SetGPIOOutputs(bits)` | `bool` |
 | Range and power | `SetRange(range)`, `SetPowerDown(pd)` | `bool` |
 | Conversion | `CountToVoltage()`, `VoltageToCount()`, `SetVref()`, `SetVA()`, `GetActiveVref()` | volts, counts |
 
-Reads return a struct with an `error` field and an `ok()` helper. The other calls return `false` only for an
-argument out of range (a channel above 11): the SPI port returns nothing, so the driver cannot see a bus failure
-there.
+Reads return a struct with an `error` field and an `ok()` helper (`Error::SpiError` when the port's `transfer()`
+reported a bus error). The other calls return `false` for an argument out of range (a channel above 11) or a
+failed transfer; see [Porting](porting.md#bus-errors).
 
 ## Initialise
 
@@ -118,9 +118,10 @@ on the bench to see the address pipeline advance; it leaves the chip in Manual m
 | `Error::NotInitialized` | `EnsureInitialized()` has not succeeded | Call it |
 | `Error::InvalidChannel` | Channel above 11 | Fix the caller |
 | `Error::Timeout` | The requested channel address never came back in the frame budget | Check SPI mode, CS framing and MISO; re-initialise after a chip reset |
-| A `bool` call returns `false` | Channel or last channel above 11 | Fix the caller |
+| `Error::SpiError` | The port's `transfer()` returned `false` | Check the port and the bus; the read stopped at that frame |
+| A `bool` call returns `false` | Channel or last channel above 11, or the port's `transfer()` returned `false` | Fix the caller, or check the bus |
 
-`Error::SpiError`, `ProgrammingFailed` and `ModeChangeFailed` exist in the enum but no call returns them today.
+`ProgrammingFailed` and `ModeChangeFailed` exist in the enum but no call returns them today.
 [Troubleshooting](troubleshooting.md) maps symptoms to causes.
 
 ## Calibrate the conversion

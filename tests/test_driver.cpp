@@ -25,6 +25,18 @@ void check(bool ok, const char* what, int line) {
 
 using Adc = ads7952::ADS7952<MockAds7952>;
 
+// A port written for the earlier contract: transfer() returns void. Still accepted, never fails.
+class LegacyVoidPort : public ads7952::SpiInterface<LegacyVoidPort> {
+public:
+  MockAds7952 chip;
+  void transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) {
+    (void)chip.transfer(tx, rx, len);
+  }
+};
+
+static_assert(ads7952::detail::kTransferReportsStatus<MockAds7952>);
+static_assert(!ads7952::detail::kTransferReportsStatus<LegacyVoidPort>);
+
 void test_init_programs_defaults() {
   MockAds7952 chip;
   Adc adc(chip, 2.5f, 5.0f);
@@ -179,6 +191,81 @@ void test_reference_and_supply_limits() {
   static_assert(ADS7952_CFG::MIN_VA == 2.7f && ADS7952_CFG::MAX_VA == 5.25f);
 }
 
+// A bus error from the port's transfer() reaches the caller on every path.
+void test_bus_errors_propagate() {
+  using ads7952::Error;
+  {
+    MockAds7952 chip;
+    Adc adc(chip);
+    chip.transfers_before_failure = 0;
+    CHECK(!adc.EnsureInitialized()); // the power-up discard frame already fails
+    CHECK(!adc.IsInitialized());
+  }
+  for (int good = 1; good < 5; ++good) { // fail each of the 5 init frames in turn
+    MockAds7952 chip;
+    Adc adc(chip);
+    chip.transfers_before_failure = good;
+    CHECK(!adc.EnsureInitialized());
+    CHECK(!adc.IsInitialized());
+  }
+
+  MockAds7952 chip;
+  Adc adc(chip);
+  CHECK(adc.EnsureInitialized());
+  auto fail_after = [&](int n) { chip.transfers_before_failure = n; };
+
+  fail_after(0);
+  CHECK(adc.ReadChannel(3).error == Error::SpiError);
+  fail_after(1); // Manual frame passes, first CONTINUE fails
+  CHECK(adc.ReadChannel(3).error == Error::SpiError);
+  fail_after(0);
+  CHECK(adc.ReadAllChannels().error == Error::SpiError);
+  fail_after(3); // Auto-1 frame and two CONTINUEs pass
+  CHECK(adc.ReadAllChannels().error == Error::SpiError);
+
+  fail_after(0);
+  CHECK(!adc.EnterManualMode(2));
+  CHECK(!adc.EnterAuto1Mode());
+  CHECK(!adc.EnterAuto2Mode());
+  CHECK(!adc.ProgramAuto2LastChannel(4));
+  CHECK(adc.GetAuto2LastChannel() == 11); // unchanged
+  CHECK(!adc.ProgramAuto1Channels(0x0003));
+  fail_after(1); // the mask frame fails
+  CHECK(!adc.ProgramAuto1Channels(0x0003));
+  CHECK(adc.GetAuto1ChannelMask() == 0x0FFF); // unchanged
+  fail_after(0);
+  CHECK(!adc.ProgramGPIO(ads7952::GPIOConfig{}));
+  for (int good = 0; good < 3; ++good) { // each of the three alarm frames
+    fail_after(good);
+    CHECK(!adc.ProgramAlarm(5, ads7952::AlarmBound::High, 2000));
+  }
+  fail_after(0);
+  CHECK(!adc.SetGPIOOutputs(ads7952::gpio::kGPIO2));
+  CHECK(!adc.SetPowerDown(ads7952::PowerDown::PowerDown));
+  CHECK(!adc.SetRange(ads7952::Range::TwoVref));
+
+  uint16_t words[4] = {};
+  fail_after(0);
+  CHECK(adc.RawManualFrames(3, words, 4) == 0);
+  fail_after(2);
+  CHECK(adc.RawManualFrames(3, words, 4) == 2); // frames 0 and 1 arrived
+
+  fail_after(-1); // the bus recovers: everything works again
+  CHECK(adc.ReadChannel(3).ok());
+  CHECK(chip.failed_transfers > 0);
+}
+
+// A void-returning port still builds and works; it can never report an error.
+void test_legacy_void_port() {
+  LegacyVoidPort port;
+  ads7952::ADS7952<LegacyVoidPort> adc(port, 2.5f, 5.0f);
+  CHECK(adc.EnsureInitialized());
+  const auto r = adc.ReadChannel(7);
+  CHECK(r.ok());
+  CHECK(r.count == port.chip.input[7]);
+  CHECK(adc.ReadAllChannels().ok());
+}
+
 void test_raw_frames() {
   MockAds7952 chip;
   Adc adc(chip);
@@ -203,6 +290,8 @@ int main() {
   test_range_latches_on_mode_frame();
   test_conversion_helpers();
   test_reference_and_supply_limits();
+  test_bus_errors_propagate();
+  test_legacy_void_port();
   test_raw_frames();
   std::printf("%d checks, %d failures\n", g_checks, g_failures);
   return g_failures == 0 ? 0 : 1;

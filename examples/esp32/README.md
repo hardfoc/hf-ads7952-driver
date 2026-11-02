@@ -85,7 +85,7 @@ The ESP32 SPI interface is implemented in `esp32_ads7952_bus.hpp` using the CRTP
 
 ```cpp
 class Esp32Ads7952SpiBus : public ads7952::SpiInterface<Esp32Ads7952SpiBus> {
-    void transfer(const uint8_t* tx, uint8_t* rx, std::size_t len);
+    bool transfer(const uint8_t* tx, uint8_t* rx, std::size_t len);  // false on a bus error
 };
 ```
 

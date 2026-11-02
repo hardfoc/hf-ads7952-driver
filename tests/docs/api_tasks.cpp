@@ -104,6 +104,8 @@ void errors(Adc& adc) {
   case ads7952::Error::Timeout:                        // the address never came back: check the bus
     adc.EnsureInitialized(true);                       // after a reset or brown-out, program again
     break;
+  case ads7952::Error::SpiError:                       // the port's transfer() returned false
+    break;
   default:
     break;
   }

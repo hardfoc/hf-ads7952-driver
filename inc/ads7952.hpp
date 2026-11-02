@@ -22,7 +22,7 @@
  * @code
  * class MySpi : public ads7952::SpiInterface<MySpi> {
  * public:
- *   void transfer(const uint8_t* tx, uint8_t* rx, size_t len) { ... }
+ *   bool transfer(const uint8_t* tx, uint8_t* rx, size_t len) { ... }  // false = bus error
  * };
  *
  * MySpi spi;
@@ -69,6 +69,11 @@ namespace ads7952 {
  *
  * Provides a synchronous, command-oriented API over the ADS7952 SPI protocol.
  * The class is transport-agnostic and relies on a CRTP SPI implementation.
+ *
+ * Bus errors: when the port's `transfer()` returns false, the call that sent
+ * the frame stops there; `bool` functions return false and the reads return
+ * Error::SpiError. Driver state (mode, masks) is only updated after the
+ * frames that change it were transferred.
  *
  * @tparam SpiType Platform-specific SPI class derived from SpiInterface<SpiType>
  */
@@ -339,8 +344,9 @@ public:
    * @endcode
    *
    * @param gpio_state Bits [3:0] — 1 = high, 0 = low per pin
+   * @return true on success, false if the SPI transfer failed
    */
-  void SetGPIOOutputs(uint8_t gpio_state) noexcept;
+  bool SetGPIOOutputs(uint8_t gpio_state) noexcept;
 
   // ===========================================================================
   // Diagnostics
@@ -401,7 +407,8 @@ public:
    * @param channel Channel to select in frame 0 (0-11).
    * @param out     Destination for @p n response words.
    * @param n       Number of frames (including the select frame).
-   * @return Number of words written (0 if not initialized / bad channel).
+   * @return Number of words written (0 if not initialized / bad channel);
+   *         fewer than @p n if a transfer failed part-way.
    */
   uint8_t RawManualFrames(uint8_t channel, uint16_t* out, uint8_t n) noexcept;
 
@@ -420,8 +427,13 @@ private:
   // Internal Helpers
   // ===========================================================================
 
-  /** @brief Perform a single 16-bit SPI transfer (MSB first). */
-  uint16_t spiTransfer16(uint16_t command) noexcept;
+  /**
+   * @brief Perform a single 16-bit SPI transfer (MSB first).
+   * @param command  DI15:0 word to send.
+   * @param response Where to store DO15:0 (nullptr to discard it); 0 on failure.
+   * @return false if the port's transfer() reported a bus error.
+   */
+  bool spiTransfer16(uint16_t command, uint16_t* response = nullptr) noexcept;
 
   /**
    * @brief Internal initialization — performs the actual hardware setup.

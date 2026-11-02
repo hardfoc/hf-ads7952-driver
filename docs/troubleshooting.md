@@ -13,6 +13,7 @@ apart from analog problems (right address, wrong count). [API guide](api-guide.m
 | Every reply is `0x0000` or `0xFFFF` | No supply on +VBD, MISO floating, or CS never goes low | Measure +VBD (1.7 V to +VA); check CS on the scope |
 | Addresses look right but shifted by one frame | Your port splits or merges frames, so the chip and the driver count frames differently | Exactly 16 clocks per CS low |
 | `ReadAllChannels()` returns `Error::Timeout` with some channels missing | Auto-1 mask on the chip differs from the driver's (chip reset or brown-out since `EnsureInitialized()`) | `EnsureInitialized(true)` after any reset; check `valid_mask` |
+| Reads return `Error::SpiError`, `bool` calls return `false` | The port's `transfer()` returned `false`: the SDK reported a bus error | Check the SPI host, pins and bus lock in the port; see [Porting](porting.md#bus-errors) |
 | Every read returns `Error::NotInitialized` | `EnsureInitialized()` was never called on this object | Call it once after power-up |
 
 ## Readings

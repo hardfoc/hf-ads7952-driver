@@ -55,15 +55,29 @@ public:
   } // 100, 110
   std::array<uint16_t, 12> alarm_low{};
 
-  // CRTP contract: one full-duplex transfer, MSB first.
-  void transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) {
+  // --- bus fault injection ------------------------------------------------
+  /// Number of transfers that still succeed; once it reaches 0 every transfer fails (the frame is
+  /// not clocked: the device does not see it). Negative: never fail.
+  int transfers_before_failure = -1;
+  std::size_t failed_transfers = 0; ///< transfers that reported a bus error
+
+  // CRTP contract: one full-duplex transfer, MSB first; false on a bus error.
+  bool transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) {
+    if (transfers_before_failure == 0) {
+      ++failed_transfers;
+      return false;
+    }
+    if (transfers_before_failure > 0) {
+      --transfers_before_failure;
+    }
     if (len != 2 || tx == nullptr || rx == nullptr) {
-      return;
+      return false;
     }
     const uint16_t di = static_cast<uint16_t>((tx[0] << 8) | tx[1]);
     const uint16_t dout = frame(di);
     rx[0] = static_cast<uint8_t>(dout >> 8);
     rx[1] = static_cast<uint8_t>(dout & 0xFF);
+    return true;
   }
 
 private:

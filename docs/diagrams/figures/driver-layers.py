@@ -26,7 +26,7 @@ def data():
             continue
         calls.append(name)
     spi = (ROOT / SPI).read_text()
-    hooks = re.findall(r"^  void (\w+)\(const uint8_t", spi, re.M)
+    hooks = re.findall(r"^  (?:bool|void) (\w+)\(const uint8_t", spi, re.M)
     return {
         "calls": calls,
         "port_hooks": hooks,

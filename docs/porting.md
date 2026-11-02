@@ -21,7 +21,7 @@ allocate.
 
 | Method | Contract |
 | --- | --- |
-| `void transfer(const uint8_t* tx, uint8_t* rx, std::size_t len)` | Assert CS, clock `len` bytes out of `tx` while reading `len` bytes into `rx`, release CS. The driver always passes `len = 2` and both buffers |
+| `bool transfer(const uint8_t* tx, uint8_t* rx, std::size_t len)` | Assert CS, clock `len` bytes out of `tx` while reading `len` bytes into `rx`, release CS. Return `true` when the frame went out, `false` on a bus error. The driver always passes `len = 2` and both buffers |
 
 There is nothing else: no GPIOs, no delays, no logging. The chip has no reset or data-ready pin, and its timing
 is set by SCLK and CS.
@@ -40,8 +40,17 @@ Rules the transfer must follow:
 - **CS high for at least 20 ns** between frames (t<sub>w1</sub>). Most SPI peripherals give far more.
 - **Byte order as given.** `tx[0]` is DI15:8 and goes first; `rx[0]` receives DO15:8.
 
-`transfer()` returns `void`, so a port cannot report a bus failure to the driver. Log it in the port; the driver
-sees the garbage reply and `ReadChannel()` returns `Error::Timeout` when the channel address does not come back.
+## Bus errors
+
+Return `false` from `transfer()` when your SDK reports a failure. The driver stops the call that sent the frame:
+`EnsureInitialized()`, the `Enter...Mode()`, `Program...()` and `Set...()` calls return `false`, `ReadChannel()` and
+`ReadAllChannels()` return `Error::SpiError`, and `RawManualFrames()` returns the number of frames that got through.
+The driver's mirrored state (mode, sequence masks, range, power-down, GPIO outputs) changes only when the frames
+that change it went out.
+
+Return a `bool`, not your SDK's status code: the driver rejects any other return type at compile time, so an
+`esp_err_t` (where 0 is success) cannot be read as `false`. A port written for the earlier contract, with a `void`
+`transfer()`, still compiles; the driver treats it as never failing.
 
 ## Reference implementation
 

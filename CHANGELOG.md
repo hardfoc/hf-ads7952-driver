@@ -13,6 +13,13 @@ The driver has not been released yet; its version in `cmake/hf_ads7952_build_set
 
 ### Changed
 
+- The SPI port's `transfer()` now returns `bool` (`true` = frame clocked, `false` = bus error), and the driver
+  propagates it: `bool` calls return `false`, `ReadChannel()` / `ReadAllChannels()` return `Error::SpiError`,
+  `RawManualFrames()` returns the number of frames that got through, and the driver's mirrored state only changes
+  after a successful transfer. `SetGPIOOutputs()` returns `bool` instead of `void`. Ports with a `void` `transfer()`
+  still compile (detected at compile time) and are treated as never failing; any other return type is a compile
+  error, so an SDK status code is not silently read as a bool. The ESP32 example port returns `false` on an
+  ESP-IDF error.
 - Documentation moved to the HardFOC MkDocs platform: new page set (quickstart, hardware, modes and the frame
   pipeline, architecture, API guide, porting, testing), code snippets compiled by the host build from
   `tests/docs/`, Doxygen under `/api/`, versioned with mike. The Jekyll site files are gone.
