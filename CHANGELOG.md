@@ -19,5 +19,7 @@ The driver has not been released yet; its version in `cmake/hf_ads7952_build_set
 
 ### Fixed
 
+- `examples/esp32/components/hf_ads7952/idf_component.yml`: `repository` and `issues` point at
+  `https://github.com/hardfoc/hf-ads7952-driver` (they named a repository that does not exist).
 - The `hf_ads7952` CMake target now puts `src/` on the include path, so code that links it finds `ads7952.ipp`;
   `cmake --install` installs the `.ipp` next to the headers.
