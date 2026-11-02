@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="943" viewBox="0 0 1200 943" role="img" aria-labelledby="driver-layers-title driver-layers-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="driver-layers-title">Three layers, one of them yours</title>
+<desc id="driver-layers-desc">Layer diagram: the application calls the hardware-agnostic ADS7952 driver, which builds 16-bit command frames and calls the CRTP SPI interface, which calls the one transfer method of the platform port you write, which drives the SPI bus of the ADS7952.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8893A2"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="942" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#3730A3">ARCHITECTURE</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#17202C">Three layers, one of them yours</text>
+<text x="32" y="115.4" font-size="18" fill="#566070">The driver and the interface are the same on every MCU. The port is a class with one method.</text>
+<rect x="32" y="131.4" width="1136" height="1" fill="#E2E7EE"/>
+<rect x="32" y="278.4" width="1136" height="191" rx="16" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1.2"/>
+<path d="M600 242.4 L600 274.4" fill="none" stroke="#8893A2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M600 473.4 L600 505.4" fill="none" stroke="#8893A2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M600 627.4 L600 659.4" fill="none" stroke="#8893A2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M600 755.4 L600 787.4" fill="none" stroke="#8893A2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="149.4" width="1136" height="89" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="32" y="157.4" width="4" height="73" rx="2" fill="#64748B"/>
+<rect x="32" y="509.4" width="1136" height="114" rx="12" fill="#EEF0FF" stroke="#4F46E5" stroke-width="1.4"/>
+<rect x="32" y="517.4" width="4" height="98" rx="2" fill="#4F46E5"/>
+<rect x="32" y="663.4" width="1136" height="88" rx="12" fill="#E6F6F4" stroke="#0F8B80" stroke-width="1.4"/>
+<rect x="32" y="671.4" width="4" height="72" rx="2" fill="#0F8B80"/>
+<rect x="32" y="791.4" width="1136" height="89" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="32" y="799.4" width="4" height="73" rx="2" fill="#64748B"/>
+<text x="56" y="184.4" font-size="20" font-weight="700" fill="#17202C">Your application</text>
+<text x="56" y="215" font-size="17" fill="#2B3442">sensor polling, control loop, CLI ...</text>
+<rect x="48" y="323.4" width="167" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="56" y="341.5" font-size="16" font-weight="700" fill="#3730A3">EnsureInitialized()</text>
+<rect x="223" y="323.4" width="139.3" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="231" y="341.5" font-size="16" font-weight="700" fill="#3730A3">ReadChannel()</text>
+<rect x="370.3" y="323.4" width="170.7" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="378.3" y="341.5" font-size="16" font-weight="700" fill="#3730A3">ReadAllChannels()</text>
+<rect x="549" y="323.4" width="165.3" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="557" y="341.5" font-size="16" font-weight="700" fill="#3730A3">CountToVoltage()</text>
+<rect x="722.3" y="323.4" width="165.3" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="730.3" y="341.5" font-size="16" font-weight="700" fill="#3730A3">VoltageToCount()</text>
+<rect x="895.7" y="323.4" width="181.1" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="903.7" y="341.5" font-size="16" font-weight="700" fill="#3730A3">EnterManualMode()</text>
+<rect x="48" y="357.4" width="167" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="56" y="375.5" font-size="16" font-weight="700" fill="#3730A3">EnterAuto1Mode()</text>
+<rect x="223" y="357.4" width="170.4" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="231" y="375.5" font-size="16" font-weight="700" fill="#3730A3">EnterAuto2Mode()</text>
+<rect x="401.4" y="357.4" width="225.4" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="409.4" y="375.5" font-size="16" font-weight="700" fill="#3730A3">ProgramAuto1Channels()</text>
+<rect x="634.8" y="357.4" width="254.5" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="642.8" y="375.5" font-size="16" font-weight="700" fill="#3730A3">ProgramAuto2LastChannel()</text>
+<rect x="897.3" y="357.4" width="141.6" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="905.3" y="375.5" font-size="16" font-weight="700" fill="#3730A3">ProgramGPIO()</text>
+<rect x="48" y="391.4" width="149.5" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="56" y="409.5" font-size="16" font-weight="700" fill="#3730A3">ProgramAlarm()</text>
+<rect x="205.5" y="391.4" width="214.1" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="213.5" y="409.5" font-size="16" font-weight="700" fill="#3730A3">ProgramAlarmVoltage()</text>
+<rect x="427.6" y="391.4" width="108.6" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="435.6" y="409.5" font-size="16" font-weight="700" fill="#3730A3">SetRange()</text>
+<rect x="544.1" y="391.4" width="156.7" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="552.1" y="409.5" font-size="16" font-weight="700" fill="#3730A3">SetPowerDown()</text>
+<rect x="708.8" y="391.4" width="164.6" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="716.8" y="409.5" font-size="16" font-weight="700" fill="#3730A3">SetGPIOOutputs()</text>
+<rect x="881.3" y="391.4" width="92.6" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="889.3" y="409.5" font-size="16" font-weight="700" fill="#3730A3">SetVref()</text>
+<rect x="982" y="391.4" width="81.5" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="990" y="409.5" font-size="16" font-weight="700" fill="#3730A3">SetVA()</text>
+<rect x="48" y="425.4" width="187.2" height="26" rx="13" fill="#EEF0FF" stroke="#C7CBF8" stroke-width="1"/>
+<text x="56" y="443.5" font-size="16" font-weight="700" fill="#3730A3">RawManualFrames()</text>
+<text x="48" y="307.4" font-size="17" font-weight="700" fill="#3730A3">HARDWARE-AGNOSTIC CORE</text>
+<text x="326.2" y="307.4" font-size="16" fill="#3730A3">ADS7952&lt;SpiType&gt;, inc/ads7952.hpp</text>
+<text x="56" y="544.4" font-size="20" font-weight="700" fill="#3730A3">SPI interface</text>
+<text x="56" y="575" font-size="17" fill="#2B3442">SpiInterface&lt;Derived&gt; (CRTP): 16-bit frames, MSB first, one transfer per frame,</text>
+<text x="56" y="599.7" font-size="17" fill="#2B3442">results keyed on the channel address in DO15:12, no heap, no virtual calls</text>
+<text x="56" y="698.4" font-size="20" font-weight="700" fill="#115E59">Platform port (your class)</text>
+<text x="56" y="727.6" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#2B3442">transfer(tx, rx, len)</text>
+<text x="56" y="826.4" font-size="20" font-weight="700" fill="#17202C">ADS7952</text>
+<text x="56" y="857" font-size="17" fill="#2B3442">SPI mode 0 up to 20 MHz  /  CS, SCLK, SDI, SDO  /  12 inputs, 4 GPIOs</text>
+<rect x="32" y="892.8" width="14" height="14" rx="4" fill="#EEF0FF" stroke="#4F46E5" stroke-width="1.4"/>
+<text x="54" y="907.4" font-size="16" fill="#566070">this library</text>
+<rect x="161.8" y="892.8" width="14" height="14" rx="4" fill="#E6F6F4" stroke="#0F8B80" stroke-width="1.4"/>
+<text x="183.8" y="907.4" font-size="16" fill="#566070">you write</text>
+<rect x="282.1" y="892.8" width="14" height="14" rx="4" fill="#F1F4F8" stroke="#64748B" stroke-width="1.4"/>
+<text x="304.1" y="907.4" font-size="16" fill="#566070">hardware</text>
+</svg>

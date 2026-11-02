@@ -1,0 +1,14 @@
+{
+  "driver-layers": {
+    "title": "Three layers, one of them yours",
+    "alt": "Layer diagram: the application calls the hardware-agnostic ADS7952 driver, which builds 16-bit command frames and calls the CRTP SPI interface, which calls the one transfer method of the platform port you write, which drives the SPI bus of the ADS7952.",
+    "description": "From top to bottom. Your application talks to one ADS7952<SpiType> object, whose public calls (listed from inc/ads7952.hpp) read channels, switch modes and program sequences, alarms and GPIOs. The core builds the 16-bit command words, keys every result on the channel address in DO15:12 and converts counts to volts. It reaches the bus through the CRTP SpiInterface (inc/ads7952_spi_interface.hpp), whose one method the platform port implements: a full-duplex transfer with chip select held low. Below it is the hardware.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/diagrams/figures/driver-layers.py",
+    "sources": [
+      "inc/ads7952.hpp:ADS7952 public calls",
+      "inc/ads7952_spi_interface.hpp:SpiInterface"
+    ]
+  }
+}
