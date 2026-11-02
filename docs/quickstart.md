@@ -1,170 +1,73 @@
----
-layout: default
-title: "⚡ Quick Start"
-description: "Get up and running with HF-ADS7952 in minutes"
-parent: "📚 Documentation"
-nav_order: 2
-permalink: /docs/quickstart/
----
+# Quickstart
 
-# ⚡ Quick Start
+Read the ADS7952 from your MCU: wire the SPI bus and the analog front end, write a one-method port class, call
+three driver functions.
 
-Get the ADS7952 driver reading ADC channels in under 20 lines.
+## 1. Wire it
 
----
+| MCU | ADS7952 (TSSOP-38 pin) | Notes |
+| --- | --- | --- |
+| SPI SCLK | SCLK (32) | SPI mode 0, up to 20 MHz; start at 1 MHz to 4 MHz |
+| SPI MOSI | SDI (33) | 16-bit command word, MSB first |
+| SPI MISO | SDO (34) | 16-bit reply: channel address in DO15:12, count in DO11:0 |
+| SPI CS | CS (31) | Active low; one CS frame per 16-bit word |
+| I/O supply | +VBD (36), BDGND (35) | 1.7 V to +VA; sets the logic levels, so match your MCU |
+| GND | AGND, BDGND | Common ground |
 
-## Prerequisites
+On the analog side, connect **MXO (7) to AINP (8)** and AINM (9) to AGND: the multiplexer output is not routed to
+the converter inside the chip. Put a 2.0 V to 3.0 V reference on REFP (4) with REFM (3) to AGND, and +VA
+(5, 29) at 2.7 V to 5.25 V. The [Hardware](hardware.md) page has every pin, the bus timing and the power ranges.
 
-- Library installed or added as a submodule (see [Installation](installation.md))
-- SPI bus configured and wired (see [Hardware Setup](hardware_setup.md))
-- A platform-specific SPI implementation (see [Platform Integration](platform_integration.md))
+## 2. Add the driver
 
----
+Add the repository as a submodule and link the `hf_ads7952` CMake target (or add `inc/` and `src/` to your include
+path and build with C++20). [Installation](installation.md) covers CMake and ESP-IDF.
 
-## Minimal Example
-
-```cpp
-#include "ads7952.hpp"
-#include "my_platform_spi.hpp"  // Your CRTP SPI implementation
-
-// Create SPI interface and driver (Vref = 2.5V, VA = 5.0V)
-MyPlatformSpi spi(/* SPI bus config */);
-ads7952::ADS7952<MyPlatformSpi> adc(spi, 2.5f, 5.0f);
-
-// Initialize: idempotent — discards first invalid conversion, programs defaults
-adc.EnsureInitialized();
-
-// Read a single channel (returns structured result)
-auto result = adc.ReadChannel(0);
-if (result.ok()) {
-    printf("CH0: %u counts (%.3f V)\n", result.count, result.voltage);
-}
+```bash
+git submodule add https://github.com/hardfoc/hf-ads7952-driver.git external/hf-ads7952-driver
 ```
 
-> ☣️ **Important:** Always call `EnsureInitialized()` before reading. The ADS7952's first conversion after power-up is invalid — this is handled automatically. Subsequent calls are no-ops.
+## 3. Write the port
 
----
+The port is the only platform code: one full-duplex transfer with chip select held low for the whole word. Replace
+`platform_spi_transfer()` with your SDK's call.
 
-## Step-by-Step
-
-### 1. Implement the SPI Interface
-
-Create a class that inherits from `ads7952::SpiInterface<YourClass>`. The only requirement is a `transfer()` method that performs a full-duplex SPI transaction:
-
-```cpp
-#include "ads7952_spi_interface.hpp"
-
-class MyPlatformSpi : public ads7952::SpiInterface<MyPlatformSpi> {
-    friend class ads7952::SpiInterface<MyPlatformSpi>;
-
-protected:
-    void transfer(const uint8_t* tx, uint8_t* rx, size_t len) {
-        // Your platform-specific SPI transfer (always 2 bytes for ADS7952)
-    }
-};
+```cpp title="my_spi.hpp"
+--8<-- "tests/docs/my_spi.hpp:port"
 ```
 
-See [Platform Integration](platform_integration.md) for complete ESP32, STM32, and Linux examples.
+The driver always calls `transfer()` with two bytes. [Porting](porting.md) explains the contract and shows how to
+check a port.
 
-### 2. Create and Initialize the Driver
+## 4. Read the channels
 
-```cpp
-#include "ads7952.hpp"
-
-MyPlatformSpi spi;
-ads7952::ADS7952<MyPlatformSpi> adc(spi, 2.5f, 5.0f);  // Vref, VA
-
-if (!adc.EnsureInitialized()) {
-    // Handle initialization failure
-}
+```cpp title="main.cpp"
+--8<-- "tests/docs/quickstart.cpp:quickstart"
 ```
 
-The constructor takes three parameters:
+What each step does:
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `spi` | — | Your CRTP SPI interface instance |
-| `vref` | 2.5 V | External reference voltage (REFP pin) |
-| `va` | 5.0 V | Analog supply voltage (VA pin) |
+1. The constructor stores the reference (REFP) and supply (+VA) voltages used to convert counts to volts. It sends
+   nothing.
+2. `EnsureInitialized()` discards the invalid first conversion after power-up, programs the Auto-1 sequence (all 12
+   channels) and the Auto-2 last channel (CH11), and enters Auto-1 mode. Calling it again does nothing.
+3. `ReadChannel()` selects one channel in Manual mode and clocks frames until the reply carries that channel's
+   address: three frames when the bus is healthy.
+4. `ReadAllChannels()` restarts the Auto-1 sequence and collects one result per programmed channel.
 
-`EnsureInitialized()` on first call performs:
-- Discards the first (invalid) conversion after power-up
-- Programs Auto-1 channel mask (default: all 12 channels)
-- Programs Auto-2 last channel (default: CH11)
-- Enters Auto-1 mode
+This example is built by the host CI, so it compiles against the current headers.
 
-Subsequent calls return `true` immediately without SPI traffic. Pass `force = true` to re-initialize after a device reset.
+## If it does not work
 
-### 3. Read a Single Channel
+| Symptom | First thing to check |
+| --- | --- |
+| `ReadChannel()` returns `Error::Timeout` | SPI mode 0, CS low for all 16 clocks and high between words, MISO wiring |
+| Every count is 0 | +VA and the reference are present; MXO is connected to AINP |
+| Every count is 4095 | The input is above the range: VREF, or 2 × VREF in `Range::TwoVref` |
+| Every channel reads the same count | MXO to AINP wiring, source impedance; see [Troubleshooting](troubleshooting.md) |
 
-`ReadChannel()` switches to Manual mode, sends a 2-frame SPI sequence, and returns a `ReadResult`:
+## Next
 
-```cpp
-auto result = adc.ReadChannel(3);  // Read channel 3
-
-if (result.ok()) {
-    printf("Channel: %u\n", result.channel);   // 3
-    printf("Count:   %u\n", result.count);     // 0–4095
-    printf("Voltage: %.3f V\n", result.voltage); // auto-converted
-} else {
-    printf("Error: %u\n", static_cast<unsigned>(result.error));
-}
-```
-
-### 4. Read All Channels (Batch)
-
-`ReadAllChannels()` uses Auto-1 mode to sweep through all programmed channels in a single burst:
-
-```cpp
-auto all = adc.ReadAllChannels();
-
-if (all.ok()) {
-    for (uint8_t ch = 0; ch < 12; ch++) {
-        if (all.hasChannel(ch)) {
-            printf("CH%02u: %4u counts  (%.3f V)\n",
-                   ch, all.count[ch], all.voltage[ch]);
-        }
-    }
-}
-```
-
-### 5. Switch Operating Modes
-
-```cpp
-// Auto-1: sequence through a programmable channel mask
-adc.ProgramAuto1Channels(ads7952::kFirstFour);  // CH0–CH3 only
-adc.EnterAuto1Mode(true);          // true = reset channel counter
-
-// Auto-2: sequential scan CH0 through last channel
-adc.ProgramAuto2LastChannel(5);    // Scan CH0–CH5
-adc.EnterAuto2Mode(true);
-
-// Manual: explicit channel selection per read
-auto r = adc.ReadChannel(7);       // ReadChannel auto-enters Manual mode
-```
-
-### 6. Change Input Range
-
-```cpp
-// Default: 0 to Vref (2.5V)
-adc.SetRange(ads7952::Range::TwoVref);  // Now 0 to 2×Vref (5.0V)
-
-auto r = adc.ReadChannel(0);
-// r.voltage is now calculated against the 2×Vref reference
-```
-
-> 💡 When range is set to `TwoVref`, the active reference is clamped to `min(2×Vref, VA)` to prevent readings from exceeding the supply rail.
-
----
-
-## What's Next?
-
-- **[Hardware Setup](hardware_setup.md)** — Wiring, decoupling, reference selection
-- **[Platform Integration](platform_integration.md)** — Complete CRTP SPI implementation guide
-- **[Configuration](configuration.md)** — Kconfig, compile-time defaults, advanced tuning
-- **[Examples](examples.md)** — Multi-mode, alarm thresholds, GPIO control
-
----
-
-**Navigation**
-⬅️ [Installation](installation.md)  ➡️ [Hardware Setup](hardware_setup.md)
+- [API guide](api-guide.md): sequences, ranges, alarms, GPIOs and errors.
+- [Modes and the frame pipeline](modes-and-pipeline.md): why a result arrives two frames after its command.
+- [Examples](examples.md): ESP32-S3 applications for every feature.

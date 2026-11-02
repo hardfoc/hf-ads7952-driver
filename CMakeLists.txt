@@ -21,6 +21,7 @@ if(HF_ADS7952_SOURCE_FILES)
     target_include_directories(${HF_ADS7952_TARGET_NAME}
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/inc>
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
             $<BUILD_INTERFACE:${HF_ADS7952_VERSION_HEADER_DIR}>
             $<INSTALL_INTERFACE:include>
     )
@@ -30,6 +31,7 @@ else()
     target_include_directories(${HF_ADS7952_TARGET_NAME}
         INTERFACE
             $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/inc>
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
             $<BUILD_INTERFACE:${HF_ADS7952_VERSION_HEADER_DIR}>
             $<INSTALL_INTERFACE:include>
     )
@@ -58,6 +60,13 @@ if(HF_ADS7952_ENABLE_WARNINGS)
     endif()
 endif()
 
+# ── Host unit tests (mock SPI port; no hardware) ─────────────────────────────
+option(HF_ADS7952_BUILD_TESTS "Build the host unit tests in tests/" OFF)
+if(HF_ADS7952_BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
+
 #===============================================================================
 # Install and export support (for find_package usage)
 #===============================================================================
@@ -74,6 +83,7 @@ install(TARGETS ${HF_ADS7952_TARGET_NAME} EXPORT hf_ads7952Targets
 install(DIRECTORY inc/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h" PATTERN "*.h.in" EXCLUDE)
 install(FILES "${HF_ADS7952_VERSION_HEADER}" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES src/ads7952.ipp DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT hf_ads7952Targets
     FILE hf_ads7952Targets.cmake

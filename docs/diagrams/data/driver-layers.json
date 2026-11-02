@@ -1,0 +1,30 @@
+{
+  "calls": [
+    "EnsureInitialized",
+    "ReadChannel",
+    "ReadAllChannels",
+    "CountToVoltage",
+    "VoltageToCount",
+    "EnterManualMode",
+    "EnterAuto1Mode",
+    "EnterAuto2Mode",
+    "ProgramAuto1Channels",
+    "ProgramAuto2LastChannel",
+    "ProgramGPIO",
+    "ProgramAlarm",
+    "ProgramAlarmVoltage",
+    "SetRange",
+    "SetPowerDown",
+    "SetGPIOOutputs",
+    "SetVref",
+    "SetVA",
+    "RawManualFrames"
+  ],
+  "port_hooks": [
+    "transfer"
+  ],
+  "sources": [
+    "inc/ads7952.hpp:ADS7952 public calls",
+    "inc/ads7952_spi_interface.hpp:SpiInterface"
+  ]
+}

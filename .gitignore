@@ -98,3 +98,4 @@ __pycache__/
 **/__pycache__/
 *.pyc
 .python_env/
+site/
