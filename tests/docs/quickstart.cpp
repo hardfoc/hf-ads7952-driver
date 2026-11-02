@@ -9,9 +9,9 @@
 #include <cstdio>
 
 int read_adc(MySpi& spi) {
-  ads7952::ADS7952<MySpi> adc(spi, 2.5f, 5.0f);   // REFP = 2.5 V, +VA = 5 V
+  ads7952::ADS7952<MySpi> adc(spi, 2.5f, 5.0f);               // REFP = 2.5 V, +VA = 5 V
 
-  if (!adc.EnsureInitialized()) {                 // 1. discard the power-up frame, program the sequences
+  if (!adc.EnsureInitialized()) {                             // 1. discard power-up frame, program sequences
     return -1;
   }
 
