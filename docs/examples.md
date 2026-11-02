@@ -13,9 +13,9 @@ each pull request.
 | App | What it shows | Source | CI |
 | --- | --- | --- | --- |
 | `driver_integration_test` :material-star:{ title="featured" } | Comprehensive driver integration test suite (hardware required for full validation) | [`driver_integration_test.cpp`](../examples/esp32/main/driver_integration_test.cpp) | yes |
-| `basic_adc_reading` :material-star:{ title="featured" } | Basic ADC channel reading example with voltage conversion | [`basic_adc_reading_example.cpp`](../examples/esp32/main/basic_adc_reading_example.cpp) | no |
-| `multi_mode` :material-star:{ title="featured" } | Demonstrates Manual, Auto-1, and Auto-2 operating modes | [`multi_mode_example.cpp`](../examples/esp32/main/multi_mode_example.cpp) | no |
-| `alarm_gpio` :material-star:{ title="featured" } | Alarm threshold programming and GPIO pin control | [`alarm_gpio_example.cpp`](../examples/esp32/main/alarm_gpio_example.cpp) | no |
+| `basic_adc_reading` :material-star:{ title="featured" } | Basic ADC channel reading example with voltage conversion | [`basic_adc_reading_example.cpp`](../examples/esp32/main/basic_adc_reading_example.cpp) | yes |
+| `multi_mode` :material-star:{ title="featured" } | Demonstrates Manual, Auto-1, and Auto-2 operating modes | [`multi_mode_example.cpp`](../examples/esp32/main/multi_mode_example.cpp) | yes |
+| `alarm_gpio` :material-star:{ title="featured" } | Alarm threshold programming and GPIO pin control | [`alarm_gpio_example.cpp`](../examples/esp32/main/alarm_gpio_example.cpp) | yes |
 
 Build and flash one (from `examples/esp32`, ESP-IDF environment loaded):
 

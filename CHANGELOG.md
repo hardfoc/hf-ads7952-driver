@@ -13,6 +13,8 @@ The driver has not been released yet; its version in `cmake/hf_ads7952_build_set
 
 ### Changed
 
+- Every ESP32 example app (`basic_adc_reading`, `multi_mode`, `alarm_gpio`, `driver_integration_test`) is in the
+  CI build matrix; only `driver_integration_test` was built before.
 - The SPI port's `transfer()` now returns `bool` (`true` = frame clocked, `false` = bus error), and the driver
   propagates it: `bool` calls return `false`, `ReadChannel()` / `ReadAllChannels()` return `Error::SpiError`,
   `RawManualFrames()` returns the number of frames that got through, and the driver's mirrored state only changes
