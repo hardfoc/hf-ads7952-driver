@@ -39,6 +39,20 @@ public:
   bool power_down = false;
   uint16_t gpio_prog = 0; ///< last GPIO program register word (DI09:00)
   std::array<uint16_t, 12> alarm_high{};
+
+  // GPIO0/GPIO1 functions decoded from DI06:04 of the GPIO program register (Table 11).
+  uint16_t alarmCode() const {
+    return static_cast<uint16_t>((gpio_prog >> 4) & 0x7);
+  }
+  bool gpio0HighOrLowAlarm() const {
+    return (alarmCode() & 0x1) != 0;
+  } // xx1
+  bool gpio0HighAlarm() const {
+    return alarmCode() == 0x2 || alarmCode() == 0x6;
+  } // 010, 110
+  bool gpio1LowAlarm() const {
+    return alarmCode() == 0x4 || alarmCode() == 0x6;
+  } // 100, 110
   std::array<uint16_t, 12> alarm_low{};
 
   // CRTP contract: one full-duplex transfer, MSB first.

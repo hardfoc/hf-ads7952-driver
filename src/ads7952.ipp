@@ -343,8 +343,8 @@ bool ADS7952<SpiType>::ProgramGPIO(const GPIOConfig &config) noexcept {
     case GPIO01AlarmMode::GPIO0_HighAlarm:
       frame |= reg::GPIOProg::GPIO0_HI_ALARM;
       break;
-    case GPIO01AlarmMode::GPIO1_HighAlarm:
-      frame |= reg::GPIOProg::GPIO1_HI_ALARM;
+    case GPIO01AlarmMode::GPIO1_LowAlarm:
+      frame |= reg::GPIOProg::GPIO1_LO_ALARM;
       break;
     case GPIO01AlarmMode::GPIO1_LowAlarm_GPIO0_HighAlarm:
       frame |= reg::GPIOProg::GPIO1_LO_GPIO0_HI_ALARM;

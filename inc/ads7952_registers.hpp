@@ -144,7 +144,9 @@ namespace GPIOProg {
   inline constexpr uint16_t GPIO01_GPIO              = 0x0000;
   inline constexpr uint16_t GPIO0_HI_LO_ALARM        = 0x0010;
   inline constexpr uint16_t GPIO0_HI_ALARM            = 0x0020;
-  inline constexpr uint16_t GPIO1_HI_ALARM            = 0x0040;
+  inline constexpr uint16_t GPIO1_LO_ALARM = 0x0040; // 100: GPIO1 = low alarm
+  [[deprecated("DI06:04 = 100 is the GPIO1 LOW alarm (SLAS605C Table 11); use GPIO1_LO_ALARM")]]
+  inline constexpr uint16_t GPIO1_HI_ALARM = GPIO1_LO_ALARM;
   inline constexpr uint16_t GPIO1_LO_GPIO0_HI_ALARM   = 0x0060;
   // Bits [3:0]: GPIO direction (1=output)
   inline constexpr uint16_t DIR_GPIO0_OUT = 0x0001;

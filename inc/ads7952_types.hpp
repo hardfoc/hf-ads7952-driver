@@ -73,13 +73,21 @@ enum class Error : uint8_t {
 // =============================================================================
 // GPIO 0/1 Alarm Assignment Modes
 // =============================================================================
-/** @ingroup ads7952_types */
+/**
+ * @ingroup ads7952_types
+ * @brief GPIO0/GPIO1 alarm functions, the DI06:04 codes of the GPIO program register
+ *        (SLAS605C Table 11). Alarm outputs are active high. The chip has no GPIO1
+ *        high-alarm code: GPIO1 can only be the low-alarm output.
+ */
 enum class GPIO01AlarmMode : uint8_t {
-  GPIO                          = 0, ///< Both as general-purpose I/O
-  GPIO0_HighAndLowAlarm         = 1, ///< GPIO0 = combined hi/lo alarm output
-  GPIO0_HighAlarm               = 2, ///< GPIO0 = high alarm output
-  GPIO1_HighAlarm               = 4, ///< GPIO1 = high alarm output
-  GPIO1_LowAlarm_GPIO0_HighAlarm = 6, ///< GPIO1=low, GPIO0=high alarm
+  GPIO = 0,                           ///< 000: both as general-purpose I/O
+  GPIO0_HighAndLowAlarm = 1,          ///< xx1: GPIO0 = combined high-or-low alarm output
+  GPIO0_HighAlarm = 2,                ///< 010: GPIO0 = high alarm output
+  GPIO1_LowAlarm = 4,                 ///< 100: GPIO1 = low alarm output
+  GPIO1_LowAlarm_GPIO0_HighAlarm = 6, ///< 110: GPIO1 = low alarm, GPIO0 = high alarm
+  /// @deprecated Misnamed: code 100 makes GPIO1 the @b low alarm output. Use GPIO1_LowAlarm.
+  GPIO1_HighAlarm [[deprecated("DI06:04 = 100 is the GPIO1 LOW alarm (SLAS605C Table 11); use "
+                               "GPIO1_LowAlarm")]] = GPIO1_LowAlarm,
 };
 
 // =============================================================================

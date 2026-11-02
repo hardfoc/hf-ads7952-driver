@@ -80,8 +80,11 @@ call it: program the thresholds again after `SetRange()` or `SetVref()`.
 | `GPIO` | `000` | GPIO | GPIO |
 | `GPIO0_HighAndLowAlarm` | `001` | High or low alarm | GPIO |
 | `GPIO0_HighAlarm` | `010` | High alarm | GPIO |
-| `GPIO1_HighAlarm` | `100` | GPIO | **Low** alarm (the datasheet's function for this code) |
+| `GPIO1_LowAlarm` | `100` | GPIO | Low alarm |
 | `GPIO1_LowAlarm_GPIO0_HighAlarm` | `110` | High alarm | Low alarm |
+
+The chip has no code that makes GPIO1 a high-alarm output (SLAS605C Table 11). `GPIO1_HighAlarm`, the old, misleading
+name of `GPIO1_LowAlarm`, is kept as a deprecated alias with the same code.
 
 `GPIOConfig::gpio2_as_range_input` and `gpio3_as_powerdown_input` hand the range and power-down control to those
 pins; `reset_all_registers` resets every chip register in the next frame. On the VQFN package only GPIO0 exists.

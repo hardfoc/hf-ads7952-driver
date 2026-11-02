@@ -32,7 +32,7 @@ apart from analog problems (right address, wrong count). [API guide](api-guide.m
 | --- | --- | --- |
 | Alarm pin never changes | GPIO0/GPIO1 not assigned an alarm function | `ProgramGPIO()` with a `GPIO01AlarmMode` other than `GPIO` |
 | Alarm fires at the wrong voltage after a range change | Thresholds are stored as counts | Call `ProgramAlarmVoltage()` again after `SetRange()` or `SetVref()` |
-| `GPIO1_HighAlarm` gives a low alarm | That code (DI06:04 = `100`) is the datasheet's GPIO1 low-alarm setting | Use it as a low alarm; see [API guide](api-guide.md#program-alarms-and-gpios) |
+| Deprecation warning for `GPIO1_HighAlarm` | It was misnamed: its code (DI06:04 = `100`) makes GPIO1 the **low** alarm output, and the chip has no GPIO1 high alarm | Use `GPIO1_LowAlarm` (same code); see [API guide](api-guide.md#program-alarms-and-gpios) |
 | GPIO outputs do not change | GPIO not configured as output, or no mode frame since `SetGPIOOutputs()` | Set the bit in `direction_mask`; call an `Enter...Mode()` after `SetGPIOOutputs()` |
 | Only GPIO0 responds | VQFN package: GPIO1 to GPIO3 do not exist | Use the TSSOP package for four GPIOs |
 

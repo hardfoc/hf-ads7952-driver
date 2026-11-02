@@ -113,6 +113,31 @@ void test_programming_frames() {
   CHECK(chip.gpio_prog == (0x0010 | 0x000C));
 }
 
+// SLAS605C Table 11, DI06:04: 100 = GPIO1 low alarm, 110 = GPIO1 low + GPIO0 high alarm.
+void test_gpio_alarm_routing() {
+  MockAds7952 chip;
+  Adc adc(chip);
+  CHECK(adc.EnsureInitialized());
+  ads7952::GPIOConfig cfg;
+  cfg.alarm_mode = ads7952::GPIO01AlarmMode::GPIO1_LowAlarm;
+  CHECK(adc.ProgramGPIO(cfg));
+  CHECK(chip.alarmCode() == 0x4);
+  CHECK(chip.gpio1LowAlarm());
+  CHECK(!chip.gpio0HighAlarm() && !chip.gpio0HighOrLowAlarm());
+
+  cfg.alarm_mode = ads7952::GPIO01AlarmMode::GPIO0_HighAlarm;
+  CHECK(adc.ProgramGPIO(cfg));
+  CHECK(chip.gpio0HighAlarm() && !chip.gpio1LowAlarm());
+
+  cfg.alarm_mode = ads7952::GPIO01AlarmMode::GPIO1_LowAlarm_GPIO0_HighAlarm;
+  CHECK(adc.ProgramGPIO(cfg));
+  CHECK(chip.gpio0HighAlarm() && chip.gpio1LowAlarm());
+
+  cfg.alarm_mode = ads7952::GPIO01AlarmMode::GPIO0_HighAndLowAlarm;
+  CHECK(adc.ProgramGPIO(cfg));
+  CHECK(chip.gpio0HighOrLowAlarm() && !chip.gpio1LowAlarm());
+}
+
 void test_range_latches_on_mode_frame() {
   MockAds7952 chip;
   Adc adc(chip, 2.5f, 5.0f);
@@ -174,6 +199,7 @@ int main() {
   test_read_all_channels();
   test_read_subset();
   test_programming_frames();
+  test_gpio_alarm_routing();
   test_range_latches_on_mode_frame();
   test_conversion_helpers();
   test_reference_and_supply_limits();

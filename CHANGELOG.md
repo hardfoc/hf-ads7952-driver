@@ -19,6 +19,10 @@ The driver has not been released yet; its version in `cmake/hf_ads7952_build_set
 
 ### Fixed
 
+- `GPIO01AlarmMode::GPIO1_HighAlarm` is renamed `GPIO1_LowAlarm`: its code (DI06:04 = `100`) makes GPIO1 the low
+  alarm output (SLAS605C Table 11), and the chip has no GPIO1 high-alarm setting. The old name stays as a
+  `[[deprecated]]` alias with the same value, so existing code builds (with a warning) and behaves as before;
+  `reg::GPIOProg::GPIO1_HI_ALARM` likewise becomes `GPIO1_LO_ALARM`.
 - `ADS7952_CFG::MIN_VREF` / `MAX_VREF` are 2.0 V / 3.0 V and `MAX_VA` is 5.25 V, the recommended operating
   conditions of SLAS605C section 7.3 (they were 1.0 V / 2.5 V and 5.5 V). A reference between 2.5 V and 3.0 V is no
   longer converted as 2.5 V; a `vref` below 2.0 V is now clamped to 2.0 V.
