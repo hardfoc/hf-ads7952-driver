@@ -1,0 +1,15247 @@
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+ADS79xx Pin Compatible, 12-, 10-, 8-Bit, 1-MSPS, 16-, 12-, 8-, 4-Channel, Single-Ended,
+Serial Interface ADCs
+
+1 Features
+1• 1-MHz Sample Rate Serial Devices
+• Product Family of 12-, 10-, 8-Bit Resolution
+• Zero Latency
+•
+• Analog Supply Range: 2.7 to 5.25 V
+•
+I/O Supply Range: 1.7 to 5.25 V
+• Two SW Selectable Unipolar, Input Ranges: 0 to
+
+20-MHz Serial Interface
+
+VREF and 0 to 2 x VREF
+
+• Auto and Manual Modes for Channel Selection
+4-, 8-Channel Devices and 12-, 16-Channel
+•
+Devices Share the Same Footprint
+
+• Two Programmable Alarm Levels per Channel
+• Four Individually Configurable GPIOs in TSSOP
+
+Package: One GPIO in VQFN Package
+
+• Typical Power Dissipation: 14.5 mW (+VA = 5 V,
+
++VBD = 3 V) at 1 MSPS
+• Power-Down Current (1 μA)
+•
+•
+
+Input Bandwidth (47 MHz at 3 dB)
+38-, 30-Pin TSSOP and 32-, 24-Pin VQFN
+Packages
+
+2 Applications
+• PLC/IPC
+• Optical Line Card Monitoring
+• Medical Instrumentation
+• Digital Power Supplies
+• Multi-Channel, General-Purpose Signal Monitoring
+• High-Speed Data Acquisition Systems
+• High-Speed Closed-Loop Systems
+
+Detailed Block Diagram
+
+3 Description
+The ADS79xx is a 12-, 10-, 8-bit pin compatible
+multichannel analog-to-digital converter family. The
+device comparison table shows all
+twelve devices
+from this product family.
+
+The devices include a capacitor based SAR A/D
+converter with inherent sample and hold.
+
+The devices accept a wide analog supply range from
+2.7 V to 5.25 V. Very low power consumption makes
+these devices suitable for battery-powered and
+isolated power-supply applications.
+
+A wide 1.7-V to 5.25-V I/O supply range facilitates a
+glueless interface with the most commonly used
+digital hosts. The serial interface is controlled by CS
+and SCLK for easy connection with microprocessors
+and DSP.
+
+is sampled with the falling edge of
+The input signal
+CS. It uses SCLK for conversion, serial data output,
+and reading serial data in. The devices allow auto
+sequencing of preselected channels or manual
+selection of a channel for the next conversion cycle.
+
+There are two software selectable input ranges (0 V
+to VREF and 0 V to 2 × VREF), individually configurable
+GPIOs (four in case of the TSSOP and one on the
+VQFN package devices), and two programmable
+alarm thresholds per channel. These features make
+the devices suitable for most data acquisition
+applications.
+
+The devices offer an attractive power-down feature.
+This is extremely useful for power saving when the
+device is operated at lower conversion speeds.
+
+The 16-, 12-channel devices from this family are
+available in a 38-pin TSSOP and 32 pin VQFN
+package and the 4/8-channel devices are available in
+a 30-pin TSSOP and 24 pin VQFN packages.
+
+PART NUMBER
+
+Device Information(1)
+PACKAGE
+
+BODY SIZE (NOM)
+
+ADS79xx
+
+TSSOP (30)
+
+VQFN (24)
+
+TSSOP (38)
+
+VQFN (32)
+
+7.80 mm × 4.40 mm
+
+4.00 mm × 4.00 mm
+
+9.70 mm × 4.40 mm
+
+5.00 mm × 5.00 mm
+
+(1) For all available packages, see the orderable addendum at
+
+the end of the data sheet.
+
+1
+
+An IMPORTANT NOTICE at the end of this data sheet addresses availability, warranty, changes, use in safety-critical applications,
+intellectual property matters and other important disclaimers. PRODUCTION DATA.
+
+MXOAINPCh0Chn(1) Ch2Ch1High input impedance PGA  (or non inverting buffer such as THS4031)GPIO1GPIO2GPIO3PGA GainControlGPIO0high-alarmlow-alarmSDISCLKCSSDOToHostREFREF5025o/p10 µFADCProductFolderOrderNowTechnicalDocumentsTools &SoftwareSupport &CommunityADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+Table of Contents
+
+1
+Features .................................................................. 1
+2 Applications ........................................................... 1
+3 Description ............................................................. 1
+4 Revision History..................................................... 2
+5 Device Comparison Table..................................... 5
+6 Pin Configuration and Functions ......................... 5
+7 Specifications....................................................... 10
+7.1 Absolute Maximum Ratings .................................... 10
+7.2 ESD Ratings............................................................ 10
+7.3 Recommended Operating Conditions..................... 10
+7.4 Thermal Information: TSSOP.................................. 11
+7.5 Thermal Information: VQFN.................................... 11
+7.6 Electrical Characteristics: ADS7950, ADS7951,
+
+ADS7952, ADS7953 ................................................ 12
+
+7.7 Electrical Characteristics, ADS7954, ADS7955,
+
+ADS7956, ADS7957 ................................................ 14
+
+7.8 Electrical Characteristics, ADS7958, ADS7959,
+
+ADS7960, ADS7961 ................................................ 15
+7.9 Timing Requirements .............................................. 17
+7.10 Typical Characteristics (All ADS79xx Family
+
+Devices) ................................................................... 20
+7.11 Typical Characteristics (12-Bit Devices Only)....... 21
+7.12 Typical Characteristics (12-Bit Devices Only)....... 27
+
+8 Detailed Description ............................................ 28
+8.1 Overview ................................................................. 28
+8.2 Functional Block Diagram ....................................... 29
+8.3 Feature Description................................................. 29
+8.4 Device Functional Modes........................................ 29
+8.5 Programming........................................................... 41
+9 Application and Implementation ........................ 46
+9.1 Application Information............................................ 46
+9.2 Typical Applications ................................................ 48
+10 Power Supply Recommendations ..................... 51
+11 Layout................................................................... 52
+11.1 Layout Guidelines ................................................. 52
+11.2 Layout Examples................................................... 52
+12 Device and Documentation Support ................. 54
+12.1 Documentation Support ........................................ 54
+12.2 Related Links ........................................................ 54
+12.3 Receiving Notification of Documentation Updates 54
+12.4 Community Resources.......................................... 54
+12.5 Trademarks ........................................................... 54
+12.6 Electrostatic Discharge Caution............................ 55
+12.7 Glossary ................................................................ 55
+
+13 Mechanical, Packaging, and Orderable
+
+Information ........................................................... 55
+
+4 Revision History
+NOTE: Page numbers for previous revisions may differ from page numbers in the current version.
+
+Changes from Revision B (July 2015) to Revision C
+
+Page
+
+• Changed 0 to 2.5 V and 0 to 5 V to 0 to VREF and 0 to 2 x VREF in Input Range Features bullet ......................................... 1
+• Changed GPIO Features bullet ............................................................................................................................................. 1
+
+• Changed Optical Line Card Monitoring and Multi-Channel, General-Purpose Signal Monitoring Applications bullets.......... 1
+• Changed (0 V to 2.5 V and 0 V to 5 V) to (0 V to VREF and 0 V to 2 × VREF) in Description section ..................................... 1
+• Deleted Companion Products table........................................................................................................................................ 5
+
+• Changed RGE to RHB for two 32-pin VQFN pin diagrams ................................................................................................... 5
+
+• Added 30-pin DBT package .................................................................................................................................................. 5
+
+• Changed I/O column of Pin Functions: TSSOP Packages table to show full definition instead of abbreviation ................... 6
+
+• Added active low to definition of CS pin in Pin Functions: TSSOP Packages table .............................................................. 7
+
+• Changed pin name and description of Alarm pin in Pin Functions: TSSOP Packages table ............................................... 7
+
+• Added settings to description of Range pin in Pin Functions: TSSOP Packages table: added (1) to high and (0) to low .... 7
+
+• Added active low to description of CS pin in Pin Functions: VQFN Packages table ............................................................. 8
+
+• Changed pin name and description of Alarm pin in Pin Functions: VQFN Packages table .................................................. 9
+
+• Changed value of Input current to any pin except supply pins row from ±10 mA (max) to –10 mA (min) and 10 mA
+
+(max) in Absolute Maximum Ratings table........................................................................................................................... 10
+
+• Changed VBD = 1.7 V to 5.25 V to VBD = 1.7 V to +VA in condition statement................................................................. 12
+
+• Changed minimum specification from –1 LSB to –0.99 LSB in first row of Differential linearity parameter......................... 12
+
+• Added input to Reference input resistance parameter name ............................................................................................... 13
+
+• Changed maximum specification from FFC Hex to 4092 LSB in Alarm Setting parameters .............................................. 13
+
+• Changed unit from Numbers to Conversion in Invalid conversions after power up or reset parameter ............................. 13
+
+• Changed VBD = 1.7 V to 5.25 V to VBD = 1.7 V to +VA in condition statement ................................................................ 14
+
+2
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+Revision History (continued)
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+• Added input to Reference input resistance parameter name .............................................................................................. 14
+
+• Changed maximum specification from FFC Hex to 4092 LSB in Alarm Setting parameters .............................................. 14
+
+• Changed VBD = 1.7 V to 5.25 V to VBD = 1.7 V to +VA in condition statement ................................................................ 15
+
+• Added input to Reference input resistance parameter name .............................................................................................. 16
+
+• Changed maximum specification from FF Hex to 255 LSB in Alarm Setting parameters .................................................. 16
+
+• Changed unit from Numbers to Conversion in Invalid conversions after power up or reset parameter ............................. 16
+
+• Changed REF and GND pins to REFP and REFM pins in the Reference section ............................................................. 29
+
+• Added Example Manual Mode Timing Diagram figure and corresponding text to Operating in Manual Mode section ...... 33
+
+• Added Example Auto-1 Mode Timing Diagram figure and corresponding text to the Operating in Auto-1 Mode
+
+section ................................................................................................................................................................................. 35
+
+• Added Example Auto-2 Mode Timing Diagram figure and corresponding text to the Operating in Auto-2 Mode
+
+section ................................................................................................................................................................................. 39
+• Changed 2.5V to VREF in first DI06 row and 5V to 2xVREF in second DI06 row ................................................................... 40
+• Changed binary code from 0001 1111 1111 to 0011 1111 1111 in Full scale row of Ideal Input Voltages for 10-Bit
+
+Devices and Digital Output Codes for 10-Bit Devices (ADS7954/55/56/57) table ............................................................... 41
+
+• Changed 10-Bit to 8-Bit in title of Ideal Input Voltages for 8-Bit Devices and Digital Output Codes for 8-Bit Devices
+
+(ADS7958/59/60/61) table .................................................................................................................................................... 42
+
+• Changed Application Diagram for an Unbuffered MXO figure note .................................................................................... 48
+
+• Changed Recommended Layout figure title to Recommended Layout for the TSSOP Packaged Device .......................... 52
+
+• Added Recommended Layout for the VQFN Packaged Device figure ................................................................................ 53
+
+Changes from Revision A (April 2010) to Revision B
+
+Page
+
+• Added ESD Ratings table, Feature Description section, Device Functional Modes, Application and Implementation
+
+section, Power Supply Recommendations section, Layout section, Device and Documentation Support section, and
+Mechanical, Packaging, and Orderable Information section ................................................................................................. 1
+
+Changes from Original (June 2008) to Revision A
+
+Page
+
+• Added QFN information to Features....................................................................................................................................... 1
+
+• Added QFN information to Description................................................................................................................................... 1
+
+• Changed VEE to AGND and VCC to +VA on 38-pin TSSOP pinout ..................................................................................... 5
+
+• Added QFN pinout .................................................................................................................................................................. 5
+
+• Added QFN pinout .................................................................................................................................................................. 5
+
+• Added QFN pinout .................................................................................................................................................................. 6
+
+• Added QFN pinout .................................................................................................................................................................. 6
+
+• Added terminal functions for QFN packages.......................................................................................................................... 8
+
+• Changed ADS7950/4/8 QFN package MXO pin from 7 to 3.................................................................................................. 8
+• Added VREF = 2.5 V ± 0.1 V to Electrical Characteristics, ADS7950/51/52/53..................................................................... 12
+• Added while 2VREF ≤ +VA to full-scale input span range 2 test conditions .......................................................................... 12
+• Added while 2VREF ≤ +VA to Absolute input range span range 2 test conditions ................................................................ 12
+• Added Total unadjusted error (TUE) specification ............................................................................................................... 12
+
+• Changed reference voltage at REFP min and max values .................................................................................................. 13
+
+• Added Note to Electrical Characteristics, ADS7950/51/52/53 ............................................................................................. 13
+• Added VREF = 2.5 V ± 0.1 V to Electrical Characteristics, ADS7954/55/56/57 test conditions............................................. 14
+• Added while 2VREF ≤ +VA to full-scale input span range 2 test conditions .......................................................................... 14
+• Added while 2VREF ≤ +VA to full-scale input span range 2 test conditions .......................................................................... 14
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+3
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+• Changed Vref reference voltage at REFP min value from 2.49 V to 2.0 V ........................................................................... 14
+• Changed Vref reference voltage at REFP max value from 2.51 V to 3.0 V .......................................................................... 14
+• Added Vref = 2.5 V ± 0.1 V to Electrical Characteristics, ADS7958/59/60/61 test conditions............................................... 15
+• Added while 2VREF ≤ +VA to full-scale input span range 2 test conditions .......................................................................... 15
+• Added while 2VREF ≤ +VA to full-scale input span range 2 test conditions .......................................................................... 15
+• Changed Vref reference voltage at REFP min value from 2.49 V to 2.0 V ........................................................................... 16
+• Changed Vref reference voltage at REFP max value from 2.51 V to 3.0 V .......................................................................... 16
+• Changed tsu1 values from max to min................................................................................................................................... 17
+• Changed tsu2 values from max to min................................................................................................................................... 17
+• Added TOTAL UNADJUSTED ERROR (TUE Max) graph................................................................................................... 25
+
+• Added TOTAL UNADJUSTED ERROR (TUE Min) graph.................................................................................................... 25
+
+• Changed GPIO pins description ........................................................................................................................................... 28
+
+• Added device powerdown through GPIO in the case of the TSSOP packaged devices ..................................................... 28
+
+• Added note to Table 1 .......................................................................................................................................................... 33
+
+• Added note to Table 2 .......................................................................................................................................................... 36
+
+• Added note to Table 5 .......................................................................................................................................................... 40
+
+• Added note to Programming GPIO Registers description.................................................................................................... 42
+
+• Added QFN information to Table 11..................................................................................................................................... 43
+
+• Changed DI12 = 1? from No or No to Yes or No in Figure 59............................................................................................. 44
+
+• Added note to Figure 60 ....................................................................................................................................................... 46
+
+4
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+5 Device Comparison Table
+
+NUMBER OF CHANNELS
+
+16
+
+12
+
+8
+
+4
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+12 BIT
+
+ADS7953
+
+ADS7952
+
+ADS7951
+
+ADS7950
+
+RESOLUTION
+
+10 BIT
+
+ADS7957
+
+ADS7956
+
+ADS7955
+
+ADS7954
+
+8 BIT
+
+ADS7961
+
+ADS7960
+
+ADS7959
+
+ADS7958
+
+6 Pin Configuration and Functions
+
+DBT Package
+38-Pin TSSOP
+Top View
+
+RHB Package
+32-Pin VQFN
+Top View
+
+DBT Package
+30-Pin TSSOP
+Top View
+
+RHB Package
+32-Pin VQFN
+Top View
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+5
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+1891632252417AGNDAINMAINPMXONCCH10CH11NCSCLK+VAAGNDCSNCCH1CH0NCCH9CH8CH7CH6CH5CH4CH3CH2+VAREFPREFMGPIO+VBDBDGNDSDOSDIADS7952/ADS7956/ADS7960123456789101112131415302928272625242221201918171623GPIO2GPIO3REFMREFP+VAAGNDMXOAINPAINMAGNDNCCH3NCCH2NCGPIO1GPIO0+VBDBDGNDSDOSDISCLKCSAGND+VACH0NCCH1NCNCADS7950ADS7954ADS7958123456789101112131415302928272625242221201918171623GPIO2GPIO3REFMREFP+VAAGNDMXOAINPAINMAGNDCH7CH6CH5CH4NCGPIO1GPIO0+VBDBDGNDSDOSDISCLKCSAGND+VACH0CH1CH2CH3NCADS7951ADS7955ADS7959123456789101112131415383736353433323029282726252431GPIO2GPIO3REFMREFP+VAAGNDMXOAINPAINMAGNDNCNCNCNCCH11GPIO1GPIO0+VBDBDGNDSDOSDISCLKCSAGND+VACH0CH1CH2CH3CH4ADS7952ADS7956ADS796016171819CH10CH9CH8AGND23222120CH5CH6CH7AGND123456789101112131415383736353433323029282726252431GPIO2GPIO3REFMREFP+VAAGNDMXOAINPAINMAGNDCH15CH14CH13CH12CH11GPIO1GPIO0+VBDBDGNDSDOSDISCLKCSAGND+VACH0CH1CH2CH3CH4ADS7953ADS7957ADS796116171819CH10CH9CH8AGND23222120CH5CH6CH7AGND1891632252417AGNDAINMAINPMXOCH15CH12CH13CH14SCLK+VAAGNDCSCH0CH3CH2CH1CH11CH10CH9CH8CH7CH6CH5CH4+VAREFPREFMGPIO+VBDBDGNDSDOSDIADS7953/ADS7957/ADS7961ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+RGE Package
+24-Pin VQFN
+Top View
+
+RGE Package
+24-Pin VQFN
+Top View
+
+Pin Functions: TSSOP Packages
+
+PIN
+
+ADS7953
+ADS7957
+ADS7961
+
+ADS7952
+ADS7956
+ADS7960
+
+ADS7951
+ADS7955
+ADS7959
+
+ADS7950
+ADS7954
+ADS7958
+
+I/O
+
+DESCRIPTION
+
+NAME
+
+REFERENCE
+
+REFP
+
+REFM
+
+4
+
+3
+
+ADC ANALOG INPUT
+
+AINP
+
+AINM
+
+MULTIPLEXER
+
+MXO
+
+Ch0
+
+Ch1
+
+Ch2
+
+Ch3
+
+Ch4
+
+Ch5
+
+Ch6
+
+Ch7
+
+Ch8
+
+Ch9
+
+8
+
+9
+
+7
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+18
+
+17
+
+4
+
+3
+
+8
+
+9
+
+7
+
+28
+
+27
+
+26
+
+25
+
+24
+
+23
+
+22
+
+21
+
+18
+
+17
+
+4
+
+3
+
+8
+
+9
+
+7
+
+20
+
+19
+
+18
+
+17
+
+14
+
+13
+
+12
+
+11
+
+—
+
+—
+
+4
+
+3
+
+8
+
+9
+
+7
+
+20
+
+18
+
+14
+
+12
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+output
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Reference input
+
+Reference ground
+
+ADC input signal
+
+ADC input ground
+
+Multiplexer output
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+6
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+172418+VAAINPMXOAGNDAINMCH7SDIAGNDCSSCLK+VACH0CH6CH5CH4CH3CH2CH1REFPREFMGPIO+VBDBDGNDSDOADS7951/ADS7955/ADS79596131912172418+VAAINPMXOAGNDAINMNCSDIAGNDCSSCLK+VANCNCCH3CH2CH1CH0NCREFPREFMGPIO+VBDBDGNDSDOADS7950/ADS7954/ADS79586131912www.ti.com
+
+NAME
+
+Ch10
+
+Ch11
+
+Ch12
+
+Ch13
+
+Ch14
+
+Ch15
+
+16
+
+15
+
+14
+
+13
+
+12
+
+11
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Pin Functions: TSSOP Packages (continued)
+
+PIN
+
+ADS7953
+ADS7957
+ADS7961
+
+ADS7952
+ADS7956
+ADS7960
+
+ADS7951
+ADS7955
+ADS7959
+
+ADS7950
+ADS7954
+ADS7958
+
+16
+
+15
+
+—
+
+—
+
+—
+
+—
+
+31
+
+32
+
+33
+
+34
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+23
+
+24
+
+25
+
+26
+
+29
+
+30
+
+1
+
+2
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+23
+
+24
+
+25
+
+26
+
+29
+
+30
+
+1
+
+2
+
+I/O
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Digital
+input
+
+Digital
+input
+
+Digital
+input
+
+Digital
+output
+
+DESCRIPTION
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Analog channel for multiplexer
+
+Chip-select input pin; active low
+
+Serial clock input pin
+
+Serial data input pin
+
+Serial data output pin
+
+Digital I/O General-purpose input or output
+
+Digital
+output
+
+Active high alarm output. For configuration, see the
+Programming section.
+
+Digital I/O General-purpose input or output
+
+Digital
+output
+
+Active high output indicating low alarm
+
+Digital I/O General-purpose input or output
+
+Digital
+input
+
+Selects ADC input range: High (1) -> Range 2 (0 to
+2xVREF) / Low (0) -> Range 1 (0 to VREF)
+
+Digital I/O General-purpose input or output
+
+Digital
+input
+
+Active low power-down input
+
+DIGITAL CONTROL SIGNALS
+
+CS
+
+SCLK
+
+SDI
+
+SDO
+
+31
+
+32
+
+33
+
+34
+
+GENERAL-PURPOSE INPUTS/OUTPUTS (1)
+
+GPIO0
+
+Alarm
+
+GPIO1
+
+Low alarm
+
+GPIO2
+
+Range
+
+GPIO3
+
+PD
+
+37
+
+38
+
+1
+
+2
+
+37
+
+38
+
+1
+
+2
+
+POWER SUPPLY AND GROUND
+
++VA
+
+AGND
+
++VBD
+
+BDGND
+
+NC PINS
+
+—
+
+5, 29
+
+5, 29
+
+5, 21
+
+5, 21
+
+6, 10, 19,
+20, 30
+
+6, 10, 19,
+20, 30
+
+6, 10, 22
+
+6, 10, 22
+
+36
+
+35
+
+—
+
+36
+
+35
+
+28
+
+27
+
+28
+
+27
+
+11, 12, 13,
+14
+
+15, 16
+
+11, 13, 15,
+16, 17, 19
+
+—
+
+—
+
+—
+
+—
+
+—
+
+Analog power supply
+
+Analog ground
+
+Digital I/O supply
+
+Digital ground
+
+Pins internally not connected, do not float these pins,
+connect these pins to ground
+
+(1) These pins have programmable dual functionality. See Table 12 for functionality programming.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+7
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+Pin Functions: VQFN Packages
+
+PIN
+
+ADS7953
+ADS7957
+ADS7961
+
+ADS7952
+ADS7956
+ADS7960
+
+ADS7951
+ADS7955
+ADS7959
+
+ADS7950
+ADS7954
+ADS7958
+
+I/O
+
+DESCRIPTION
+
+PIN NAME
+
+REFERENCE
+
+REFP
+
+REFM
+
+31
+
+30
+
+ADC ANALOG INPUT
+
+AINP
+
+AINM
+
+MULTIPLEXER
+
+MXO
+
+Ch0
+
+Ch1
+
+Ch2
+
+Ch3
+
+Ch4
+
+Ch5
+
+Ch6
+
+Ch7
+
+Ch8
+
+Ch9
+
+Ch10
+
+Ch11
+
+Ch12
+
+Ch13
+
+Ch14
+
+Ch15
+
+3
+
+4
+
+2
+
+20
+
+19
+
+18
+
+17
+
+16
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+DIGITAL CONTROL SIGNALS
+
+CS
+
+SCLK
+
+SDI
+
+23
+
+24
+
+25
+
+31
+
+30
+
+3
+
+4
+
+2
+
+18
+
+17
+
+16
+
+15
+
+14
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+—
+
+—
+
+—
+
+—
+
+23
+
+24
+
+25
+
+24
+
+23
+
+4
+
+5
+
+3
+
+13
+
+12
+
+11
+
+10
+
+9
+
+8
+
+7
+
+6
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+16
+
+17
+
+18
+
+24
+
+23
+
+4
+
+5
+
+3
+
+11
+
+10
+
+9
+
+8
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+—
+
+16
+
+17
+
+18
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+output
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Analog
+input
+
+Digital
+input
+
+Digital
+input
+
+Digital
+input
+
+Reference input
+
+Reference ground
+
+ADC input signal
+
+ADC input ground
+
+Multiplexer output
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Analog-input channel for multiplexer
+
+Chip-select input pin; active low
+
+Serial clock input pin
+
+Serial data input pin
+
+8
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Pin Functions: VQFN Packages (continued)
+
+PIN
+
+PIN NAME
+
+ADS7953
+ADS7957
+ADS7961
+
+ADS7952
+ADS7956
+ADS7960
+
+ADS7951
+ADS7955
+ADS7959
+
+ADS7950
+ADS7954
+ADS7958
+
+SDO
+
+26
+
+26
+
+GENERAL-PURPOSE INPUT/OUTPUT (1)
+
+GPIO0
+
+Alarm
+
+29
+
+29
+
+POWER SUPPLY AND GROUND
+
++VA
+
+AGND
+
++VBD
+
+BDGND
+
+NC PINS
+
+—
+
+21, 32
+
+1, 22
+
+28
+
+27
+
+—
+
+21, 32
+
+1, 22
+
+28
+
+27
+
+5, 6, 19,
+20
+
+19
+
+22
+
+1, 14
+
+2, 15
+
+21
+
+20
+
+19
+
+22
+
+1, 14
+
+2, 15
+
+21
+
+20
+
+—
+
+6, 7, 12, 13
+
+I/O
+
+Digital
+output
+
+DESCRIPTION
+
+Serial data output pin
+
+Digital I/O General purpose input or output
+
+Digital
+output
+
+Active high alarm output. For configuration, see the
+Programming section.
+
+—
+
+—
+
+—
+
+—
+
+—
+
+Analog power supply
+
+Analog ground
+
+Digital I/O supply
+
+Digital ground
+
+Pins internally not connected, do not float these pins,
+connect these pins to ground
+
+(1) This pin has programmable dual functionality. See Table 12 for functionality programming.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+9
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+7 Specifications
+
+7.1 Absolute Maximum Ratings
+over operating free-air temperature range (unless otherwise noted) (1) (2)
+
+AINP or CHn to AGND
+
++VA to AGND, +VBD to BDGND
+
+Digital input voltage to BDGND
+
+Digital output to BDGND
+
+Input current to any pin except supply pins
+
+Operating temperature
+
+Junction temperature (TJ Max)
+Storage temperature (Tstg)
+
+www.ti.com
+
+MIN
+
+–0.3
+
+–0.3
+
+–0.3
+
+–0.3
+
+–10
+
+–40
+
+–65
+
+MAX
+
+VA +0.3
+
+7
+
+7
+
+VA + 0.3
+
+10
+
+125
+
+150
+
+150
+
+UNIT
+
+V
+
+V
+
+V
+
+V
+
+mA
+
+°C
+
+°C
+
+°C
+
+(1) Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings
+
+only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended
+Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
+
+(2) DBT packaged versions of ADS79xx family devices are rated for MSL2 260°C per the JSTD-020 specifications and the RGE and RHB
+
+packaged versions of ADS79xx family devices are rated for MSL3 260C per JSTD-020 specifications
+
+7.2 ESD Ratings
+
+V(ESD)
+
+Electrostatic discharge
+
+Human-body model (HBM), per ANSI/ESDA/JEDEC JS-001 (1)
+Charged-device model (CDM), per JEDEC specification JESD22-C101 (2)
+
+±2000
+
+±500
+
+V
+
+(1)
+(2)
+
+JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
+JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
+
+VALUE
+
+UNIT
+
+7.3 Recommended Operating Conditions
+over operating free-air temperature range (unless otherwise noted)
+
+V(+VA)
+V(+VBD)
+V(REF)
+ƒ(SCLK)
+TA
+
+Analog power-supply voltage
+
+Digital I/O-supply voltage
+
+Reference voltage
+
+SCLK frequency
+
+Operating temperature range
+
+MIN
+
+NOM
+
+MAX UNIT
+
+2.7
+
+1.7
+
+2
+
+–40
+
+3.3
+
+3.3
+
+2.5
+
+5.25
+
+V(+VA)
+3
+
+V
+
+V
+
+V
+
+20 MHz
+
+125
+
+°C
+
+10
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+7.4 Thermal Information: TSSOP
+
+THERMAL METRIC (1)
+
+RθJA
+RθJC(top)
+RθJB
+ψJT
+ψJB
+RθJC(bot)
+
+Junction-to-ambient thermal resistance
+
+Junction-to-case (top) thermal resistance
+
+Junction-to-board thermal resistance
+
+Junction-to-top characterization parameter
+
+Junction-to-board characterization parameter
+
+Junction-to-case (bottom) thermal resistance
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+ADS795x
+
+DBT (TSSOP)
+
+DBT (TSSOP)
+
+UNIT
+
+38 PINS
+
+30 PINS
+
+83.6
+
+29.8
+
+44.7
+
+2.9
+
+44.1
+
+n/a
+
+89.8
+
+22.9
+
+43.1
+
+0.8
+
+42.5
+
+n/a
+
+°C/W
+
+°C/W
+
+°C/W
+
+°C/W
+
+°C/W
+
+°C/W
+
+(1) For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application
+
+report.
+
+7.5 Thermal Information: VQFN
+
+THERMAL METRIC (1)
+
+Junction-to-ambient thermal resistance
+
+Junction-to-case (top) thermal resistance
+
+Junction-to-board thermal resistance
+
+Junction-to-top characterization parameter
+
+Junction-to-board characterization parameter
+
+Junction-to-case (bottom) thermal resistance
+
+RθJA
+RθJC(top)
+RθJB
+ψJT
+ψJB
+RθJC(bot)
+
+ADS7953, ADS7957, ADS7961
+
+RHB (VQFN)
+
+RGE (VQFN)
+
+UNIT
+
+32 PINS
+
+24 PINS
+
+40.6
+
+32.1
+
+13.1
+
+0.8
+
+13
+
+5.7
+
+36.9
+
+39.3
+
+14.7
+
+0.7
+
+14.8
+
+5.6
+
+°C/W
+
+°C/W
+
+°C/W
+
+°C/W
+
+°C/W
+
+°C/W
+
+(1) For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application
+
+report.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+11
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+7.6 Electrical Characteristics: ADS7950, ADS7951, ADS7952, ADS7953
+VA = 2.7 V to 5.25 V, VBD = 1.7 V to +VA, VREF = 2.5 V ± 0.1 V, TA = –40°C to 125°C, fsample = 1 MHz (unless otherwise
+noted)
+
+PARAMETER
+
+TEST CONDITIONS
+
+MIN
+
+TYP
+
+MAX
+
+UNIT
+
+ANALOG INPUT
+
+Full-scale input span (1)
+
+Absolute input range
+
+Input capacitance
+
+Input leakage current
+
+SYSTEM PERFORMANCE
+
+Resolution
+
+No missing codes
+
+Integral linearity
+
+Differential linearity
+
+Offset error (4)
+
+Gain error
+
+Total unadjusted error (TUE)
+
+SAMPLING DYNAMICS
+
+Conversion time
+
+Acquisition time
+
+Range 1
+
+Range 2 while 2xVREF ≤ +VA
+Range 1
+
+Range 2 while 2xVREF ≤ +VA
+
+TA = 125°C
+
+ADS795XSB (2)
+ADS795XS (2)
+ADS795XSB (2)
+ADS795XS (2)
+ADS795XSB (2)
+ADS795XS (2)
+
+Range 1
+
+Range 2
+
+20 MHz SCLK
+
+Maximum throughput rate
+
+20 MHz SCLK
+
+Aperture delay
+
+Step response
+
+Overvoltage recovery
+
+Ideal input span; does not include gain or offset error.
+
+(1)
+(2) ADS795X, where X indicates 0, 1, 2, or 3.
+(3) LSB means least significant bit.
+(4) Measured relative to an ideal full-scale input.
+
+0
+
+0
+
+–0.2
+
+–0.2
+
+12
+
+11
+
+–1
+
+–1.5
+
+–0.99
+
+–2
+
+–3.5
+
+–2
+
+325
+
+VREF
+2*VREF
+VREF + 0.2
+2*VREF + 0.2
+15
+
+V
+
+V
+
+pF
+
+nA
+
+Bits
+
+Bits
+
+LSB (3)
+
+LSB
+
+LSB
+
+LSB
+
+LSB
+
+ns
+
+ns
+
+1
+
+MHz
+
+ns
+
+ns
+
+ns
+
+1
+
+1.5
+
+1
+
+1.5
+
+3.5
+
+2
+
+800
+
+61
+
+12
+
+±0.5
+
+±0.75
+
+±0.5
+
+±0.75
+
+±1.1
+
+±0.2
+
+±0.2
+
+±2
+
+5
+
+150
+
+150
+
+12
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Electrical Characteristics: ADS7950, ADS7951, ADS7952, ADS7953 (continued)
+
+VA = 2.7 V to 5.25 V, VBD = 1.7 V to +VA, VREF = 2.5 V ± 0.1 V, TA = –40°C to 125°C, fsample = 1 MHz (unless otherwise
+noted)
+
+PARAMETER
+
+TEST CONDITIONS
+
+MIN
+
+TYP
+
+MAX
+
+UNIT
+
+DYNAMIC CHARACTERISTICS
+Total harmonic distortion (5)
+
+Signal-to-noise ratio
+
+Signal-to-noise + distortion
+
+100 kHz
+100 kHz, ADS795XSB (2)
+100 kHz, ADS795XS (2)
+100 kHz, ADS795XSB (2)
+100 kHz, ADS795XS (2)
+
+Spurious free dynamic range
+
+Small signal bandwidth
+
+100 kHz
+
+At –3 dB
+
+Channel-to-channel crosstalk
+
+Any off-channel with 100 kHz, Full-scale input to
+channel being sampled with DC input (isolation
+crosstalk).
+
+From previously sampled to channel with 100
+kHz, Full-scale input to channel being sampled
+with DC input (memory crosstalk).
+
+EXTERNAL REFERENCE INPUT
+VREF reference voltage at REFP (6)
+Reference input resistance
+
+At fsample = 1 MHz
+
+ALARM SETTING
+
+High threshold range
+
+Low threshold range
+
+DIGITAL INPUT/OUTPUT
+
+Logic family
+
+Logic level
+
+VIH
+VIL
+VIL
+VOH
+VOL
+Data format MSB first
+
+POWER SUPPLY REQUIREMENTS
+
++VA supply voltage
+
++VBD supply voltage
+
+Supply current (normal mode)
+
+Power-down state supply current
+
++VBD supply current
+
+Power-up time
+
+Invalid conversions after power up or
+reset
+
+CMOS
+
++VBD = 5 V
+
++VBD = 3 V
+
+At Isource = 200 μA
+At Isink = 200 μA
+
+At +VA = 2.7 to 3.6 V and 1 MHz throughput
+
+At +VA = 2.7 to 3.6 V static state
+
+At +VA = 4.7 to 5.25 V and 1 MHz throughput
+
+At +VA = 4.7 to 5.25 V static state
+
++VA = 5.25 V, fs = 1MHz
+
+–82
+
+71.7
+
+71.7
+
+71.3
+
+71.3
+
+84
+
+47
+
+–95
+
+–85
+
+2.5
+
+100
+
+70
+
+70
+
+69
+
+68
+
+2
+
+0
+
+0
+
+0.7*(+VBD)
+
++VBD-0.2
+
+0.4
+
+2.7
+
+1.7
+
+MSB First
+
+3.3
+
+3.3
+
+1.8
+
+1.05
+
+2.3
+
+1.1
+
+1
+
+1
+
+dB
+
+dB
+
+dB
+
+dB
+
+MHz
+
+dB
+
+V
+
+kΩ
+
+LSB
+
+LSB
+
+V
+
+V
+
+V
+
+mA
+
+μA
+
+mA
+
+μs
+
+Conversion
+
+3
+
+4092
+
+4092
+
+0.8
+
+0.4
+
+5.25
+
+5.25
+
+3
+
+1.5
+
+1
+
+1
+
+(5) Calculated on the first nine harmonics of the input frequency.
+(6) Device is designed to operate over VREF = 2 V to 3 V. However one can expect lower noise performance at Vref < 2.4 V. This is due to
+
+SNR degradation resulting from lowered signal range.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+13
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+7.7 Electrical Characteristics, ADS7954, ADS7955, ADS7956, ADS7957
++VA = 2.7 V to 5.25 V, +VBD = 1.7 V to +VA, VREF = 2.5 V ± 0.1 V, TA = –40°C to 125°C, fsample = 1 MHz (unless otherwise
+noted)
+
+PARAMETER
+
+TEST CONDITIONS
+
+MIN
+
+TYP
+
+MAX
+
+UNIT
+
+ANALOG INPUT
+
+Full-scale input span (1)
+
+Absolute input range
+
+Input capacitance
+
+Input leakage current
+
+SYSTEM PERFORMANCE
+
+Resolution
+
+No missing codes
+
+Integral linearity
+
+Differential linearity
+Offset error (3)
+
+Gain error
+
+SAMPLING DYNAMICS
+
+Conversion time
+
+Acquisition time
+
+Range 1
+
+Range 2 while 2xVREF ≤ +VA
+Range 1
+
+Range 2 while 2xVREF ≤ +VA
+
+TA = 125°C
+
+Range 1
+
+Range 2
+
+20 MHz SCLK
+
+Maximum throughput rate
+
+20 MHz SCLK
+
+Aperture delay
+
+Step response
+
+Overvoltage recovery
+
+DYNAMIC CHARACTERISTICS
+Total harmonic distortion (4)
+
+Signal-to-noise ratio
+
+Signal-to-noise + distortion
+
+Spurious free dynamic range
+
+Full power bandwidth
+
+Channel-to-channel crosstalk
+
+EXTERNAL REFERENCE INPUT
+
+VREF reference voltage at REFP
+Reference input resistance
+
+ALARM SETTING
+
+High threshold range
+
+Low threshold range
+
+100 kHz
+
+100 kHz
+
+100 kHz
+
+100 kHz
+
+At –3 dB
+
+Any off-channel with 100 kHz, Full-scale input to
+channel being sampled with DC input.
+
+From previously sampled to channel with 100 kHz,
+Full-scale input to channel being sampled with DC
+input.
+
+fsample = 1 MHz
+
+Ideal input span; does not include gain or offset error.
+
+(1)
+(2) LSB means least significant bit.
+(3) Measured relative to an ideal full-scale input.
+(4) Calculated on the first nine harmonics of the input frequency.
+
+0
+
+0
+
+–0.20
+
+–0.20
+
+10
+
+–0.5
+
+–0.5
+
+–1.5
+
+–1
+
+325
+
+60
+
+60
+
+2
+
+000
+
+000
+
+VREF
+2*VREF
+VREF +0.20
+2*VREF +0.20
+15
+
+V
+
+V
+
+pF
+
+nA
+
+Bits
+
+Bits
+LSB (2)
+
+LSB
+
+LSB
+
+LSB
+
+ns
+
+ns
+
+0.5
+
+0.5
+
+1.5
+
+1
+
+800
+
+1
+
+MHz
+
+ns
+
+ns
+
+ns
+
+dB
+
+dB
+
+dB
+
+MHz
+
+dB
+
+V
+
+kΩ
+
+LSB
+
+LSB
+
+3
+
+4092
+
+4092
+
+61
+
+10
+
+±0.2
+
+±0.2
+
+±0.5
+
+±0.1
+
+±0.1
+
+5
+
+150
+
+150
+
+–80
+
+82
+
+47
+
+–95
+
+–85
+
+2.5
+
+100
+
+14
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Electrical Characteristics, ADS7954, ADS7955, ADS7956, ADS7957 (continued)
+
++VA = 2.7 V to 5.25 V, +VBD = 1.7 V to +VA, VREF = 2.5 V ± 0.1 V, TA = –40°C to 125°C, fsample = 1 MHz (unless otherwise
+noted)
+
+PARAMETER
+
+TEST CONDITIONS
+
+MIN
+
+TYP
+
+MAX
+
+UNIT
+
+DIGITAL INPUT/OUTPUT
+
+Logic family
+
+Logic level
+
+VIH
+VIL
+VIL
+VOH
+VOL
+Data format MSB first
+
+POWER SUPPLY REQUIREMENTS
+
++VA supply voltage
+
++VBD supply voltage
+
+Supply current (normal mode)
+
+Power-down state supply current
+
++VBD supply current
+
+Power-up time
+
+Invalid conversions after power up or
+reset
+
+CMOS
+
++VBD = 5 V
+
++VBD = 3 V
+
+At Isource = 200 μA
+At Isink = 200 μA
+
+At +VA = 2.7 to 3.6 V and 1MHz throughput
+
+At +VA = 2.7 to 3.6 V static state
+
+At +VA = 4.7 to 5.25 V and 1 MHz throughput
+
+At +VA = 4.7 to 5.25 V static state
+
++VA = 5.25V, fs = 1MHz
+
+0.7*(+VBD)
+
++VBD-0.2
+
+0.4
+
+MSB First
+
+2.7
+
+1.7
+
+3.3
+
+3.3
+
+1.8
+
+1.05
+
+2.3
+
+1.1
+
+1
+
+1
+
+0.8
+
+0.4
+
+5.25
+
+5.25
+
+1
+
+3
+
+1.5
+
+1
+
+1
+
+V
+
+V
+
+V
+
+mA
+
+μA
+
+mA
+
+μs
+
+Conversion
+
+7.8 Electrical Characteristics, ADS7958, ADS7959, ADS7960, ADS7961
++VA = 2.7 V to 5.25 V, +VBD = 1.7 V to +VA, VREF = 2.5 V ± 0.1 V, TA = –40°C to 125°C, fsample = 1 MHz (unless otherwise
+noted)
+
+PARAMETER
+
+TEST CONDITIONS
+
+MIN
+
+TYP
+
+MAX
+
+UNIT
+
+ANALOG INPUT
+
+Full-scale input span (1)
+
+Absolute input range
+
+Input capacitance
+
+Input leakage current
+
+SYSTEM PERFORMANCE
+
+Resolution
+
+No missing codes
+
+Integral linearity
+
+Differential linearity
+Offset error (3)
+
+Gain error
+
+Range 1
+
+Range 2 while 2xVREF ≤ +VA
+Range 1
+
+Range 2 while 2xVREF ≤ +VA
+
+TA = 125°C
+
+Range 1
+
+Range 2
+
+Ideal input span; does not include gain or offset error.
+
+(1)
+(2) LSB means least significant bit.
+(3) Measured relative to an ideal full-scale input.
+
+0
+
+0
+
+–0.20
+
+–0.20
+
+8
+
+–0.3
+
+–0.3
+
+–0.5
+
+–0.6
+
+VREF
+2*VREF
+VREF + 0.2
+2*VREF + 0.2
+15
+
+61
+
+8
+
+±0.1
+
+±0.1
+
+±0.2
+
+±0.1
+
+±0.1
+
+0.3
+
+0.3
+
+0.5
+
+0.6
+
+V
+
+V
+
+pF
+
+nA
+
+Bits
+
+Bits
+LSB (2)
+
+LSB
+
+LSB
+
+LSB
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+15
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+Electrical Characteristics, ADS7958, ADS7959, ADS7960, ADS7961 (continued)
+
++VA = 2.7 V to 5.25 V, +VBD = 1.7 V to +VA, VREF = 2.5 V ± 0.1 V, TA = –40°C to 125°C, fsample = 1 MHz (unless otherwise
+noted)
+
+PARAMETER
+
+TEST CONDITIONS
+
+MIN
+
+TYP
+
+MAX
+
+UNIT
+
+SAMPLING DYNAMICS
+
+Conversion time
+
+Acquisition time
+
+20 MHz SCLK
+
+Maximum throughput rate
+
+20 MHz SCLK
+
+Aperture delay
+
+Step response
+
+Overvoltage recovery
+
+DYNAMIC CHARACTERISTICS
+Total harmonic distortion (4)
+
+Signal-to-noise ratio
+
+Signal-to-noise + distortion
+
+Spurious free dynamic range
+
+Full power bandwidth
+
+Channel-to-channel crosstalk
+
+EXTERNAL REFERENCE INPUT
+
+VREF reference voltage at REFP
+Reference input resistance
+
+ALARM SETTING
+
+High threshold range
+
+Low threshold range
+
+DIGITAL INPUT/OUTPUT
+
+100 kHz
+
+100 kHz
+
+100 kHz
+
+100 kHz
+
+At –3 dB
+
+Any off-channel with 100 kHz, Full-scale input to
+channel being sampled with DC input.
+
+From previously sampled to channel with 100 kHz,
+Full-scale input to channel being sampled with DC
+input.
+
+fsample = 1 MHz
+
+Logic family
+
+CMOS
+
+VIH
+VIL
+VIL
+VOH
+VOL
+
+Logic level
+
+Data format
+
+POWER SUPPLY REQUIREMENTS
+
++VA supply voltage
+
++VBD supply voltage
+
+Supply current (normal mode)
+
+Power-down state supply current
+
++VBD supply current
+
+Power-up time
+
+Invalid conversions after power up or
+reset
+
++VBD = 5 V
+
++VBD = 3 V
+
+At Isource = 200 μA
+At Isink = 200 μA
+
+At +VA = 2.7 to 3.6 V and 1 MHz throughput
+
+At +VA = 2.7 to 3.6 V static state
+
+At +VA = 4.7 to 5.25 V and 1 MHz throughput
+
+At +VA = 4.7 to 5.25 V static state
+
++VA = 5.25V, fs = 1MHz
+
+(4) Calculated on the first nine harmonics of the input frequency.
+
+5
+
+150
+
+150
+
+–75
+
+–78
+
+47
+
+–95
+
+–85
+
+2.5
+
+100
+
+325
+
+49
+
+49
+
+2
+
+000
+
+000
+
+0.7*(+VBD)
+
++VBD-0.2
+
+0.4
+
+MSB First
+
+2.7
+
+1.7
+
+3.3
+
+3.3
+
+1.8
+
+1.05
+
+2.3
+
+1.1
+
+1
+
+1
+
+800
+
+ns
+
+ns
+
+1
+
+MHz
+
+ns
+
+ns
+
+ns
+
+dB
+
+dB
+
+dB
+
+MHz
+
+dB
+
+V
+
+kΩ
+
+LSB
+
+LSB
+
+V
+
+V
+
+V
+
+mA
+
+μA
+
+mA
+
+μs
+
+Conversion
+
+3
+
+255
+
+255
+
+0.8
+
+0.4
+
+5.25
+
+5.25
+
+3
+
+1.5
+
+1
+
+1
+
+16
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+7.9 Timing Requirements
+All specifications typical at –40°C to 125°C, +VA = 2.7 V to 5.25 V (unless otherwise specified) (1) (2) (see Figure 1, Figure 2,
+Figure 3, and Figure 4)
+
+MIN
+
+NOM
+
+MAX
+
+UNIT
+
+tq
+
+td1
+
+tsu1
+
+td2
+
+th1
+
+td3
+
+tconv
+
+Conversion time
+
+Minimum quiet sampling time needed from bus 3-
+state to start of next conversion
+
+Delay time, CS low to first data (DO–15) out
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
+Setup time, CS low to first rising edge of SCLK
+
++VBD = 3 V
+
+Delay time, SCLK falling to SDO next data bit valid
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
+Hold time, SCLK falling to SDO data bit valid
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
+Delay time, 16th SCLK falling edge to SDO 3-state
+
++VBD = 3 V
+
+tsu2
+
+Setup time, SDI valid to rising edge of SCLK
+
+th2
+
+tw1
+
+td4
+
+twh
+
+twl
+
+Hold time, rising edge of SCLK to SDI valid
+
+Pulse duration CS high
+
+Delay time CS high to SDO 3-state
+
+Pulse duration SCLK high
+
+Pulse duration SCLK low
+
+Frequency SCLK
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
++VBD = 1.8 V
+
++VBD = 3 V
+
++VBD = 5 V
+
+40
+
+40
+
+40
+
+8
+
+6
+
+4
+
+7
+
+5
+
+3
+
+2
+
+3
+
+4
+
+12
+
+10
+
+6
+
+20
+
+20
+
+20
+
+20
+
+20
+
+20
+
+20
+
+20
+
+20
+
+16
+
+16
+
+16
+
+38
+
+27
+
+17
+
+35
+
+27
+
+17
+
+26
+
+22
+
+13
+
+24
+
+21
+
+12
+
+20
+
+20
+
+20
+
+SCLK
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+ns
+
+MHz
+
+(1) 1.8V specifications apply from 1.7 V to 1.9 V, 3 V specifications apply from 2.7 V to 3.6 V, 5 V specifications apply from 4.75 V to
+
+5.25 V.
+
+(2) With 50-pF load
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+17
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+Figure 1. Device Operation Timing Diagram
+
+Figure 2. Serial Interface Timing Diagram for 12-Bit Devices (ADS7950/51/52/53)
+
+18
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+123456141516CSSCLKSDOSDIDO-15DO-14DO-13DO-12DO-11MSBDO-10MSB-1DO-0LSBDO-1LSB+1DO-2LSB+2DI-15DI-14DI-12DI-11DI-10DI-2DI-1DI-0atd3tsu1td1th1tsu2td2th2DI-131/tThroughput (Single Frame)tqtw11357911131516357911131516112-Bit Conversion Result16-Bit I/PWord16-Bit I/PWord12-Bit Conversion ResultSamplingInstanceMux Chan ChangeMux Chan ChangeCSSCLKSDOSDIMUXAcquisitionConversionGPOGPIData Written (through SDI) in Frame nData Written (through SDI) in Frame n–1GPI status is latched in onCSfallingedge and transferred to SDO frame nTop 4 BitTop 4 BitFrame n + 1Frame nAnalog I/PSettlingAfter Chan ChangeAcquisition Phase tacqConversion PhaseConversion Phase tcnvwww.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Figure 3. Serial Interface Timing Diagram for 10-Bit Devices (ADS7954/55/56/57)
+
+Figure 4. Serial Interface Timing Diagram for 8-Bit Devices (ADS7958/59/60/61)
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+19
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+123456121316CSSCLKSDOSDIDO-15DO-14DO-13DO-12DO-11MSBDO-10MSB-1DO-0DO-3DO-4LSBDI-15DI-14DI-12DI-11DI-10DI-4DI-3DI-0atd3tsu1td1th1tsu2td2th2DI-131/tThroughput (Single Frame)tqtw1123456141516CSSCLKSDOSDIDO-15DO-14DO-13DO-12DO-11MSBDO-10MSB-1DO-0DO-1DO-2LSBDI-15DI-14DI-12DI-11DI-10DI-2DI-1DI-0atd3tsu1td1th1tsu2td2th2DI-131/tThroughput (Single Frame)tqtw1ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+7.10 Typical Characteristics (All ADS79xx Family Devices)
+
+www.ti.com
+
+Figure 5. Supply Current vs Supply Voltage
+
+Figure 6. Static Supply Current vs Supply Voltage
+
+Figure 7. Supply Current vs Free-Air Temperature
+
+Figure 8. Static Supply Current vs Free-Air Temperature
+
+Figure 9. Supply Current vs Sample Rate
+
+Figure 10. Supply Current vs Sample Rate
+
+20
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+00.511.522.502004006008001000f- Sample Rate - KSPSS5 V2.7 VNo Powerdown,T= 25°CA+VA- Supply Current - mA00.511.522.50100200300400500With Powerdown,T= 25°CA5 V2.7 V+VA- Supply Current - mAf- Sample Rate - KSPSS22.22.42.62.833.23.4-401570125T- Free-Air Temperature - °CA+VA- Supply Current - mAf= 1 MSPS,V= 5.5 VSDD1.071.0751.081.0851.091.0951.11.1051.111.115-401570125T- Free-Air Temperature - °CA+VA- Supply Current - mAV= 5.5 VDD11.522.533.52.73.44.14.85.5+VA- Supply Voltage - V+VA- Supply Current - mAf= 1 MSPS,T= 25°CSA0.911.11.21.31.41.52.73.44.14.85.5+VA- Supply Current - mA+VA- Supply Voltage - VT= 25°CAwww.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+7.11 Typical Characteristics (12-Bit Devices Only)
+Variations for 10-bit and 8-bit devices are too small to be illustrated through the characteristic curves
+
+Figure 11. Differential Nonlinearity vs Supply Voltage
+
+Figure 12. Integral Nonlinearity vs Supply Voltage
+
+Figure 13. Differential Nonlinearity vs Free-Air Temperature
+
+Figure 14. Integral Nonlinearity vs Free-Air Temperature
+
+Figure 15. Offset Error vs Supply Voltage
+
+Figure 16. Offset Error vs Interface Supply Voltage
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+21
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+00.20.40.60.811.21.41.61.822.73.44.14.85.5Offset Error - LSBs+VA- Supply Voltage - V+VBD = 1.8 V,f= 1 MSPS,T= 25°CSA00.20.40.60.811.21.41.61.821.82.32.83.33.84.34.85.5+VBD - Interace Supply - VOffset Error - LSBs+VA= 5.5 V,f= 1 MSPS,T= 25°CSA5.3-1-0.8-0.6-0.4-0.200.20.40.60.81-401570125DNLmaxDNLminT- Free-Air Temperature - °CADNL- Differential Nonlinearity - LSBs+VA= 5 V,+VBD = 5 V,f= 1 MSPSS-1-0.8-0.6-0.4-0.200.20.40.60.81-401570125INLmaxINLmin+VA= 5 V,+VBD = 5 V,f= 1 MSPSSINL- Integral Nonlinearity - LSBsT- Free-Air Temperature - °CA-1-0.8-0.6-0.4-0.200.20.40.60.812.73.23.74.24.75.2INL- Integral Nonlinearity - LSBsINLmaxINLmin+VA- Supply Voltage - Vf= 1 MSPS,T= 25°CSA-1-0.8-0.6-0.4-0.200.20.40.60.812.73.23.74.24.75.2DNL- Differential Nonlinearity - LSBsDNLmaxDNLmin5.5+VA- Supply Voltage - Vf= 1 MSPS,T= 25°CSAADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Typical Characteristics (12-Bit Devices Only) (continued)
+
+Variations for 10-bit and 8-bit devices are too small to be illustrated through the characteristic curves
+
+www.ti.com
+
+Figure 17. Gain Error vs Supply Voltage
+
+Figure 18. Gain Error vs Interface Supply Voltage
+
+Figure 19. Offset Error vs Free-Air Temperature
+
+Figure 20. Gain Error vs Free-Air Temperature
+
+Figure 21. Signal-to-Noise Ratio vs Supply Voltage
+
+Figure 22. Signal-to-Noise + Distortion vs Supply Voltage
+
+22
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+6969.57070.57171.5722.73.44.14.85.5SNR - Signal-to-Noise Ratio - dB+VA- Supply Voltage - V+VBD = 3 V,f= 1 MSPS,f= 100 kHzT= 25°CSINA6969.57070.57171.5722.73.44.14.85.5SINAD - Signal-to-Noise and Distortion - dB+VA- Supply Voltage - V+VBD = 3 V,f= 1 MSPS,f= 100 kHzT= 25°CSINA00.20.40.60.811.21.41.61.82-401570125T- Free-Air Temperature - °CAOffset Error - LSBs+VA= 5.5 V,+VBD = 1.8 V,f= 1 MSPSS00.10.20.30.40.50.60.70.80.91-401570125+VA= 5.5 V,+VBD = 1.8 V,f= 1 MSPSSGain Error - LSBsT- Free-Air Temperature - °CA-1-0.8-0.6-0.4-0.200.20.40.60.811.82.32.83.33.84.34.85.35.5+VBD - Interace Supply - VGain Error - LSBs+VA= 5.5 V,f= 1 MSPS,T= 25°CSA-1-0.8-0.6-0.4-0.200.20.40.60.812.73.44.14.85.5Gain Error - LSBs+VA- Supply Voltage - V+VBD = 1.8 V,f= 1 MSPS,T= 25°CSAwww.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Typical Characteristics (12-Bit Devices Only) (continued)
+
+Variations for 10-bit and 8-bit devices are too small to be illustrated through the characteristic curves
+
+Figure 23. Total Harmonic Distortion vs Supply Voltage
+
+Figure 24. Spurious Free Dynamic Range vs Supply Voltage
+
+Figure 25. Signal-To-Noise Ratio vs Free-Air Temperature
+
+Figure 26. Signal-to-Noise + Distortion vs Free-Air
+Temperature
+
+Figure 27. Total Harmonic Distortion vs Free-Air
+Temperature
+
+Figure 28. Spurious Free Dynamic Range vs Free-Air
+Temperature
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+23
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+8081828384858687888990-401570125SFDR - Spurious Free Dynamic Range - dBT- Free-Air Temperature - °CA+VA= 5 V+VBD = 3 V,f= 1 MSPS,f= 100 kHzSIN-90-89-88-87-86-85-84-83-82-81-80-401570125THD - Total Harmonic Distortion - dBT- Free-Air Temperature - °CA+VA= 5 V+VBD = 3 V,f= 1 MSPS,f= 100 kHzSIN6969.57070.57171.572-401570125SNR - Signal-to-Noise Ratio - dBT- Free-Air Temperature - °CA+VA= 5 V+VBD = 3 V,f= 1 MSPS,f= 100 kHzSIN6969.57070.57171.572-401570125SINAD - Signal-to-Noise and Distortion - dBT- Free-Air Temperature - °CA+VA= 5 V+VBD = 3 V,f= 1 MSPS,f= 100 kHzSIN-90-89-88-87-86-85-84-83-82-81-802.73.44.14.85.5THD - Total Harmonic Distortion -+VA- Supply Voltage - V+VBD = 3 V,f= 1 MSPS,f= 100 kHzT= 25°CSINA80818283848586878889902.73.44.14.85.5SFDR - Spurious Free Dynamic Range - dB+VA- Supply Voltage - V+VBD = 3 V,f= 1 MSPS,f= 100 kHzT= 25°CSINAADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Typical Characteristics (12-Bit Devices Only) (continued)
+
+Variations for 10-bit and 8-bit devices are too small to be illustrated through the characteristic curves
+
+www.ti.com
+
+Figure 29. Signal-to-Noise Ratio vs Input Frequency
+
+Figure 30. Signal-to-Noise + Distortion vs Input Frequency
+
+Figure 31. Total Harmonic Distortion vs Input Frequency
+
+Figure 32. Spurious Free Dynamic Range vs Input
+Frequency
+
+Figure 33. Signal-to-Noise + Distortion vs Input Frequency
+(Across Different Source Resistance Values)
+
+Figure 34. Total Harmonic Distortion vs Input Frequency
+(Across Different Source Resistance Values)
+
+24
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+-90-88-86-84-82-80-78-76-74-72-702040608010010W100W500W1000WTHD - Total Harmonic Distortion - dBf- Input Frequency - KHzIN+VA= 5 V+VBD = 5 V,f= 1 MSPS,T= 25°C,Buffer Between MXO andAINPSA6969.57070.57171.5722040608010010Wf- Input Frequency - KHzINSINAD - Signal-to-Noise and Distortion - dB100W500W1000W+VA= 5 V+VBD = 5 V,f= 1 MSPS,T= 25°C,Buffer Between MXO andAINPSA-90-88-86-84-82-80-78-76-74-72-701030507090110130150f- Input Frequency - KHzINTHD - Total Harmonic Distortion - dB+VA= 5 V+VBD = 3 V,f= 1 MSPS,T= 25°C,MXO Shorted toAINPSA7075808590951001030507090110130150f- Input Frequency - KHzINSFDR - Spurious Free Dynamic Range - dB+VA= 5 V+VBD = 3 V,f= 1 MSPS,T= 25°C,MXO Shorted toAINPSA6969.57070.57171.57272.5731030507090110130150f- Input Frequency - KHzINSNR - Signal-to-Noise Ratio - dB+VA= 5 V+VBD = 3 V,f= 1 MSPS,T= 25°C,MXO Shorted toAINPSA6969.57070.57171.57272.5731030507090110130150f- Input Frequency - KHzINSINAD - Signal-to-Noise and Distortion - dB+VA= 5 V+VBD = 3 V,f= 1 MSPS,T= 25°C,MXO Shorted toAINPSAwww.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Typical Characteristics (12-Bit Devices Only) (continued)
+
+Variations for 10-bit and 8-bit devices are too small to be illustrated through the characteristic curves
+
+Figure 35. Spurious Free Dynamic Range vs Input
+Frequency (Across Different Source Resistance Values)
+
+Figure 36. Differential Nonlinearity Variation Across
+Channels
+
+Figure 37. Integral Nonlinearity Variation Across Channels
+
+Figure 38. Offset Error Variation Across Channels
+
+Figure 39. Gain Error Variation Across Channels
+
+Figure 40. Signal-to-Noise Ratio Variation Across Channels
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+25
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+00.050.10.150.20.2505101520E- Gain Error - LSBsGChannel Number+VA= 5 V,+VBD = 5 V,f= 1 MSPSS7070.57171.57272.57312345678910111213141516Channel NumberSNR - Signal-to-Noise Ratio - dB+VA= 5 V,+VBD = 5 V,f= 1 MSPSS-1-0.8-0.6-0.4-0.200.20.40.60.81051015Channel NumberINL- Integral Nonlinearity - LSBsINLmaxINLmin+VA= 5 V,+VBD = 5 V,f= 1 MSPSS00.20.40.60.811.21.41.605101520E- Offset Error - LSBsOChannel Number+VA= 5 V,+VBD = 5 V,f= 1 MSPSS707274767880828486889020406080100SFDR - Spurious Free Dynamic Range - dBf- Input Frequency - KHzIN10W1000W+VA= 5 V+VBD = 5 V,f= 1 MSPS,T= 25°C,Buffer Between MXO andAINPSA100W500W-1-0.8-0.6-0.4-0.200.20.40.60.81051015Channel NumberDNLmaxDNLminDNL- Differential Nonlinearity - LSBs+VA= 5 V,+VBD = 5 V,f= 1 MSPSSADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Typical Characteristics (12-Bit Devices Only) (continued)
+
+Variations for 10-bit and 8-bit devices are too small to be illustrated through the characteristic curves
+
+www.ti.com
+
+Figure 41. Signal-to-Noise + Distortion Variation Across
+Channels
+
+Figure 42. Crosstalk vs Input Frequency
+
+Figure 43. Input Leakage Current vs Free-Air Temperature
+
+Figure 44. Total Unadjusted Error (TUE Maximum)
+
+Figure 45. Total Unadjusted Error (TUE Minimum)
+
+26
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+0510152025-1.75-1.5-1.25-1-0.75-0.5-0.2500.250.50.751TUE Min- LSBNumber of Devices05101520250.250.50.7511.251.51.752TUE Max - LSBNumber of Devices0102030405060708090100-40-25-105203550658095110125AINP- Leakage Current - nAV= 1.25 VIT- Free-Air Temperature - °CAV= 2.5 VIV= 0 VI+VA= 5 V,+VBD = 5 V020406080100120050100150200250Crosstalk - dBMemoryIsolationf- Input Frequency - KHzIN+VA= 5 V,+VBD = 5 V,f= 1 MSPS,CH0, CH1S7070.57171.57272.57312345678910111213141516Channel NumberSINAD - Signal-to-Noise and Distortion - dB+VA= 5 V,+VBD = 5 V,f= 1 MSPSSwww.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+7.12 Typical Characteristics (12-Bit Devices Only)
+
+Figure 46. Typical DNL for All Codes
+
+Figure 47. Typical INL for All Codes
+
+Figure 48. Typical FFT Plot
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+27
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+0100000200000300000400000500000f - Frequency - HzAmplitude - dB-160-140-120-100-80-60-40-200FFT+VA= 5 V+VBD = 5 V,f= 1 MSPS,Sf= 100 kHzINNpoints = 16384-1-0.8-0.6-0.4-0.200.20.40.60.8101024204830724096CodeDNL- LSBsDNL+VA= 5 V+VBD = 5 V,f= 1 MSPS,ST= 25°CA-1-0.8-0.6-0.4-0.200.20.40.60.8101024204830724096CodeINL- LSBsINL+VA= 5 V+VBD = 5 V,f= 1 MSPSSADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+8 Detailed Description
+
+8.1 Overview
+
+The ADS7950 to ADS7961 are 12-, 10-, 8-bit multichannel pin-compatible devices. The ADS79xx is a family of
+12-, 10-, 8-bit, high-speed, low-power, successive approximation register (SAR) analog-to-digital converter (ADC)
+that uses an external reference. The architecture is based on charge redistribution, which inherently includes a
+sample/hold function. The analog inputs to the ADS79xx are provided to CHX input channels. All input channels
+share a common analog ground AGND. ADS79xx has multiplexer breakout feature which allows user to connect
+the signal conditioning circuit between multiplexer output (MXO) and ADC input (AINP). This feature enables use
+of common signal conditioning block for the input signal which exhibit similar performance characteristics.
+ADS79xx can be programmed to select a channel manually or can be programmed into the auto channel select
+mode to sweep through the input channels automatically
+
+Figure 1, Figure 2, Figure 3, and Figure 4 show device operation timing. Device operation is controlled with CS,
+SCLK, and SDI. The device outputs its data on SDO.
+
+Each frame begins with the falling edge of CS. With the falling edge of CS, the input signal from the selected
+channel is sampled, and the conversion process is initiated. The device outputs data while the conversion is in
+progress. The 16-bit data word contains a 4-bit channel address, followed by a 12-bit conversion result in MSB
+first format. There is an option to read the GPIO status instead of the channel address. (Refer to Table 1,
+Table 2, and Table 5 for more details.)
+
+The device selects a new multiplexer channel on the second SCLK falling edge. The acquisition phase starts on
+the fourteenth SCLK rising edge. On the next CS falling edge the acquisition phase will end, and the device
+starts a new frame.
+
+The TSSOP packaged devices have four General Purpose IO (GPIO) pins while QFN versions have only one
+GPIO. These four pins can be individually programmed as GPO or GPI. It is also possible to use them for
+preassigned functions, refer to Table 11. GPO data can be written into the device through the SDI line. The
+device refreshes the GPO data on the CS falling edge as per the SDI data written in previous frame.
+
+Similarly the device latches GPI status on the CS falling edge and outputs the GPI data on the SDO line (if GPI
+read is enabled by writing DI04=1 in the previous frame) in the same frame starting with the CS falling edge.
+
+The falling edge of CS clocks out DO15 (first bit of the four bit channel address), and remaining address bits are
+clocked out on every falling edge of SCLK until the third falling edge. The conversion result MSB is clocked out
+on the 4th SCLK falling edge and LSB on the 15th/13th/11th falling edge respectively for 12/10/8-bit devices. On
+the 16th falling edge of SCLK, SDO goes to the 3-state condition. The conversion ends on the 16th falling edge
+of SCLK. CS can be asserted (pulled high) only after 16 clocks have elapsed
+
+The device reads a sixteen bit word on the SDI pin while it outputs the data on the SDO pin. SDI data is latched
+on every rising edge of SCLK starting with the 1st clock as shown in Figure 2, Figure 3, and Figure 4.
+
+CS can be asserted (pulled high) only after 16 clocks have elapsed.
+
+The device has two (high and low) programmable alarm thresholds per channel. If the input crosses these limits;
+the device flags out an alarm on GPIO0/GPIO1 depending on the GPIO program register settings (refer to
+Table 11). The alarm is asserted (under the alarm conditions) on the 12th falling edge of SCLK in the same
+frame when a data conversion is in progress. The alarm output is reset on the 10th falling edge of SCLK in the
+next frame.
+
+The device offers a power-down feature to save power when not in use. There are two ways to powerdown the
+device. It can be powered down by writing DI05 = 1 in the mode control register (refer to Table 1, Table 2, and
+Table 5); in this case the device powers down on the 16th falling edge of SCLK in the next data frame. Another
+way to powerdown the device is through GPIO in the case of the TSSOP packaged devices. GPIO3 can act as
+the PD input (refer to Table 11 to assign this functionality to GPIO3). This is an asynchronous and active low
+input. The device powers down instantaneously after GPIO3 (PD) = 0. The device will power up again on the CS
+falling edge with DI05 = 0 in the mode control register and GPIO3 (PD) = 1.
+
+28
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+8.2 Functional Block Diagram
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+NOTE: n* is number of channels (16,12,8, or 4) depending on the device from the ADS79xx product family.
+
+NOTE: There are 4 GPIOs in the TSSOP package and 1 GPIO in the QFN package..
+
+8.3 Feature Description
+
+8.3.1 Reference
+
+The ADS79xx can operate with an external 2.5-V ± 10-mV reference. A clean,
+low noise, well-decoupled
+reference voltage on the REFP pin is required to ensure good performance of the converter. A low noise band-
+gap reference like the REF5025 can be used to drive this pin. A 10-μF ceramic decoupling capacitor is required
+between the REFP and REFM pins of the converter. The capacitor should be placed as close as possible to the
+pins of the device.
+
+8.3.2 Power Saving
+
+The ADS79xx devices offer a power-down feature to save power when not in use. There are two ways to power
+down the device. It can be powered down by writing DI05 = 1 in the Mode Control register (refer to Table 1,
+Table 2 and Table 5); in this case the device powers down on the 16th falling edge of SCLK in the next data
+frame. Another way to powerdown the device is through GPIO. GPIO3 can act as a PD input (refer to Table 11,
+for assigning this functionality to GPIO3). This is an asynchronous and active low input. The device powers down
+instantaneously after GPIO3 (PD) = 0. The device will powerup again on the CS falling edge while DI05 = 0 in
+the Mode Control register and GPIO3 (PD) = 1.
+
+8.4 Device Functional Modes
+
+8.4.1 Channel Sequencing Modes
+
+There are three modes for channel sequencing, namely Manual mode, Auto-1 mode, Auto-2 mode. Mode
+selection is done by writing into the Mode Control Register (refer to Table 1, Table 2, and Table 5). A new
+multiplexer channel is selected on the second falling edge of SCLK (as shown in Figure 1) in all three modes.
+
+Manual mode: When configured to operate in Manual mode, the next channel to be selected is programmed in
+each frame and the device selects the programmed channel in the next frame. On powerup or after reset the
+default channel is 'Channel-0' and the device is in Manual mode.
+
+Auto-1 mode: In this mode the device scans pre-programmed channels in ascending order. A new multiplexer
+channel is selected every frame on the second falling edge of SCLK. There is a separate Program Register for
+pre-programming the channel sequence. Table 3 and Table 4 show Auto-1 ‘program register’ settings.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+29
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+CompareAlarmThresholdControl Logic&SequencingSDISCLKCSSDOMXOAINPREFADCGPIOBDGNDVBD+VAAGNDCh0Ch1Ch2Ch n*ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Device Functional Modes (continued)
+
+www.ti.com
+
+Once programmed the device retains ‘Program Register settings until the device is powered down, reset, or
+reprogrammed. It is allowed to exit and re-enter the Auto-1 mode any number of times without disturbing
+‘program register’ settings.
+
+The Auto-1 program register is reset to FFFF/FFF/FF/F hex for the 16-, 12-, 8-, 4 channel devices respectively
+upon device powerup or reset; implying the device scans all channels in ascending order.
+
+Auto-2 mode: In this mode the user can configure the program register to select the last channel in the scan
+sequence. The device scans all channels from channel 0 up to and including the last channel in ascending order.
+The multiplexer channel
+is selected every frame on the second falling edge of SCLK. There is a separate
+‘program register’ for pre-programming of the last channel in the sequence (multiplexer depth). Table 6 lists the
+‘Auto-2 prog’ register settings for selection of the last channel in the sequence.
+
+Once programmed the device retains program register settings until the device is powered down, reset, or
+reprogrammed. It is allowed to exit and re-enter Auto-2 mode any number of times, without disturbing the
+‘program register’ settings.
+
+On powerup or reset the bits D9-D6 of the Auto-2 program register are reset to F/B/7/3 hex for the 16/12/8/4
+channel devices respectively; implying the device scans all channels in ascending order.
+
+8.4.2 Device Programming and Mode Control
+
+The following section describes device programming and mode control. These devices feature two types of
+registers to configure and operate the devices in different modes. These registers are referred as ‘Configuration
+Registers’. There are two types of ‘Configuration Registers’ namely ‘Mode Control Registers’ and ‘Program
+Registers’.
+
+8.4.2.1 Mode Control Register
+
+A ‘Mode Control Register’ is configured to operate the device in one of three channel sequencing modes, namely
+Manual mode, Auto-1 Mode, Auto-2 Mode. It is also used to control user programmable features like range
+selection, device power-down control, GPIO read control, and writing output data into the GPIO.
+
+8.4.2.2 Program Registers
+
+The 'Program Registers’ are used for device configuration settings and are typically programmed once on
+powerup or after device reset. There are different program registers such as ‘Auto-1 mode programming’ for pre-
+programming the channel sequence,
+in the
+sequence, ‘Alarm programming’ for all 16 channels (or 12, 8, 4 channels depending on the device) and GPIO for
+individual pin configuration as GPI or GPO or a pre-assigned function.
+
+‘Auto-2 mode programming’
+
+the last channel
+
+for selection of
+
+8.4.3 Device Power-Up Sequence
+
+The device power-up sequence is shown in Figure 49. By default, the Mode Control Register is configured for
+manual mode and the default channel
+is channel 0. As explained previously, these devices offer Program
+Registers to configure user programmable features like GPIOs, Alarms, and to pre-program the channel
+sequence for Auto modes. At ‘power up or on reset’ these registers are set to the default values listed in Table 1
+to Table 11. On power up or after reset It is required to program Mode Control Register and Program Register to
+required mode of operation. Once configured; the device is ready to use in any of the three channel sequencing
+modes namely Manual, Auto-1, and Auto-2.
+
+30
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+Device Functional Modes (continued)
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+(1) The device continues its operation in manual mode channel 0 throughout the programming sequence and outputs
+valid conversion results. It is possible to change channel, range, GPIO by inserting extra frames in between two
+programming blocks. It is also possible to bypass any programming block if the user does not intend to use that
+feature.
+
+(2)
+
+It is possible to reprogram the device at any time during operation, regardless of what mode the device is in. During
+programming the device continues its operation in whatever mode it is in and outputs valid data.
+
+Figure 49. Device Power-Up Sequence
+
+8.4.4 Operating in Manual Mode
+
+The flowchart in Figure 50 illustrates the steps involved in operating in manual channel sequencing mode.
+Table 1 lists the mode control register settings for manual mode. There are no program registers in manual
+mode.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+31
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Device power up or resetDevice operation in manual mode, Channel 0;SDO Invalid in first frameCSFirst frameCSCSCSCSOperation in manual modeCSCSCSAuto 1 register program (note 1)Auto 2 register program (note 1)Alarm register program (note 1)GPIO register program (note 1)Operation inAuto 1 modeOperation inAuto 2 modeADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Device Functional Modes (continued)
+
+www.ti.com
+
+Figure 50. Entering and Running in Manual Channel Sequencing Mode
+
+32
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Device operation inAuto1orAuto2modeChange to Manual mode?*Sample:Samples and converts channel selected in‘frame n-1’*Mux:Selects channel incremented from previous frame as per auto sequence this channel will beacquired in this frame and sampled at start of‘frame n+1’*Range:As programmed in‘frame n-1’.Applies to channel selected for acquisition in current frame.*SDI:Programming for‘frame n+1’DI15..12=0001binary….Selects manual modeDI11=1enables programming of‘range and GPIO’DI10..7=binary address of channelDI6..As per required range for channel to be selectedDI5=0..No power downDI4..0…as per GPIO settings*SDO:DO15..0address(or GPIO data)&conversion data of channel selected in‘frame n-1’*GPIO:O/P:latched onCSfalling edge as per DI3..0written in frame n-1’I/P:Input status latched on falling edge ofCSand transferred serially on SDO in the sameframeNoYesCSCSContinue operationinmanual modeCSFrame:n-1Frame:nRequestfor Manualmode*Sample:Samples and converts channel selected in‘frame n’*Mux:Selects channel programmed in‘frame n’(Manual mode)this channel will be acquired in thisframe and sampled at start of‘frame n+2’*Range:As programmed in‘frame n’.Applies to channel selected for acquisition in current frame.*SDI:Programming for‘frame n+2’DI15..12=0001binary….To continue in manual modeDI11=1enables programming of‘range and GPIO’DI10..7=binary address of channelDI6..As per required range for channel to be selectedDI5=0..No power downDI4..0…as per GPIO settings*SDO:DO15..0address(or GPIO data)&conversion data of channel selected in‘frame n’*GPIO:O/P:latched onCSfalling edge as per DI3..0written in frame‘n’I/P:Input status latched on falling edge ofCSand transferred serially on SDO in the sameframeCSFrame:n+1Entry intoManualMode*Sample:Samples and converts channel selected in‘frame n+1’*Mux:Selects channel programmed in‘frame n+1’(Manual mode),this channel will be acquired inthis frame and sampled at start of‘frame n+3’*Range:As programmed in‘frame n+1’.Applies to channel selected for acquisition in current frame.*SDI:Programming for‘frame n+3’DI15..12=0001binary….Selects manual modeDI11=1enables programming of‘range and GPIO’DI10..7=binary address of channelDI6..As per required range for channel to be selectedDI5=0..No power downDI4..0…as per GPIO settings*SDO:DO15..0address(or GPIO data)&conversion data of channel selected in‘frame n+1’*GPIO:O/P:latched onCSfalling edge as per DI3..0written in frame n+1’I/P:Input status latched on falling edge ofCSand transferred serially on SDO in the sameframeCSFrame:n+2Operationin Manualmodewww.ti.com
+
+Device Functional Modes (continued)
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Figure 51 shows an example in which manual mode is used to scan channels 4, 7, and 9. The command to
+select channel 4 (CH4) is issued in the Nth frame and the data corresponding to CH4 is available in the (N + 2)th
+frame. Internally, the SDI command is parsed and on the rising edge of CS of the (N+1)th frame and the MUX
+switches accordingly on the second falling edge of SCLK in this frame. On the rising edge of CS of the (N+2)th
+frame, the input signal for CH4 is sampled and the ADC sends the conversion data in this third frame. The
+device follows the same steps and the ADC sends the conversion data for CH7 and CH9 in the subsequent two
+frames.
+
+Figure 51. Example Manual Mode Timing Diagram
+
+Table 1. Mode Control Register Settings for Manual Mode
+
+BITS
+
+RESET
+STATE
+
+LOGIC
+STATE
+
+FUNCTION
+
+DI15-12
+
+0001
+
+0001
+
+Selects Manual Mode
+
+DI11
+
+0
+
+1
+
+0
+
+Enables programming of bits DI06-00.
+
+Device retains values of DI06-00 from the previous frame.
+
+DI10-07
+
+0000
+
+This four bit data represents the address of the next channel to be selected in the next frame. DI10: MSB and
+DI07: LSB. For example, 0000 represents channel- 0, 0001 represents channel-1 and so forth.
+
+DI06
+
+DI05
+
+DI04
+
+0
+
+0
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+Selects 0 to VREF input range (Range 1)
+Selects 0 to 2xVREF input range (Range 2)
+Device normal operation (no powerdown)
+
+Device powers down on 16th SCLK falling edge
+
+SDO outputs current channel address of the channel on DO15..12 followed by 12 bit conversion
+result on DO11..00.
+
+GPIO3-GPIO0 data (both input and output) is mapped onto DO15-DO12 in the order shown below.
+Lower data bits DO11-DO00 represent 12-bit conversion result of the current channel.
+
+DOI5
+GPIO3 (1)
+
+DOI4
+GPIO2 (1)
+
+DOI3
+GPIO1 (1)
+
+DOI2
+GPIO0 (1)
+
+DI03-00
+
+0000
+
+GPIO data for the channels configured as output. Device will ignore the data for the channel which is configured
+as input. SDI bit and corresponding GPIO information is given below
+
+DI03
+GPIO3 (1)
+
+DI02
+GPIO2 (1)
+
+DI01
+GPIO1 (1)
+
+DI00
+GPIO0 (1)
+
+(1) GPIO 1 to 3 are available only in TSSOP packaged devices. QFN device offers GPIO 0 only.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+33
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+CSSample CHxSampleCHySCLKSampleCH4SampleCH7Data CHxData CHyData CH4SDOtCYCLESelect CH4Select CH7Select CH9SDIFrame NFrame (N + 1)Frame (N + 2)ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+8.4.5 Operating in Auto-1 Mode
+
+www.ti.com
+
+Figure 52 illustrates the steps involved in entering and operating in Auto-1 Channel Sequencing mode. Table 2
+lists the Mode Control Register settings for Auto-1 mode.
+
+Figure 52. Entering and Running in Auto-1 Channel Sequencing Mode
+
+34
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+DeviceoperationinManualorAuto-2modeChangetoAuto-1mode?*Sample:Samples and converts channel selected in‘frame n-1’*Mux:Selects channel incremented from previous frame as perAuto-2sequence,or channelprogrammed in previous frame in case of manual mode.This channel will be acquired in this frameand sampled at start of‘frame n+1’*Range:As programmed in‘frame n-1’.Applies to channel selected for acquisition in current frame.*SDI:Programming for‘frame n+1’DI15..12=0010binary….SelectsAuto-1modeDI11=1enables programming of‘range and GPIO’DI10=x,Device automatically resets channel to lowest number inAuto-1sequence.DI6..As per required range for channel to be selectedDI5=0..No power downDI4..0…as per GPIO settings*SDO:DO15..0address(or GPIO data)&conversion data of channel selected in‘frame n-1’*GPIO:O/P:latched onCSfalling edge as per DI3..0written in frame n-1’I/P:Input status latched on falling edge ofCSand transferred serially on SDO in the sameframeNoYesCSCSContinueoperationinAuto-1modeCSFrame:n-1Frame:nRequestforAuto-1mode*Sample:Samples and converts channel selected in‘frame n’*Mux:Selects lowest channel#inAuto-1sequence;this channel will be acquired in this frame andsampled at start of‘frame n+2’*Range:As programmed in‘frame n’.Applies to channel selected for acquisition in current frame.*SDI:Programming for‘frame n+2’DI15..12=0010binary….To continue inAuto-1modeDI11=1enables programming of‘range and GPIO’DI10=0,not to reset channel sequenceDI6..As per required range for channel to be selectedDI5=0..No power downDI4..0…as per GPIO settings*SDO:DO15..0address(or GPIO data)&conversion data of channel selected in‘frame n’*GPIO:O/P:latched onCSfalling edge as per DI3..0written in frame‘n’I/P:Input status latched on falling edge ofCSand transferred serially on SDO in the sameframeCSFrame:n+1Entry intoAuto-1Mode*Sample:Samples and converts channel selected in‘frame n+1’(ie.Lowest channel#inAuto-1sequence)*Mux:Selects next higher channel inAuto-1sequence,this channel will be acquired in this frameand sampled at start of‘frame n+3’*Range:As programmed in‘frame n+1’.Applies to channel selected for acquisition in current frame.*SDI:Programming for‘frame n+3’DI15..12=0010binary….To continue inAuto-1modeDI11=1enables programming of‘range and GPIO’DI10=0not to reset channel sequenceDI6..As per required range for channel to be selectedDI5=0..No power downDI4..0…as per GPIO settings*SDO:DO15..0address(or GPIO data)&conversion data of channel selected in‘frame n+1’*GPIO:O/P:latched onCSfalling edge as per DI3..0written in frame n+1’I/P:Input status latched on falling edge ofCSand transferred serially on SDO in the sameframeCSFrame:n+2OperationinAuto-1modewww.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Consider a case where Auto-1 mode is selected to scan channels 2 (CH2), 5 (CH5), and 6 (CH6) as represented
+in Figure 53. The program register for Auto-1 mode must be programmed as described in Figure 53 before
+entering into this auto sequencing mode. The device enters into Auto-1 mode on receiving the Auto-1 mode
+command in the Nth frame. This step causes the device to find the first enabled channel in ascending order and
+switch the MUX for CH2 in the (N+1)th frame. In the (N+2)th frame, the ADC samples the signal on CH2, shifts
+out the conversion results, and the MUX also internally switches to CH5. In the (N+3)th frame, the ADC samples
+and shifts out the conversion result for CH5 and the MUX also internally switches to CH6. This process repeats
+until the last enabled channel is reached, in which case the process loops back to the first enabled channel.
+Entering Auto-1 mode from any other mode also causes the device to restart from the first enabled channel.
+However, modifying the contents of the Auto-1 mode program register while operating in Auto-1 mode causes
+the device to scan for the next enabled channel.
+
+Figure 53. Example Auto-1 Mode Timing Diagram
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+35
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+CSSampleCHySCLKSampleCH2SampleCH5Data CHxData CHyData CH2SDOtCYCLEAUTO-1 StartSDIScan channels CH2 , CH5 and CH6 Data CH5SampleCH6Data CH6AUTO-1AUTO-1AUTO1AUTO-1Frame NFrame (N + 1)Frame (N + 2)Frame (N + 3)ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+Table 2. Mode Control Register Settings for Auto-1 Mode
+
+BITS
+
+RESET
+STATE
+
+LOGIC
+STATE
+
+DI15-12
+
+0001
+
+0010
+
+Selects Auto-1 Mode
+
+FUNCTION
+
+DI11
+
+DI10
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+Enables programming of bits DI10-00.
+
+Device retains values of DI10-00 from previous frame.
+
+The channel counter is reset to the lowest programmed channel in the Auto-1 Program Register
+
+The channel counter increments every conversion (No reset)
+
+DI09-07
+
+000
+
+xxx
+
+Do not care
+
+DI06
+
+DI05
+
+DI04
+
+0
+
+0
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+Selects 0 to VREF input range (Range 1)
+Selects 0 to 2xVREF input range (Range 2)
+Device normal operation (no powerdown)
+
+Device powers down on the 16th SCLK falling edge
+
+SDO outputs current channel address of the channel on DO15..12 followed by 12-bit conversion
+result on DO11..00.
+
+GPIO3-GPIO0 data (both input and output) is mapped onto DO15-DO12 in the order shown below.
+Lower data bits DO11-DO00 represent 12-bit conversion result of the current channel.
+
+DO15
+GPIO3 (1)
+
+DO14
+GPIO2 (1)
+
+DO13
+GPIO1 (1)
+
+DO12
+GPIO0 (1)
+
+DI03-00
+
+0000
+
+GPIO data for the channels configured as output. Device will ignore the data for the channel which is configured
+as input. SDI bit and corresponding GPIO information is given below
+
+DI03
+GPIO3 (1)
+
+DI02
+GPIO2 (1)
+
+DI01
+GPIO1 (1)
+
+DI00
+GPIO0 (1)
+
+(1) GPIO 1 to 3 are available only in TSSOP packaged devices. QFN device offers GPIO 0 only.
+
+36
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+The Auto-1 Program Register is programmed (once on powerup or reset) to pre-select the channels for the Auto-
+1 sequence. Auto-1 Program Register programming requires two CS frames for complete programming. In the
+first CS frame the device enters the Auto-1 register programming sequence and in the second frame it programs
+the Auto-1 Program Register. Refer to Table 2, Table 3, and Table 4 for complete details.
+
+NOTE: The device continues its operation in selected mode during programming. SDO is valid, however it is not possible to
+
+change the range or write GPIO data into the device during programming.
+
+Figure 54. Auto-1 Register Programming Flowchart
+
+Table 3. Program Register Settings for Auto-1 Mode
+
+RESET
+STATE
+
+LOGIC STATE
+
+NA
+
+NA
+
+1000
+
+Do not care
+
+BITS
+
+FRAME 1
+
+DI15-12
+
+DI11-00
+
+FRAME 2
+
+DI15-00
+
+All 1s
+
+1 (individual bit)
+
+FUNCTION
+
+Device enters Auto-1 program sequence. Device programming is done in the next frame.
+
+A particular channel is programmed to be selected in the channel scanning sequence. The
+channel numbers are mapped one-to-one with respect to the SDI bits; for example,
+DI15 → Ch15, DI14 → Ch14 … DI00 → Ch00
+
+0 (individual bit)
+
+A particular channel is programmed to be skipped in the channel scanning sequence. The
+channel numbers are mapped one-to-one with respect to the SDI bits; for example
+DI15 → Ch15, DI14 → Ch14 … DI00 → Ch00
+
+Table 4. Mapping of Channels to SDI Bits for 16, 12, 8, 4 Channel Devices
+
+Device (1)
+
+SDI BITS
+
+DI15 DI14 DI13 DI12
+
+DI11
+
+DI10
+
+DI09
+
+DI08
+
+DI07
+
+DI06
+
+DI05
+
+DI04
+
+DI03
+
+DI02
+
+DI01
+
+DI00
+
+16 Chan
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+12 Chan
+
+8 Chan
+
+4 Chan
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+X
+
+1/0
+
+1/0
+
+X
+
+X
+
+1/0
+
+1/0
+
+X
+
+X
+
+1/0
+
+1/0
+
+X
+
+X
+
+1/0
+
+1/0
+
+X
+
+X
+
+1/0
+
+1/0
+
+1/0
+
+X
+
+1/0
+
+1/0
+
+1/0
+
+X
+
+1/0
+
+1/0
+
+1/0
+
+X
+
+1/0
+
+1/0
+
+1/0
+
+X
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+1/0
+
+(1) When operating in Auto-1 mode, the device only scans the channels programmed to be selected.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+37
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Device in any operation modeYesNoCSCSEntry intoAuto1registerprogrammingsequenceCSAuto1registerprogrammingProgramAuto 1 register?SDI: DI15..12 = 1000(Device entersAuto 1 programming sequence)SDI: DI15..0 as per tables 4,5End ofAuto 1 register programmingADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+8.4.6 Operating in Auto-2 Mode
+
+www.ti.com
+
+Figure 55 illustrates the steps involved in entering and operating in Auto-2 channel sequencing mode. Table 5
+lists the mode control register settings for Auto-2 mode.
+
+Figure 55. Entering and Running in Auto-2 Channel Sequencing Mode
+
+38
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Device operation in Manual orAuto-1modeChange toAuto-2mode?*Sample:Samplesand convertschannelselected in‘frame n-1’*Mux:Selectschannelincrementedfrom previousframe asperAuto-1sequence,or channelprogrammed in previousframe in case of manual mode..Thischannelwill be acquiredin thisframeand sampledat startof‘frame n+1’*Range:Asprogrammed in‘frame n-1’.Appliesto channelselected for acquisition in currentframe.*SDI:Programming for‘frame n+1’DI15..12=0011binary….SelectsAuto-2modeDI11=1enablesprogramming of‘range and GPIO’DI10=x,Device automaticallyresetsto channel0.DI6..Asper required range for channelto be selectedDI5=0..No power downDI4..0…asper GPIO settings*SDO:DO15..0address(or GPIO data)&conversiondata of channelselected in‘frame n-1’*GPIO:O/P:latchedonCSfalling edge asper DI3..0written in frame n-1’I/P:Input statuslatchedon falling edge ofCSand transferredseriallyon SDO in the sameframeNoYesCSCSContinue operation inAuto-2modeCSFrame:n-1Frame:nRequestforAuto-2mode*Sample:Samplesand convertschannelselected in‘frame n’*Mux:Selectschannel0(Auto-2sequence alwaysstartswith Ch-0);thischannelwill be acquiredin thisframe and sampledat startof‘frame n+2’*Range:Asprogrammed in‘frame n’.Appliesto channelselected for acquisition in currentframe.*SDI:Programming for‘frame n+2’DI15..12=0011binary….To continueinAuto-2modeDI11=1enablesprogramming of‘range and GPIO’DI10=0,not to resetchannelsequenceDI6..Asper required range for channelto be selectedDI5=0..No power downDI4..0…asper GPIO settings*SDO:DO15..0address(or GPIO data)&conversiondata of channelselected in‘frame n’*GPIO:O/P:latchedonCSfalling edge asper DI3..0written in frame‘n’I/P:Input statuslatchedon falling edge ofCSand transferredseriallyon SDO in the sameframeCSFrame:n+1EntryintoAuto-2Mode*Sample:Samplesand convertschannel0*Mux:Selectsnexthigher channelinAuto-2sequence,thischannelwill be acquiredin thisframeand sampledat startof‘frame n+3’*Range:Asprogrammed in‘frame n+1’.Appliesto channelselected for acquisition in currentframe.*SDI:Programming for‘frame n+3’DI15..12=0011binary….To continueinAuto-2modeDI11=1enablesprogramming of‘range and GPIO’DI10=0not to resetchannelsequenceDI6..Asper required range for channelto be selectedDI5=0..No power downDI4..0…asper GPIO settings*SDO:DO15..0address(or GPIO data)&conversiondata of channelselected in‘frame n+1’*GPIO:O/P:latchedonCSfalling edge asper DI3..0written in frame n+1’I/P:Input statuslatchedon falling edge ofCSand transferredseriallyon SDO in the sameframeCSFrame:n+2OperationinAuto-2modewww.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Figure 56 shows an example in which Auto-2 mode is used to scan channels 0, 1, and 2. Auto-2 mode is
+selected to scan all channels until channel 2 (CH2) in ascending order by programming the Auto-2 register as
+described in Figure 56. The device enters Auto-2 mode on receiving the Auto-2 mode command in the Nth
+frame. This step causes the MUX to switch to CH0 in the (N+1)th frame. In the (N+2)th frame, the ADC samples
+and shifts out the conversion results for CH0 because the MUX internally switches to CH1. In the (N+3)th frame,
+the ADC samples and the shifts out the conversion result for CH1 and the MUX also switches to CH2, and so on.
+When this process reaches the maximum selected channel, CH2 in this case, the device returns to CH0 and
+repeats the cycle as long as the device remains in Auto-2 mode. Entering Auto-2 mode from any other mode
+also causes the device to restart from CH0. Additionally, modifying the contents of the for Auto-2 program
+register while operating in Auto-2 also causes the device to scan for restart from CH0.
+
+Figure 56. Example Auto-2 Mode Timing Diagram
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+39
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+CSSampleCHySCLKSampleCH0SampleCH1Data CHxData CHyData CH0SDOtCYCLEAUTO-2 StartSDIScan channels CH0 ,CH1 and CH2 Data CH1SampleCH2Data CH2AUTO-2AUTO-2AUTO2AUTO-2Frame NFrame (N + 1)Frame (N + 2)Frame (N + 3)ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+Table 5. Mode Control Register Settings for Auto-2 Mode
+
+BITS
+
+RESET
+STATE
+
+LOGIC
+STATE
+
+DI15-12
+
+0001
+
+0011
+
+Selects Auto-2 Mode
+
+FUNCTION
+
+DI11
+
+DI10
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+Enables programming of bits DI10-00.
+
+Device retains values of DI10-00 from the previous frame.
+
+Channel number is reset to Ch-00.
+
+Channel counter increments every conversion.(No reset).
+
+DI09-07
+
+000
+
+xxx
+
+Do not care
+
+DI06
+
+DI05
+
+DI04
+
+0
+
+0
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+Selects VREF i/p range (Range 1)
+Selects 2xVREF i/p range (Range 2)
+Device normal operation (no powerdown)
+
+Device powers down on the 16th SCLK falling edge
+
+SDO outputs the current channel address of the channel on DO15..12 followed by the 12-bit
+conversion result on DO11..00.
+
+GPIO3-GPIO0 data (both input and output) is mapped onto DO15-DO12 in the order shown below.
+Lower data bits DO11-DO00 represent the 12-bit conversion result of the current channel.
+
+DO15
+GPIO3 (1)
+
+DO14
+GPIO2 (1)
+
+DO13
+GPIO1 (1)
+
+DO12
+GPIO0 (1)
+
+DI03-00
+
+0000
+
+GPIO data for the channels configured as output. Device ignores data for the channel which is configured as
+input. SDI bit and corresponding GPIO information is given below
+
+DI03
+GPIO3 (1)
+
+DI02
+GPIO2 (1)
+
+DI01
+GPIO1 (1)
+
+DI00
+GPIO0 (1)
+
+(1) GPIO 1 to 3 are available only in TSSOP packaged devices. QFN device offers GPIO 0 only.
+
+The Auto-2 Program Register is programmed (once on powerup or reset) to pre-select the last channel (or
+sequence depth) in the Auto-2 sequence. Unlike Auto-1 Program Register programming, Auto-2 Program
+Register programming requires only 1 CS frame for complete programming. See Figure 57 and Table 6 for
+complete details.
+
+NOTE: The device continues its operation in the selected mode during programming. SDO is valid, however it is not possible
+
+to change the range or write GPIO data into the device during programming.
+
+Figure 57. Auto-2 Register Programming Flowchart
+
+40
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Device in any operation modeYesNoCSCSAuto2registerprogrammingProgramAuto 2 register?SDI: Di15..12 = 1001DI9..6 = binary address of last channel in the sequencerefer tables 6End ofAuto 2 register programmingwww.ti.com
+
+BITS
+
+DI15-12
+
+DI11-10
+
+DI09-06
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Table 6. Program Register Settings for Auto-2 Mode
+
+RESET
+STATE
+
+LOGIC
+STATE
+
+FUNCTION
+
+NA
+
+NA
+
+NA
+
+1001
+
+Auto-2 program register is selected for programming
+
+Do not care
+
+aaaa
+
+This 4-bit data represents the address of the last channel in the scanning sequence. During device
+operation in Auto-2 mode, the channel counter starts at CH-00 and increments every frame until it
+equals “aaaa”. The channel counter roles over to CH-00 in the next frame.
+
+DI05-00
+
+NA
+
+Do not care
+
+8.4.7 Continued Operation in a Selected Mode
+
+Once a device is programmed to operate in one of the modes, the user may want to continue operating in the
+same mode. Mode Control Register settings to continue operating in a selected mode are detailed in Table 7.
+
+BITS
+
+RESET
+STATE
+
+LOGIC
+STATE
+
+DI15-12
+
+0001
+
+0000
+
+Table 7. Continued Operation in a Selected Mode
+
+FUNCTION
+
+The device continues to operate in the selected mode. In Auto-1 and Auto-2 modes the channel
+counter increments normally, whereas in the Manual mode it continues with the last selected
+channel. The device ignores data on DI11-DI00 and continues operating as per the previous
+settings. This feature is provided so that SDI can be held low when no changes are required in the
+Mode Control Register settings.
+
+DI11-00
+
+All '0'
+
+Device ignores these bits when DI15-12 is set to 0000 logic state
+
+8.5 Programming
+
+8.5.1 Digital Output
+
+As discussed previously in Overview, the digital output of the ADS79xx devices is SPI compatible. The following
+tables list the output codes corresponding to various analog input voltages.
+
+Table 8. Ideal Input Voltages for 12-Bit Devices and Output Codes for 12-Bit Devices (ADS7950/51/52/53)
+
+DESCRIPTION
+
+ANALOG VALUE
+
+Full scale range
+
+Range 1 → VREF
+
+Least significant bit (LSB) VREF / 4096
+Full scale
+
+Midscale
+
+Midscale – 1 LSB
+
+Zero
+
+VREF – 1 LSB
+VREF / 2
+VREF / 2 – 1 LSB
+0 V
+
+Range 2 → 2×VREF
+2VREF / 4096
+2VREF – 1 LSB
+VREF
+VREF – 1 LSB
+0 V
+
+DIGITAL OUTPUT
+
+STRAIGHT BINARY
+
+BINARY CODE
+
+HEX CODE
+
+1111 1111 1111
+
+1000 0000 0000
+
+0111 1111 1111
+
+0000 0000 0000
+
+FFF
+
+800
+
+7FF
+
+000
+
+Table 9. Ideal Input Voltages for 10-Bit Devices and Digital Output Codes for 10-Bit Devices
+(ADS7954/55/56/57)
+
+DESCRIPTION
+
+ANALOG VALUE
+
+Full scale range
+
+Least significant bit (LSB)
+
+Full scale
+
+Midscale
+
+Midscale – 1 LSB
+
+Zero
+
+Range 1 → VREF
+VREF / 1024
+VREF – 1 LSB
+VREF / 2
+VREF / 2 – 1 LSB
+0 V
+
+Range 2 → 2×VREF
+2VREF / 1024
+2VREF – 1 LSB
+VREF
+VREF – 1 LSB
+0 V
+
+DIGITAL OUTPUT
+
+STRAIGHT BINARY
+
+BINARY CODE
+
+HEX CODE
+
+0011 1111 1111
+
+0010 0000 0000
+
+0001 1111 1111
+
+0000 0000 0000
+
+3FF
+
+200
+
+1FF
+
+000
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+41
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+Table 10. Ideal Input Voltages for 8-Bit Devices and Digital Output Codes for 8-Bit Devices
+(ADS7958/59/60/61)
+
+DESCRIPTION
+
+ANALOG VALUE
+
+Full scale range
+
+Least significant bit (LSB)
+
+Full scale
+
+Midscale
+
+Midscale – 1 LSB
+
+Zero
+
+Range 1 → VREF
+VREF / 256
+VREF – 1 LSB
+VREF / 2
+VREF / 2 – 1 LSB
+0 V
+
+Range 2 → 2×VREF
+2VREF / 256
+2VREF – 1 LSB
+VREF
+VREF – 1 LSB
+0 V
+
+DIGITAL OUTPUT
+
+STRAIGHT BINARY
+
+BINARY CODE
+
+HEX CODE
+
+1111 1111
+
+1000 0000
+
+0111 1111
+
+0000 0000
+
+FF
+
+80
+
+7F
+
+00
+
+8.5.2 GPIO Registers
+
+NOTE
+GPIO 0, 1, 2, and 3 are available in the TSSOP packages. Only GPIO 0 is available in the
+VQFN packages.
+
+The device has four general purpose input and output (GPIO) pins. Each of the four pins can be independently
+programmed as general purpose output (GPO) or general purpose input (GPI). It is also possible to use the
+GPIOs for some pre-assigned functions (refer to Table 11 for details). GPO data can be written into the device
+through the SDI line. The device refreshes the GPO data on every CS falling edge as per the SDI data written in
+the previous frame. Similarly, the device latches GPI status on the CS falling edge and outputs it on SDO (if GPI
+is read enabled by writing DI04 = 1 during the previous frame) in the same frame starting on the CS falling edge.
+
+The details regarding programming the GPIO registers are illustrated in the flowchart in Figure 58. Table 11 lists
+the details regarding GPIO Register programming settings.
+
+NOTE: The device continues its operation in selected mode during programming. SDO is valid, however it is not possible to
+
+change the range or write GPIO data into the device during programming.
+
+Figure 58. GPIO Program Register Programming Flowchart
+
+42
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Device in any operation modeProgram GPIO register?End of GPIO register programmingYesNoCSCSGPIO registerprogrammingSDI: DI15..12 = 0100Refer table 9 for DI11..00 datawww.ti.com
+
+BITS
+
+RESET
+STATE
+
+LOGIC
+STATE
+
+DI15-12 NA
+
+DI11-10
+
+DI09
+
+00
+
+0
+
+DI08
+
+DI07
+
+0
+
+0
+
+DI06-04
+
+000
+
+0100
+
+00
+
+1
+
+0
+
+1
+
+0
+
+1
+
+0
+
+000
+
+xx1
+
+010
+
+100
+
+110
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Table 11. GPIO Program Register Settings
+
+Device selects GPIO Program Registers for programming.
+
+Do not program these bits to any logic state other than ‘00’
+
+FUNCTION
+
+Device resets all registers in the next CS frame to the reset state shown in the corresponding tables (it
+also resets itself).
+
+Device normal operation
+
+Device configures GPIO3 as the device power-down input.
+
+GPIO3 remains general purpose I or O. Program 0 for QFN packaged devices.
+
+Device configures GPIO2 as device range input.
+
+GPIO2 remains general purpose I or O. Program 0 for QFN packaged devices.
+
+GPIO1 and GPIO0 remain general purpose I or O. Valid setting for QFN packaged devices.
+
+Device configures GPIO0 as ‘high or low’ alarm output. This is an active high output. GPIO1 remains
+general purpose I or O. Valid setting for QFN packaged devices.
+
+Device configures GPIO0 as high alarm output. This is an active high output. GPIO1 remains general
+purpose I or O. Valid setting for QFN packaged devices.
+
+Device configures GPIO1 as low alarm output. This is an active high output. GPIO0 remains general
+purpose I or O. Setting not allowed for QFN packaged devices.
+
+Device configures GPIO1 as low alarm output and GPIO0 as a high alarm output. These are active high
+outputs. Setting not allowed for QFN packaged devices.
+
+Note: The following settings are valid for GPIO which are not assigned a specific function through bits DI08..04
+
+DI03
+
+DI02
+
+DI01
+
+DI00
+
+0
+
+0
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+0
+
+GPIO3 pin is configured as general purpose output. Program 1 for QFN packaged devices.
+
+GPIO3 pin is configured as general purpose input. Setting not allowed for QFN packaged devices.
+
+GPIO2 pin is configured as general purpose output. Program 1 for QFN packaged devices.
+
+GPIO2 pin is configured as general purpose input. Setting not allowed for QFN packaged devices.
+
+GPIO1 pin is configured as general purpose output. Program 1 for QFN packaged devices.
+
+GPIO1 pin is configured as general purpose input. Setting not allowed for QFN packaged devices.
+
+GPIO0 pin is configured as general purpose output. Valid setting for QFN packaged devices.
+
+GPIO0 pin is configured as general purpose input. Valid setting for QFN packaged devices.
+
+8.5.3 Alarm Thresholds for GPIO Pins
+
+Each channel has two alarm program registers, one for setting the high alarm threshold and the other for setting
+the low alarm threshold. For ease of programming, two alarm programming registers per channel, corresponding
+to four consecutive channels, are assembled into one group (a total eight registers). There are four such groups
+for 16 channel devices and 3/2/1 such groups for 12/8/4 channel devices respectively. The grouping of the
+various channels for each device in the ADS79xx family is listed in Table 12. The details regarding programming
+the alarm thresholds are illustrated in the flowchart in Figure 59. Table 13 lists the details regarding the Alarm
+Program Register settings.
+
+Table 12. Grouping of Alarm Program Registers
+
+GROUP NO.
+
+REGISTERS
+
+APPLICABLE FOR DEVICE
+
+0
+
+1
+
+2
+
+3
+
+High and low alarm for channel 0, 1, 2, and 3
+
+ADS7953..50, ADS7957..54, ADS7961..58
+
+High and low alarm for channel 4, 5, 6, and 7
+
+ADS7953..51, ADS7957..55, ADS7961..59
+
+High and low alarm for channel 8, 9, 10, and 11
+
+ADS7953 and 52, ADS7957 and 56, ADS7961 and 60
+
+High and low alarm for channel 12, 13, 14, and 15
+
+ADS7953, ADS7957, ADS7961
+
+Each alarm group requires 9 CS frames for programming their respective alarm thresholds. In the first frame the
+device enters the programming sequence and in each subsequent frame it programs one of the registers from
+the group. The device offers a feature to program less than eight registers in one programming sequence. The
+device exits the alarm threshold programming sequence in the next frame after it encounters the first ‘Exit Alarm
+Program’ bit high.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+43
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+www.ti.com
+
+NOTE: The device continues its operation in selected mode during programming. SDO is valid, however it is not possible to
+
+change the range or write GPIO data into the device during programming.
+
+Figure 59. Alarm Program Register Programming Flowchart
+
+44
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Device in any operation modeProgram alarm thresholds?Program another group of four channels?End of alarm programingYesYesNoNoNoYesCSCSEntry into alarmregisterprogrammingsequenceCSAlarm registerprogrammingsequenceSDI: DI15..12 = 11XX(xx indicates group of four channels; refer table 8)Device enters alarm register programming sequenceSDI: DI15..0 as per table 8 (program alarm thresholds)DI12 = 1?www.ti.com
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+BITS
+
+RESET STATE
+
+LOGIC
+STATE
+
+FUNCTION
+
+Table 13. Alarm Program Register Settings
+
+FRAME 1
+
+DI15-12
+
+NA
+
+1100
+
+1101
+
+1110
+
+1111
+
+Device enters ‘alarm programming sequence’ for group 0
+
+Device enters ‘alarm programming sequence’ for group 1
+
+Device enters ‘alarm programming sequence’ for group 2
+
+Device enters ‘alarm programming sequence’ for group 3
+
+Note: DI15-12 = 11bb is the alarm programming request for group bb. Here ‘bb’ represents the alarm programming group number in binary
+format.
+
+DI11-14
+
+NA
+
+Do not care
+
+FRAME 2 AND ONWARDS
+
+DI15-14
+
+NA
+
+DI13
+
+NA
+
+DI12
+
+NA
+
+cc
+
+1
+
+0
+
+0
+
+1
+
+Where “cc” represents the lower two bits of the channel number in binary format. The device
+programs the alarm for the channel represented by the binary number “bbcc”. “bb” is
+programmed in the first frame.
+
+High alarm register selection
+
+Low alarm register selection
+
+Continue alarm programming sequence in next frame
+
+Exit Alarm Programming in the next frame. Note: If the alarm programming sequence is not
+terminated using this feature then the device will remain in the alarm programming sequence
+state and all SDI data will be treated as alarm thresholds.
+
+DI11-10
+
+NA
+
+xx
+
+Do not care
+
+DI09-00
+
+All ones for high
+alarm register
+and all zeros for
+low alarm register
+
+This 10-bit data represents the alarm threshold. The 10-bit alarm threshold is compared with the upper 10-bit
+word of the 12-bit conversion result. The device sets off an alarm when the conversion result is higher (High
+Alarm) or lower (Low Alarm) than this number. For 10-bit devices, all 10 bits of the conversion result are
+compared with the set threshold. For 8-bit devices, all 8 bits of the conversion result are compared with DI09
+to DI02 and DI00, 01 are 'do not care'.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+45
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+9 Application and Implementation
+
+www.ti.com
+
+Information in the following applications sections is not part of
+the TI component
+specification, and TI does not warrant its accuracy or completeness. TI’s customers are
+responsible for determining suitability of components for their purposes. Customers should
+validate and test their design implementation to confirm system functionality.
+
+NOTE
+
+9.1 Application Information
+
+In general applications, when the internal multiplexer is updated, the previously converted channel charge is
+stored in the 15-pF internal
+input capacitance that disturbs the voltage at the newly selected channel. This
+disturbance is expected to settle to 1 LSB during sampling (acquisition) time to avoid degrading converter
+input must be less than 0.5 V to prevent
+performance. The initial absolute disturbance error at the channel
+source current saturation or slewing that causes significantly long settling times. Fortunately, significantly
+reducing disturbance error is easy to accomplish by simply placing a large enough capacitor at the input of each
+channel. Specifically, with a 150-pF capacitor, instantaneous charge distribution keeps disturbance error less
+than 0.46 V because the internal input capacitance can only hold up to 75 pC (or 5 V × 15 pF). The remaining
+error must be corrected by the voltage source at each input, with impedance low enough to settle within 1 LSB.
+The following application examples explain the considerations for the input source impedance (RSOURCE).
+
+9.1.1 Analog Input
+
+The ADS79xx device family offers 12/10/8-bit ADCSs with 16/12/8/4 channel multiplexers for analog input. The
+multiplexer output is available on the MXO pin. AINP is the ADC input pin. The devices offers flexibility for a
+system designer as both signals are accessible externally.
+
+Typically it is convenient to short MXO to the AINP pin so that signal input to each multiplexer channel can be
+processed independently. In this condition, TI recommends limiting source impedance to 50 Ω or less. Higher
+source impedance may affect the signal settling time after a multiplexer channel change. This condition can
+affect linearity and total harmonic distortion.
+
+GPIO 0,1,2 and 3 are available only in TSSOP packaged devices. QFN device offers 'GPIO 0' only. As a result all
+references related to 'GPIO 0' only are valid in case of QFN package devices.
+
+Figure 60. Typical Application Diagram Showing MXO Shorted to AINP
+
+46
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+MXOAINPCh0Chn*Ch2Ch1ADCGPIO 0, HAlarmGPIO 1, LAlarmSDIGPIO 2, RangeSCLKCSSDOToHostREF10FmREF5025o/pFrom sensors, INAetc.There is a restriction onsource impedance.R50SOURCE£WGPIO 3,PDwww.ti.com
+
+Application Information (continued)
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Another option is to add a common ADC driver buffer between the MXO and AINP pins. This relaxes the
+restriction on source impedance to a large extent. Refer to Typical Characteristics (All ADS79xx Family Devices)
+for the effect of source impedance on device performance. The typical characteristics show that the device has
+respectable performance with up to 1kΩ source impedance. This topology (including a common ADC driver) is
+useful when all channel signals are within the acceptable range of the ADC. In this case the user can save on
+signal conditioning circuit for each channel.
+
+Figure 61. Typical Application Diagram Showing Common Buffer/PGA for All Channels
+
+When the converter samples an input, the voltage difference between AINP and AGND is captured on the
+internal capacitor array. The (peak) input current through the analog inputs depends upon a number of factors:
+sample rate, input voltage, and source impedance. The current into the ADS79xx charges the internal capacitor
+array during the sample period. After this capacitance has been fully charged, there is no further input current.
+When the converter goes into hold mode, the input impedance is greater than 1 GΩ.
+
+Care must be taken regarding the absolute analog input voltage. To maintain linearity of the converter, the Ch0 ..
+Chn and AINP inputs should be within the limits specified. Outside of these ranges, converter linearity may not
+meet specifications.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+47
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+MXOAINPCh0Chn*Ch2Ch1ADCHigh inputimpedance PGA(or non inverting buffersuch asTHS4031)GPIO123GPIOGPIOPGAGainControlGPIO0high-alarmlow-alarmSDISCLKCSSDOToHostREF10 µFREF5025o/pSee noteA.ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Application Information (continued)
+
+www.ti.com
+
+Figure 62. ADC and MUX Equivalent Circuit
+
+9.2 Typical Applications
+
+9.2.1 Unbuffered Multiplexer Output (MXO)
+
+This application is the most typical application, but requires the lowest RSOURCE for good performance. In this
+configuration, the 2xVREF range allows larger source impedance than the 1xVREF range because the 1xVREF
+range LSB size is smaller, thus making it more sensitive to settling error.
+
+A. A restriction on the source impedance exists. RSOURCE ≤ 100 Ω for the 1xVREF 12-bit settling at 1 MSPS or RSOURCE ≤
+
+250 Ω for the 2xVREF 12-bit settling at 1 MSPS.
+
+Figure 63. Application Diagram for an Unbuffered MXO
+
+9.2.1.1 Design Requirements
+
+The design is optimized to show the input source impedance (RSOURCE) from the 100 Ω to 10000 Ω required to
+meet the 1-LSB settling at 12-bit, 10-bit, and 8-bit resolutions at different throughput in 1xVREF (2.5-V) and
+2xVREF (5-V) input ranges.
+
+9.2.1.2 Detailed Design Procedure
+
+Although the required input source impedance can be estimated assuming a 0.5-V initial error and exponential
+recovery during sampling (acquisition) time, this estimation over-simplifies the complex interaction between the
+converter and source, thus yielding inaccurate estimates. Thus, this design uses an iterative approach with the
+converter itself to provide reliable impedance values.
+
+two
+To determine the actual maximum source impedance for a particular resolution and sampling rate,
+subsequent channels are set at least 95% of the full-scale range apart. With a 1xVREF range and 2.5 VREF, the
+channel difference is at least 2.375 V. With 2xVREF and 2.5 VREF, the difference is at least 4.75 V. With a source
+impedance from 100 Ω to 10,000 Ω, the conversion runs at a constant rate and a channel update is issued that
+captures the first couple samples after the update. This process is repeated at least 100 times to remove any
+noise and to show a clear settling error. The first sample after the channel update is then compared against the
+second one. If the first and second samples are more than 1 LSB apart, throughput rate is reduced until the
+settling error becomes 1 LSB, which then sets the maximum throughput for the selected impedance. The whole
+process is repeated for nine different impedances from 100 Ω to 10000 Ω.
+
+48
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+MXOAINPCh0Chn Ch1ADCGPIO 0GPIO 1SDIGPIO 2SCLKCSSDOREF10 FPREF5025o/pSee Note AGPIO 3150 pF 150 pF RSOURCERSOURCE150 pF RSOURCEToHost200 (cid:13)7 pF3 pF20 M(cid:13)3 pF5 pF80 (cid:13)Ch0 assumed to be onChn assumed to be offCh0ChnMXOAINPwww.ti.com
+
+Typical Applications (continued)
+
+9.2.1.3 Application Curves
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+These curves show the RSOURCE for an unbuffered MXO.
+
+Figure 64. 2xVREF Input Range Settling Without an MXO
+Buffer
+
+Figure 65. 1xVREF Input Range Settling Without an MXO
+Buffer
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+49
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Rsource (:)MAX Throughput (KSPS)10010001000001002003004005006007008009001000D101D10012-bit10-bit8-bitRsource (:)MAX Throughput (KSPS)10010001000001002003004005006007008009001000D10112-bit10-bit8-bitADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Typical Applications (continued)
+
+9.2.2 OPA192 Buffered Multiplexer Output (MXO)
+
+www.ti.com
+
+The use of a buffer relaxes the RSOURCE requirements to an extent. Charge from the sample-and-hold capacitor
+no longer dominates as a residual charge from a previous channel. Although having good performance is
+possible with a larger impedance using the OPA192, the output capacitance of the MXO also holds the previous
+channel charge and cannot be isolated, which limits how large the input impedance can finally be for good
+performance. In this configuration, the 1xVREF range allows slightly higher impedance because the OPA192
+(20 V/µs) slews approximately 2.5 V in contrast
+to the 2xVREF range that requires the OPA192 to slew
+approximately 5 V.
+
+A. Restriction on the source impedance exists. R(SOURCE) ≤ 500 Ω for a 12-bit settling at 1 MSPS with both 1xVREF and
+
+2xVREF ranges.
+
+Figure 66. Application Diagram for an OPA192 Buffered MXO
+
+9.2.2.1 Design Requirements
+
+The design is optimized to show the input source impedance (RSOURCE) from the 100 Ω to 10000 Ω required to
+meet a 1-LSB settling at 12-bit, 10-bit, and 8-bit resolutions at different throughput in 1xVREF (2.5 V) and 2xVREF
+(5 V) input ranges.
+
+9.2.2.2 Detailed Design Procedure
+
+The design procedure is similar to the unbuffered-MXO application, but includes an operation amplifier in unity
+gain as a buffer. The most important parameter for multiplexer buffering is slew rate. The amplifier must finish
+slewing before the start of sampling (acquisition) to keep the buffer operating in small-signal mode during
+sampling (acquisition) time. Also, between the buffer output and converter input (INP), there must be a capacitor
+large enough to keep the buffer in small-signal operation during sampling (acquisition) time. Because 150 pF is
+large enough to protect the buffer form hold charge from internal capacitors, this value selected along with the
+lowest impedance that allows the op amp to remain stable.
+
+The converter allows the MXO to settle approximately 600 ns before sampling. During this time, the buffer slews
+and then enters small-signal operation. For a 5-V step change, slew rate stays constant during the first 4 V. The
+last 1 V includes a transition from slewing and non-slewing. Thus, the buffer cannot be assumed to keep a
+constant slew during the 600 ns available for MXO settling. Assuming that the last 1-V slew is reduced to half is
+recommended. For this reason, slew is 10 V/µs or (5 Vref + 1 V) / 0.6 µs to account for the 1-V slow slew. The
+OPA192 has a 20-V/us slew, and is capable of driving 150 pF with more than a 50° phase margin with a 50-Ω or
+100-Ω Riso, making the OPA192 an ideal selection for the ADS79xx-Q1 family of converters.
+
+50
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+MXOAINPCh0Chn Ch1ADCGPIO 0GPIO 1SDIGPIO 2SCLKCSSDOREF10 FPREF5025o/pSee Note AGPIO 3150 pF 150 pF RSOURCERSOURCE150 pF RSOURCEToHost5V+-150pF 100(cid:13)(cid:3)OPA192www.ti.com
+
+Typical Applications (continued)
+
+9.2.2.3 Application Curves
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+These curves show the RSOURCE for an OPA192 buffered MXO.
+
+Figure 67. 2xVREF Input Range Settling with an OPA192
+MXO Buffer
+
+Figure 68. 1xVREF Input Range Settling with an OPA192
+MXO Buffer
+
+10 Power Supply Recommendations
+
+The devices are designed to operate from an analog supply voltage (+VA) range from 2.7 V to 5.25 V and a
+digital supply voltage (+VBD) range from 1.7 V to 5.25 V. Both supplies must be well regulated. The analog
+supply is always greater than or equal to the digital supply. A 1-µF ceramic decoupling capacitor is required at
+each supply pin and must be placed as close as possible to the device.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+51
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+Rsource (:)MAX Throughput (KSPS)10010001000001002003004005006007008009001000D10212-bit10-bit8-bitRsource (:)MAX Throughput (KSPS)10010001000001002003004005006007008009001000D10312-bit10-bit8-bitADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+11 Layout
+
+www.ti.com
+
+11.1 Layout Guidelines
+• A copper fill area underneath the device ties the AGND, BDGND, AINM, and REFM pins together. This
+
+copper fill area must also be connected to the analog ground plane of the PCB using at least four vias.
+
+• The power sources must be clean and properly decoupled by placing a capacitor close to each of the three
+supply pins, as shown in Figure 69 and Figure 70. To minimize ground inductance, ensure that each
+capacitor ground pin is connected to a grounding via by a very short and thick trace.
+
+• The REFP pin requires a 10-μF ceramic capacitor to meet performance specifications. Place the capacitor
+directly next to the device. This capacitor ground pin must be routed to the REFM pin by a very short trace,
+as shown in Figure 69 and Figure 70.
+
+• Do not place any vias between a capacitor pin and a device pin.
+
+lines. Organize components in the PCB by keeping digital
+
+NOTE
+The full-power bandwidth of the converter makes the ADC sensitive to high frequencies in
+digital
+lines apart from the
+analog signal paths. This design configuration is critical
+to minimize crosstalk. For
+example, in Figure 69, input drivers are expected to be on the left of the converter and the
+microcontroller on the right.
+
+11.2 Layout Examples
+
+Figure 69. Recommended Layout for the TSSOP Packaged Device
+
+52
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+10 µF1 µF+VBD1 µF1 µF+VA+VAREFPPin 1SPIGPIOGPIOAnalog GroundAnalog InputsAnalog Inputswww.ti.com
+
+Layout Examples (continued)
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+Figure 70. Recommended Layout for the VQFN Packaged Device
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+53
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+SCLKCS1891617242532+VA1 PFAGNDREFM1 PFREFPAGND1 PFSDISDOAnalog Input ChannelsAnalog Input ChannelsAnalog Input ChannelsAGNDBDGND1 PF+VBD+VAMXOAINPAINMRFLTCFLTOptional R-C filter between MXO and AINPGPIOAGNDADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+12 Device and Documentation Support
+
+12.1 Documentation Support
+
+12.1.1 Related Documentation
+
+www.ti.com
+
+For related documentation see the following:
+• REF50xx Low-Noise, Very Low Drift, Precision Voltage Reference
+• OPAx192 36-V, Precision, Rail-to-Rail Input/Output, Low Offset Voltage, Low Input Bias Current Op Amp with
+
+e-trim™
+
+12.2 Related Links
+
+The table below lists quick access links. Categories include technical documents, support and community
+resources, tools and software, and quick access to order now.
+
+PARTS
+
+PRODUCT FOLDER
+
+ORDER NOW
+
+TECHNICAL
+DOCUMENTS
+
+TOOLS &
+SOFTWARE
+
+SUPPORT &
+COMMUNITY
+
+Table 14. Related Links
+
+ADS7950
+
+ADS7951
+
+ADS7952
+
+ADS7953
+
+ADS7954
+
+ADS7955
+
+ADS7956
+
+ADS7957
+
+ADS7958
+
+ADS7959
+
+ADS7960
+
+ADS7961
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+Click here
+
+12.3 Receiving Notification of Documentation Updates
+
+To receive notification of documentation updates, navigate to the device product folder on ti.com. In the upper
+right corner, click on Alert me to register and receive a weekly digest of any product information that has
+changed. For change details, review the revision history included in any revised document.
+
+12.4 Community Resources
+
+The following links connect to TI community resources. Linked contents are provided "AS IS" by the respective
+contributors. They do not constitute TI specifications and do not necessarily reflect TI's views; see TI's Terms of
+Use.
+
+TI E2E™ Online Community TI's Engineer-to-Engineer (E2E) Community. Created to foster collaboration
+
+among engineers. At e2e.ti.com, you can ask questions, share knowledge, explore ideas and help
+solve problems with fellow engineers.
+
+Design Support TI's Design Support Quickly find helpful E2E forums along with design support tools and
+
+contact information for technical support.
+
+12.5 Trademarks
+E2E is a trademark of Texas Instruments.
+All other trademarks are the property of their respective owners.
+
+54
+
+Submit Documentation Feedback
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+12.6 Electrostatic Discharge Caution
+
+ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955
+ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961
+SLAS605C – JUNE 2008 – REVISED JULY 2018
+
+This integrated circuit can be damaged by ESD. Texas Instruments recommends that all
+appropriate precautions. Failure to observe proper handling and installation procedures can cause damage.
+
+integrated circuits be handled with
+
+ESD damage can range from subtle performance degradation to complete device failure. Precision integrated circuits may be more
+susceptible to damage because very small parametric changes could cause the device not to meet its published specifications.
+
+12.7 Glossary
+
+SLYZ022 — TI Glossary.
+
+This glossary lists and explains terms, acronyms, and definitions.
+
+13 Mechanical, Packaging, and Orderable Information
+
+The following pages include mechanical, packaging, and orderable information. This information is the most
+current data available for the designated devices. This data is subject to change without notice and revision of
+this document. For browser-based versions of this data sheet, refer to the left-hand navigation.
+
+Copyright © 2008–2018, Texas Instruments Incorporated
+
+Submit Documentation Feedback
+
+55
+
+Product Folder Links: ADS7950 ADS7951 ADS7952 ADS7953 ADS7954 ADS7955 ADS7956 ADS7957 ADS7958
+ADS7959 ADS7960 ADS7961
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+PACKAGING INFORMATION
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7950SBDBT
+
+ADS7950SBDBT.A
+
+ADS7950SBDBT.B
+
+ADS7950SBDBTR
+
+ADS7950SBDBTR.A
+
+ADS7950SBDBTR.B
+
+ADS7950SBRGER
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7950SBRGER.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7950SBRGER.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7950SBRGET
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7950SBRGET.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7950SBRGET.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7950SDBT
+
+ADS7950SDBT.A
+
+ADS7950SDBT.B
+
+ADS7950SDBTR
+
+ADS7950SDBTR.A
+
+ADS7950SDBTR.B
+
+ADS7951SBDBT
+
+ADS7951SBDBT.A
+
+ADS7951SBDBT.B
+
+ADS7951SBDBTR
+
+ADS7951SBDBTR.A
+
+ADS7951SBDBTR.B
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 1
+
+Op temp (°C)
+
+Part marking
+
+Lead finish/
+Ball material
+
+(4)
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+(6)
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS
+7950
+
+ADS
+7950
+
+ADS
+7950
+
+ADS
+7950
+
+ADS
+7950
+
+ADS
+7950
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS7950
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7951SBRGER
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7951SBRGER.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7951SBRGER.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7951SBRGET
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7951SBRGET.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7951SBRGET.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7951SDBT
+
+ADS7951SDBT.A
+
+ADS7951SDBT.B
+
+ADS7951SDBTG4
+
+ADS7951SDBTR
+
+ADS7951SDBTR.A
+
+ADS7951SDBTR.B
+
+ADS7951SRGER
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7951SRGER.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7951SRGER.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7951SRGET
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7951SRGET.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7951SRGET.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7952SBDBT
+
+ADS7952SBDBT.A
+
+ADS7952SBDBT.B
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 2
+
+Lead finish/
+Ball material
+
+(4)
+
+Call TI
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Op temp (°C)
+
+Part marking
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+(6)
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+ADS
+7951
+
+Call TI
+
+Call TI
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+ADS7952
+
+ADS7952
+
+ADS7952
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7952SBDBTG4
+
+ADS7952SBDBTR
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+ADS7952SBDBTR.A
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+ADS7952SBDBTR.B
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+ADS7952SBDBTRG4
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+ADS7952SBDBTRG4.A
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+ADS7952SBDBTRG4.B
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+ADS7952SBRHBR
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7952SBRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7952SBRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7952SBRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7952SBRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7952SBRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7952SDBT
+
+ADS7952SDBT.A
+
+ADS7952SDBT.B
+
+ADS7952SDBTG4
+
+ADS7952SDBTR
+
+ADS7952SDBTR.A
+
+ADS7952SDBTR.B
+
+ADS7952SRHBR
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 3
+
+Lead finish/
+Ball material
+
+(4)
+
+Call TI
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Level-2-260C-1 YEAR
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+-40 to 125
+
+Op temp (°C)
+
+Part marking
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Call TI
+
+Call TI
+
+Call TI
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+(6)
+
+ADS7952
+
+ADS7952
+B
+
+ADS7952
+B
+
+ADS7952
+B
+
+ADS7952
+B
+
+ADS7952
+B
+
+ADS7952
+B
+
+ADS
+7952
+
+ADS
+7952
+
+ADS
+7952
+
+ADS
+7952
+
+ADS
+7952
+
+ADS
+7952
+
+ADS7952
+
+ADS7952
+
+ADS7952
+
+ADS7952
+
+ADS7952
+
+ADS7952
+
+ADS7952
+
+ADS
+7952
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Lead finish/
+Ball material
+
+(4)
+
+Call TI
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Op temp (°C)
+
+Part marking
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7952SRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7952SRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7952SRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7952SRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7952SRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7953SBDBT
+
+ADS7953SBDBT.A
+
+ADS7953SBDBT.B
+
+ADS7953SBDBTR
+
+ADS7953SBDBTR.A
+
+ADS7953SBDBTR.B
+
+ADS7953SBRHBR
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7953SBRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7953SBRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7953SBRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7953SBRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7953SBRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7953SDBT
+
+ADS7953SDBT.A
+
+ADS7953SDBT.B
+
+ADS7953SDBTR
+
+ADS7953SDBTR.A
+
+ADS7953SDBTR.B
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 4
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Call TI
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+(6)
+
+ADS
+7952
+
+ADS
+7952
+
+ADS
+7952
+
+ADS
+7952
+
+ADS
+7952
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+ADS7953
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7953SRHBR
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7953SRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7953SRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7953SRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7953SRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7953SRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7954SDBT
+
+ADS7954SDBT.A
+
+ADS7954SDBT.B
+
+ADS7954SDBTR
+
+ADS7954SDBTR.A
+
+ADS7954SDBTR.B
+
+ADS7954SRGER
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7954SRGER.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7954SRGER.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7954SRGET
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7954SRGET.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7954SRGET.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7955SDBT
+
+ADS7955SDBT.A
+
+ADS7955SDBT.B
+
+ADS7955SDBTR
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 5
+
+Lead finish/
+Ball material
+
+(4)
+
+Call TI
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Op temp (°C)
+
+Part marking
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+Call TI
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+(6)
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS
+7953
+
+ADS7954
+
+ADS7954
+
+ADS7954
+
+ADS7954
+
+ADS7954
+
+ADS7954
+
+ADS
+7954
+
+ADS
+7954
+
+ADS
+7954
+
+ADS
+7954
+
+ADS
+7954
+
+ADS
+7954
+
+ADS7955
+
+ADS7955
+
+ADS7955
+
+ADS7955
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7955SDBTR.A
+
+ADS7955SDBTR.B
+
+ADS7955SRGER
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7955SRGER.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7955SRGER.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7955SRGET
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7955SRGET.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7955SRGET.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7956SDBT
+
+ADS7956SDBT.A
+
+ADS7956SDBT.B
+
+ADS7956SDBTG4
+
+ADS7956SDBTG4.A
+
+ADS7956SDBTG4.B
+
+ADS7956SDBTR
+
+ADS7956SDBTR.A
+
+ADS7956SDBTR.B
+
+ADS7956SRHBR
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7956SRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7956SRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7956SRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7956SRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 6
+
+Op temp (°C)
+
+Part marking
+
+Lead finish/
+Ball material
+
+(4)
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+(6)
+
+ADS7955
+
+ADS7955
+
+ADS
+7955
+
+ADS
+7955
+
+ADS
+7955
+
+ADS
+7955
+
+ADS
+7955
+
+ADS
+7955
+
+ADS7956
+
+ADS7956
+
+ADS7956
+
+ADS7956
+
+ADS7956
+
+ADS7956
+
+ADS7956
+
+ADS7956
+
+ADS7956
+
+ADS
+7956
+
+ADS
+7956
+
+ADS
+7956
+
+ADS
+7956
+
+ADS
+7956
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7956SRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7956SRHBTG4
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7956SRHBTG4.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7956SRHBTG4.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7957SDBT
+
+ADS7957SDBT.A
+
+ADS7957SDBT.B
+
+ADS7957SDBTG4
+
+ADS7957SDBTG4.A
+
+ADS7957SDBTG4.B
+
+ADS7957SDBTR
+
+ADS7957SDBTR.A
+
+ADS7957SDBTR.B
+
+ADS7957SRHBR
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7957SRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7957SRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7957SRHBRG4
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7957SRHBRG4.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7957SRHBRG4.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7957SRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7957SRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 7
+
+Lead finish/
+Ball material
+
+(4)
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Op temp (°C)
+
+Part marking
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+(6)
+
+ADS
+7956
+
+ADS
+7956
+
+ADS
+7956
+
+ADS
+7956
+
+ADS7957
+
+ADS7957
+
+ADS7957
+
+ADS7957
+
+ADS7957
+
+ADS7957
+
+ADS7957
+
+ADS7957
+
+ADS7957
+
+ADS
+7957
+
+ADS
+7957
+
+ADS
+7957
+
+ADS
+7957
+
+ADS
+7957
+
+ADS
+7957
+
+ADS
+7957
+
+ADS
+7957
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Lead finish/
+Ball material
+
+(4)
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Op temp (°C)
+
+Part marking
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7957SRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7958SDBT
+
+ADS7958SDBT.A
+
+ADS7958SDBT.B
+
+ADS7958SDBTR
+
+ADS7958SDBTR.A
+
+ADS7958SDBTR.B
+
+ADS7958SRGER
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7958SRGER.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7958SRGER.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7958SRGERG4
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7958SRGERG4.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7958SRGERG4.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7958SRGET
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7958SRGET.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7958SRGET.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7959SDBT
+
+ADS7959SDBT.A
+
+ADS7959SDBT.B
+
+ADS7959SDBTR
+
+ADS7959SDBTR.A
+
+ADS7959SDBTR.B
+
+ADS7959SRGER
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+Production
+
+TSSOP (DBT) | 30
+
+60 | TUBE
+
+60 | TUBE
+
+60 | TUBE
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 30
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 8
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+(6)
+
+ADS
+7957
+
+ADS7958
+
+ADS7958
+
+ADS7958
+
+ADS7958
+
+ADS7958
+
+ADS7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS
+7958
+
+ADS7959
+
+ADS7959
+
+ADS7959
+
+ADS7959
+
+ADS7959
+
+ADS7959
+
+ADS
+7959
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7959SRGER.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7959SRGER.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+3000 | LARGE T&R
+
+ADS7959SRGET
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7959SRGET.A
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7959SRGET.B
+
+Active
+
+Production
+
+VQFN (RGE) | 24
+
+250 | SMALL T&R
+
+ADS7960SDBT
+
+ADS7960SDBT.A
+
+ADS7960SDBT.B
+
+ADS7960SDBTG4
+
+ADS7960SDBTG4.A
+
+ADS7960SDBTG4.B
+
+ADS7960SDBTR
+
+ADS7960SDBTR.A
+
+ADS7960SDBTR.B
+
+ADS7960SRHBR
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7960SRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7960SRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7960SRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7960SRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7960SRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7961SDBT
+
+ADS7961SDBT.A
+
+ADS7961SDBT.B
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+Production
+
+TSSOP (DBT) | 38
+
+50 | TUBE
+
+50 | TUBE
+
+50 | TUBE
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Addendum-Page 9
+
+Lead finish/
+Ball material
+
+(4)
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Op temp (°C)
+
+Part marking
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+(6)
+
+ADS
+7959
+
+ADS
+7959
+
+ADS
+7959
+
+ADS
+7959
+
+ADS
+7959
+
+ADS7960
+
+ADS7960
+
+ADS7960
+
+ADS7960
+
+ADS7960
+
+ADS7960
+
+ADS7960
+
+ADS7960
+
+ADS7960
+
+ADS
+7960
+
+ADS
+7960
+
+ADS
+7960
+
+ADS
+7960
+
+ADS
+7960
+
+ADS
+7960
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+ADS7961
+
+ADS7961
+
+ADS7961
+
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+Op temp (°C)
+
+Part marking
+
+Orderable part number
+
+Status
+
+Material type
+
+Package | Pins
+
+Package qty | Carrier
+
+RoHS
+
+(1)
+
+(2)
+
+ADS7961SDBTR
+
+ADS7961SDBTR.A
+
+ADS7961SDBTR.B
+
+ADS7961SRHBR
+
+Active
+
+Active
+
+Active
+
+Active
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+TSSOP (DBT) | 38
+
+2000 | LARGE T&R
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7961SRHBR.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7961SRHBR.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7961SRHBRG4
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7961SRHBRG4.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7961SRHBRG4.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+3000 | LARGE T&R
+
+ADS7961SRHBT
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7961SRHBT.A
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+ADS7961SRHBT.B
+
+Active
+
+Production
+
+VQFN (RHB) | 32
+
+250 | SMALL T&R
+
+(3)
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+Yes
+
+(1) Status:  For more details on status, see our product life cycle.
+
+Lead finish/
+Ball material
+
+(4)
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+NIPDAU
+
+MSL rating/
+Peak reflow
+
+(5)
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-2-260C-1 YEAR
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+NIPDAU
+
+Level-3-260C-168 HR
+
+-40 to 125
+
+(6)
+
+ADS7961
+
+ADS7961
+
+ADS7961
+
+ADS
+7961
+
+ADS
+7961
+
+ADS
+7961
+
+ADS
+7961
+
+ADS
+7961
+
+ADS
+7961
+
+ADS
+7961
+
+ADS
+7961
+
+ADS
+7961
+
+(2) Material type:  When designated, preproduction parts are prototypes/experimental devices, and are not yet approved or released for full production. Testing and final process, including without limitation quality assurance,
+reliability performance testing, and/or process qualification, may not yet be complete, and this item is subject to further changes or possible discontinuation. If available for ordering, purchases will be subject to an additional
+waiver at checkout, and are intended for early internal evaluation purposes only. These items are sold without warranties of any kind.
+
+(3) RoHS values:  Yes, No, RoHS Exempt. See the TI RoHS Statement for additional information and value definition.
+
+(4) Lead finish/Ball material:  Parts may have multiple material finish options. Finish options are separated by a vertical ruled line. Lead finish/Ball material values may wrap to two lines if the finish value exceeds the maximum
+column width.
+
+(5) MSL rating/Peak reflow:  The moisture sensitivity level ratings and peak solder (reflow) temperatures. In the event that a part has multiple moisture sensitivity ratings, only the lowest level per JEDEC standards is shown.
+Refer to the shipping label for the actual reflow temperature that will be used to mount the part to the printed circuit board.
+
+Addendum-Page 10
+
+ 
+ 
+ 
+ 
+ 
+www.ti.com
+
+10-Nov-2025
+
+PACKAGE OPTION ADDENDUM
+
+(6) Part marking:  There may be an additional marking, which relates to the logo, the lot trace code information, or the environmental category of the part.
+
+Multiple part markings will be inside parentheses. Only one part marking contained in parentheses and separated by a "~" will appear on a part. If a line is indented then it is a continuation of the previous line and the two
+combined represent the entire part marking for that device.
+
+Important Information and Disclaimer:The information provided on this page represents TI's knowledge and belief as of the date that it is provided. TI bases its knowledge and belief on information provided by third parties, and
+makes no representation or warranty as to the accuracy of such information. Efforts are underway to better integrate information from third parties. TI has taken and continues to take reasonable steps to provide representative
+and accurate information but may not have conducted destructive testing or chemical analysis on incoming materials and chemicals. TI and TI suppliers consider certain information to be proprietary, and thus CAS numbers
+and other limited information may not be available for release.
+
+In no event shall TI's liability arising out of such information exceed the total purchase price of the TI part(s) at issue in this document sold by TI to Customer on an annual basis.
+
+ OTHER QUALIFIED VERSIONS OF ADS7950, ADS7951, ADS7952, ADS7953, ADS7954, ADS7955, ADS7956, ADS7957, ADS7958, ADS7959, ADS7960, ADS7961 :
+• Automotive : ADS7950-Q1, ADS7951-Q1, ADS7952-Q1, ADS7953-Q1, ADS7954-Q1, ADS7955-Q1, ADS7956-Q1, ADS7957-Q1, ADS7958-Q1, ADS7959-Q1, ADS7960-Q1, ADS7961-
+Q1
+
+ NOTE: Qualified Version Definitions:
+
+• Automotive - Q100 devices qualified for high-reliability automotive applications targeting zero defects
+
+Addendum-Page 11
+
+ 
+ 
+ 
+ 
+ 
+www.ti.com
+
+9-Oct-2025
+
+PACKAGE MATERIALS INFORMATION
+
+TAPE AND REEL INFORMATION
+
+REEL DIMENSIONS
+
+TAPE DIMENSIONS
+
+K0
+
+ P1
+
+B0 W
+
+Reel
+Diameter
+
+Cavity
+
+A0
+
+A0
+B0
+K0
+W
+P1
+
+Dimension designed to accommodate the component width
+Dimension designed to accommodate the component length
+Dimension designed to accommodate the component thickness
+Overall width of the carrier tape
+Pitch between successive cavity centers
+
+Reel Width (W1)
+
+QUADRANT ASSIGNMENTS FOR PIN 1 ORIENTATION IN TAPE
+
+Sprocket Holes
+
+Q1
+
+Q2
+
+Q1
+
+Q2
+
+Q3
+
+Q4
+
+Q3
+
+Q4
+
+User Direction of Feed
+
+Pocket Quadrants
+
+*All dimensions are nominal
+
+Device
+
+Package
+Type
+
+Package
+Drawing
+
+Pins
+
+SPQ
+
+Reel
+Diameter
+(mm)
+
+Reel
+Width
+W1 (mm)
+
+A0
+(mm)
+
+B0
+(mm)
+
+K0
+(mm)
+
+P1
+(mm)
+
+W
+(mm)
+
+Pin1
+Quadrant
+
+ADS7950SBDBTR
+
+TSSOP
+
+ADS7950SBRGER
+
+ADS7950SBRGET
+
+ADS7950SDBTR
+
+ADS7951SBDBTR
+
+ADS7951SBRGER
+
+ADS7951SBRGET
+
+VQFN
+
+VQFN
+
+TSSOP
+
+TSSOP
+
+VQFN
+
+VQFN
+
+ADS7951SDBTR
+
+TSSOP
+
+ADS7951SRGER
+
+ADS7951SRGET
+
+VQFN
+
+VQFN
+
+ADS7952SBDBTR
+
+TSSOP
+
+ADS7952SBDBTRG4
+
+TSSOP
+
+ADS7952SBRHBR
+
+ADS7952SBRHBT
+
+VQFN
+
+VQFN
+
+ADS7952SDBTR
+
+TSSOP
+
+ADS7952SRHBR
+
+VQFN
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+30
+
+24
+
+24
+
+30
+
+30
+
+24
+
+24
+
+30
+
+24
+
+24
+
+38
+
+38
+
+32
+
+32
+
+38
+
+32
+
+2000
+
+3000
+
+250
+
+2000
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+6.95
+
+4.25
+
+4.25
+
+6.95
+
+6.95
+
+4.25
+
+4.25
+
+6.95
+
+4.25
+
+4.25
+
+6.75
+
+6.75
+
+5.3
+
+5.3
+
+8.3
+
+4.25
+
+4.25
+
+8.3
+
+8.3
+
+4.25
+
+4.25
+
+8.3
+
+4.25
+
+4.25
+
+10.1
+
+10.1
+
+5.3
+
+5.3
+
+6.75
+
+10.1
+
+5.3
+
+5.3
+
+1.6
+
+1.15
+
+1.15
+
+1.6
+
+1.6
+
+1.15
+
+1.15
+
+1.6
+
+1.15
+
+1.15
+
+1.8
+
+1.8
+
+1.5
+
+1.5
+
+1.8
+
+1.5
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+12.0
+
+12.0
+
+8.0
+
+8.0
+
+12.0
+
+8.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Pack Materials-Page 1
+
+ 
+ 
+ 
+www.ti.com
+
+9-Oct-2025
+
+PACKAGE MATERIALS INFORMATION
+
+Device
+
+Package
+Type
+
+Package
+Drawing
+
+Pins
+
+SPQ
+
+Reel
+Diameter
+(mm)
+
+Reel
+Width
+W1 (mm)
+
+A0
+(mm)
+
+B0
+(mm)
+
+K0
+(mm)
+
+P1
+(mm)
+
+W
+(mm)
+
+Pin1
+Quadrant
+
+ADS7952SRHBT
+
+VQFN
+
+ADS7953SBDBTR
+
+TSSOP
+
+ADS7953SBRHBR
+
+ADS7953SBRHBT
+
+VQFN
+
+VQFN
+
+ADS7953SDBTR
+
+TSSOP
+
+ADS7953SRHBR
+
+ADS7953SRHBT
+
+VQFN
+
+VQFN
+
+ADS7954SDBTR
+
+TSSOP
+
+ADS7954SRGER
+
+ADS7954SRGET
+
+VQFN
+
+VQFN
+
+ADS7955SDBTR
+
+TSSOP
+
+ADS7955SRGER
+
+ADS7955SRGET
+
+VQFN
+
+VQFN
+
+ADS7956SDBTR
+
+TSSOP
+
+ADS7956SRHBR
+
+ADS7956SRHBT
+
+ADS7956SRHBTG4
+
+VQFN
+
+VQFN
+
+VQFN
+
+ADS7957SDBTR
+
+TSSOP
+
+ADS7957SRHBR
+
+ADS7957SRHBRG4
+
+ADS7957SRHBT
+
+VQFN
+
+VQFN
+
+VQFN
+
+ADS7958SDBTR
+
+TSSOP
+
+ADS7958SRGER
+
+ADS7958SRGERG4
+
+ADS7958SRGET
+
+VQFN
+
+VQFN
+
+VQFN
+
+ADS7959SDBTR
+
+TSSOP
+
+ADS7959SRGER
+
+ADS7959SRGET
+
+VQFN
+
+VQFN
+
+ADS7960SDBTR
+
+TSSOP
+
+ADS7960SRHBR
+
+ADS7960SRHBT
+
+VQFN
+
+VQFN
+
+ADS7961SDBTR
+
+TSSOP
+
+ADS7961SRHBR
+
+ADS7961SRHBRG4
+
+ADS7961SRHBT
+
+VQFN
+
+VQFN
+
+VQFN
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RHB
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+RHB
+
+DBT
+
+RGE
+
+RGE
+
+RGE
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+RHB
+
+32
+
+38
+
+32
+
+32
+
+38
+
+32
+
+32
+
+30
+
+24
+
+24
+
+30
+
+24
+
+24
+
+38
+
+32
+
+32
+
+32
+
+38
+
+32
+
+32
+
+32
+
+30
+
+24
+
+24
+
+24
+
+30
+
+24
+
+24
+
+38
+
+32
+
+32
+
+38
+
+32
+
+32
+
+32
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+250
+
+2000
+
+3000
+
+3000
+
+250
+
+2000
+
+3000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+3000
+
+250
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+180.0
+
+330.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+180.0
+
+330.0
+
+330.0
+
+330.0
+
+180.0
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+16.4
+
+12.4
+
+12.4
+
+12.4
+
+5.3
+
+5.3
+
+6.75
+
+10.1
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+6.75
+
+10.1
+
+5.3
+
+5.3
+
+6.95
+
+4.25
+
+4.25
+
+6.95
+
+4.25
+
+4.25
+
+6.75
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+8.3
+
+4.25
+
+4.25
+
+8.3
+
+4.25
+
+4.25
+
+10.1
+
+5.3
+
+5.3
+
+5.3
+
+6.75
+
+10.1
+
+5.3
+
+5.3
+
+5.3
+
+6.95
+
+4.25
+
+4.25
+
+4.25
+
+6.95
+
+4.25
+
+4.25
+
+6.75
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+8.3
+
+4.25
+
+4.25
+
+4.25
+
+8.3
+
+4.25
+
+4.25
+
+10.1
+
+5.3
+
+5.3
+
+6.75
+
+10.1
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+5.3
+
+1.5
+
+1.8
+
+1.5
+
+1.5
+
+1.8
+
+1.5
+
+1.5
+
+1.6
+
+1.15
+
+1.15
+
+1.6
+
+1.15
+
+1.15
+
+1.8
+
+1.5
+
+1.5
+
+1.5
+
+1.8
+
+1.5
+
+1.5
+
+1.5
+
+1.6
+
+1.15
+
+1.15
+
+1.15
+
+1.6
+
+1.15
+
+1.15
+
+1.8
+
+1.5
+
+1.5
+
+1.8
+
+1.5
+
+1.5
+
+1.5
+
+8.0
+
+12.0
+
+8.0
+
+8.0
+
+12.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+12.0
+
+8.0
+
+8.0
+
+8.0
+
+12.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+8.0
+
+12.0
+
+8.0
+
+8.0
+
+12.0
+
+8.0
+
+8.0
+
+8.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+16.0
+
+12.0
+
+12.0
+
+12.0
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q1
+
+Q2
+
+Q2
+
+Q2
+
+Pack Materials-Page 2
+
+ 
+ 
+PACKAGE MATERIALS INFORMATION
+
+www.ti.com
+
+9-Oct-2025
+
+TAPE AND REEL BOX DIMENSIONS
+
+Width (mm)
+
+H
+
+W
+
+L
+
+*All dimensions are nominal
+
+Device
+
+Package Type
+
+Package Drawing Pins
+
+ADS7950SBDBTR
+
+ADS7950SBRGER
+
+ADS7950SBRGET
+
+ADS7950SDBTR
+
+ADS7951SBDBTR
+
+ADS7951SBRGER
+
+ADS7951SBRGET
+
+ADS7951SDBTR
+
+ADS7951SRGER
+
+ADS7951SRGET
+
+ADS7952SBDBTR
+
+ADS7952SBDBTRG4
+
+ADS7952SBRHBR
+
+ADS7952SBRHBT
+
+ADS7952SDBTR
+
+ADS7952SRHBR
+
+ADS7952SRHBT
+
+ADS7953SBDBTR
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+30
+
+24
+
+24
+
+30
+
+30
+
+24
+
+24
+
+30
+
+24
+
+24
+
+38
+
+38
+
+32
+
+32
+
+38
+
+32
+
+32
+
+38
+
+SPQ
+
+2000
+
+3000
+
+250
+
+2000
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+Length (mm) Width (mm) Height (mm)
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+Pack Materials-Page 3
+
+ 
+ 
+ 
+www.ti.com
+
+9-Oct-2025
+
+PACKAGE MATERIALS INFORMATION
+
+Device
+
+Package Type
+
+Package Drawing Pins
+
+ADS7953SBRHBR
+
+ADS7953SBRHBT
+
+ADS7953SDBTR
+
+ADS7953SRHBR
+
+ADS7953SRHBT
+
+ADS7954SDBTR
+
+ADS7954SRGER
+
+ADS7954SRGET
+
+ADS7955SDBTR
+
+ADS7955SRGER
+
+ADS7955SRGET
+
+ADS7956SDBTR
+
+ADS7956SRHBR
+
+ADS7956SRHBT
+
+ADS7956SRHBTG4
+
+ADS7957SDBTR
+
+ADS7957SRHBR
+
+ADS7957SRHBRG4
+
+ADS7957SRHBT
+
+ADS7958SDBTR
+
+ADS7958SRGER
+
+ADS7958SRGERG4
+
+ADS7958SRGET
+
+ADS7959SDBTR
+
+ADS7959SRGER
+
+ADS7959SRGET
+
+ADS7960SDBTR
+
+ADS7960SRHBR
+
+ADS7960SRHBT
+
+ADS7961SDBTR
+
+ADS7961SRHBR
+
+ADS7961SRHBRG4
+
+ADS7961SRHBT
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+TSSOP
+
+VQFN
+
+VQFN
+
+VQFN
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RHB
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+RHB
+
+DBT
+
+RGE
+
+RGE
+
+RGE
+
+DBT
+
+RGE
+
+RGE
+
+DBT
+
+RHB
+
+RHB
+
+DBT
+
+RHB
+
+RHB
+
+RHB
+
+32
+
+32
+
+38
+
+32
+
+32
+
+30
+
+24
+
+24
+
+30
+
+24
+
+24
+
+38
+
+32
+
+32
+
+32
+
+38
+
+32
+
+32
+
+32
+
+30
+
+24
+
+24
+
+24
+
+30
+
+24
+
+24
+
+38
+
+32
+
+32
+
+38
+
+32
+
+32
+
+32
+
+SPQ
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+250
+
+2000
+
+3000
+
+3000
+
+250
+
+2000
+
+3000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+250
+
+2000
+
+3000
+
+3000
+
+250
+
+Length (mm) Width (mm) Height (mm)
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+213.0
+
+353.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+353.0
+
+353.0
+
+213.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+191.0
+
+353.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+191.0
+
+353.0
+
+353.0
+
+353.0
+
+191.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+35.0
+
+32.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+35.0
+
+32.0
+
+32.0
+
+32.0
+
+35.0
+
+Pack Materials-Page 4
+
+ 
+ 
+PACKAGE MATERIALS INFORMATION
+
+9-Oct-2025
+
+L - Tube length
+
+www.ti.com
+
+TUBE
+
+T - Tube  
+height
+
+W - Tube  
+width
+
+B - Alignment groove width
+
+*All dimensions are nominal
+
+Device
+
+Package Name Package Type
+
+Pins
+
+SPQ
+
+L (mm) W (mm)
+
+T (µm)
+
+B (mm)
+
+ADS7950SBDBT
+
+ADS7950SBDBT.A
+
+ADS7950SBDBT.B
+
+ADS7950SDBT
+
+ADS7950SDBT.A
+
+ADS7950SDBT.B
+
+ADS7951SBDBT
+
+ADS7951SBDBT.A
+
+ADS7951SBDBT.B
+
+ADS7951SDBT
+
+ADS7951SDBT.A
+
+ADS7951SDBT.B
+
+ADS7951SDBTG4
+
+ADS7952SBDBT
+
+ADS7952SBDBT.A
+
+ADS7952SBDBT.B
+
+ADS7952SBDBTG4
+
+ADS7952SDBT
+
+ADS7952SDBT.A
+
+ADS7952SDBT.B
+
+ADS7952SDBTG4
+
+ADS7953SBDBT
+
+ADS7953SBDBT.A
+
+ADS7953SBDBT.B
+
+ADS7953SDBT
+
+ADS7953SDBT.A
+
+ADS7953SDBT.B
+
+ADS7954SDBT
+
+ADS7954SDBT.A
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+30
+
+30
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+60
+
+60
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+Pack Materials-Page 5
+
+ 
+ 
+ 
+ 
+ 
+ 
+PACKAGE MATERIALS INFORMATION
+
+www.ti.com
+
+9-Oct-2025
+
+Device
+
+Package Name Package Type
+
+Pins
+
+SPQ
+
+L (mm) W (mm)
+
+T (µm)
+
+B (mm)
+
+ADS7954SDBT.B
+
+ADS7955SDBT
+
+ADS7955SDBT.A
+
+ADS7955SDBT.B
+
+ADS7956SDBT
+
+ADS7956SDBT.A
+
+ADS7956SDBT.B
+
+ADS7956SDBTG4
+
+ADS7956SDBTG4.A
+
+ADS7956SDBTG4.B
+
+ADS7957SDBT
+
+ADS7957SDBT.A
+
+ADS7957SDBT.B
+
+ADS7957SDBTG4
+
+ADS7957SDBTG4.A
+
+ADS7957SDBTG4.B
+
+ADS7958SDBT
+
+ADS7958SDBT.A
+
+ADS7958SDBT.B
+
+ADS7959SDBT
+
+ADS7959SDBT.A
+
+ADS7959SDBT.B
+
+ADS7960SDBT
+
+ADS7960SDBT.A
+
+ADS7960SDBT.B
+
+ADS7960SDBTG4
+
+ADS7960SDBTG4.A
+
+ADS7960SDBTG4.B
+
+ADS7961SDBT
+
+ADS7961SDBT.A
+
+ADS7961SDBT.B
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+DBT
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+TSSOP
+
+30
+
+30
+
+30
+
+30
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+30
+
+30
+
+30
+
+30
+
+30
+
+30
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+38
+
+60
+
+60
+
+60
+
+60
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+60
+
+60
+
+60
+
+60
+
+60
+
+60
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+50
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+530
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+10.2
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3600
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+3.5
+
+Pack Materials-Page 6
+
+ 
+ 
+RGE 24
+
+GENERIC PACKAGE VIEW
+
+VQFN - 1 mm max height
+PLASTIC QUAD FLATPACK - NO LEAD
+
+Images above are just a representation of the package family, actual package may vary.
+Refer to the product data sheet for package details.
+
+4204104/H
+
+RGE0024H
+
+B
+
+4.1
+3.9
+
+PACKAGEOUTLINE
+VQFN- 1mmmaxheight
+
+PLASTICQUADFLATPACK-NOLEAD
+
+A
+
+4.1
+3.9
+
+13
+
+C
+
+SEATINGPLANE
+
+0.08 C
+
+(0.2)TYP
+
+(cid:3)(cid:3)(cid:3)(cid:3)(cid:21)(cid:17)(cid:26)(cid:147)(cid:19)(cid:17)(cid:20)
+
+2X2.5
+
+12
+
+7
+
+25
+
+SYMM
+
+18
+
+24X 0.30
+0.18
+
+0.1
+0.05
+
+C A B
+
+C
+
+19
+
+SYMM
+
+24X 0.48
+0.28
+
+4219016 A 082017
+
+PIN1INDEXAREA
+
+1MAX
+
+0.05
+0.00
+
+20X0.5
+
+2X
+2.5
+
+6
+
+1
+
+PIN1ID
+
+(OPTIONAL)
+
+24
+
+NOTES:
+
+1.
+
+2.
+3.
+
+Alllineardimensionsareinmillimeters.Anydimensionsinparenthesisareforreferenceonly.Dimensioningandtolerancing
+perASMEY14.5M.
+Thisdrawingissubjecttochangewithoutnotice.
+Thepackagethermalpadmustbesolderedtotheprintedcircuitboardforthermalandmechanicalperformance.
+
+www.ti.com
+
+EXAMPLEBOARDLAYOUT
+VQFN- 1mmmaxheight
+
+PLASTICQUADFLATPACK-NOLEAD
+
+(3.825)
+
+(2.7)
+
+24
+
+19
+
+RGE0024H
+
+24X(0.58)
+
+24X(0.24)
+
+1
+
+20X(0.5)
+
+18
+
+13
+
+(3.825)
+
+2X
+(1.1)
+
+SYMM
+
+25
+
+(cid:11)(cid:145)(cid:19)(cid:17)(cid:21)(cid:12)(cid:3)(cid:57)(cid:44)(cid:36)
+TYP
+
+6
+
+(R0.05)
+
+7
+
+12
+
+2X(1.1)
+
+SYMM
+
+LANDPATTERNEXAMPLE
+SCALE:20X
+
+0.07MAX
+ALLAROUND
+
+METAL
+
+SOLDERMASK
+OPENING
+
+0.07MIN
+ALLAROUND
+
+SOLDERMASK
+OPENING
+
+METALUNDER
+SOLDERMASK
+
+NONSOLDERMASK
+DEFINED
+(PREFERRED)
+
+SOLDERMASK
+DEFINED
+
+SOLDERMASKDETAILS
+
+4219016 A 082017
+
+NOTES:(continued)
+
+4.
+
+Thispackageisdesignedtobesolderedtoathermalpadontheboard.Formoreinformation,seeTexasInstruments
+.
+literaturenumber SLUA271(www.ti.comlitslua271)
+
+5. Soldermasktolerancesbetweenandaroundsignalpadscanvarybasedonboardfabricationsite.
+
+www.ti.com
+
+RGE0024H
+
+EXAMPLESTENCILDESIGN
+VQFN- 1mmmaxheight
+
+PLASTICQUADFLATPACK-NOLEAD
+
+(3.825)
+
+4X(1.188)
+
+24
+
+19
+
+18
+
+(3.825)
+
+(0.694)
+TYP
+
+13
+
+25
+
+24X(0.58)
+
+24X(0.24)
+
+1
+
+20X(0.5)
+
+SYMM
+
+6
+
+(R0.05)TYP
+
+METAL
+TYP
+
+7
+
+12
+(0.694)
+TYP
+
+SYMM
+
+SOLDERPASTEEXAMPLE
+BASEDON0.125mmTHICKSTENCIL
+
+EXPOSEDPAD
+
+78PRINTEDCOVERAGEBYAREA
+
+SCALE:20X
+
+NOTES:(continued)
+
+6.
+
+Lasercuttingapertureswithtrapezoidalwallsandroundedcornersmayofferbetterpasterelease.IPC-7525mayhavealternate
+designrecommendations..
+
+4219016 A 082017
+
+www.ti.com
+
+RHB 32
+5 x 5, 0.5 mm pitch
+
+GENERIC PACKAGE VIEW
+
+VQFN - 1 mm max height
+
+PLASTIC QUAD FLATPACK - NO LEAD
+
+Images above are just a representation of the package family, actual package may vary.
+Refer to the product data sheet for package details.
+
+4224745/A
+
+www.ti.com
+
+PACKAGE OUTLINE
+VQFN - 1 mm max height
+
+PLASTIC QUAD FLATPACK-NO LEAD
+
+RHB0032D
+
+B
+
+5.1
+4.9
+
+PIN 1 INDEX AREA
+
+A
+
+5.1
+4.9
+
+C
+
+SEATING PLANE
+
+0.08 C
+
+(0.2) TYP
+
+2X 3.5
+   3.25
+3.05
+
+16
+
+17
+
+33
+
+SYMM
+
+1 MAX
+
+0.05
+0.00
+
+9
+
+28X 0.5
+
+2X
+3.5
+
+8
+
+1
+
+PIN 1 ID
+(OPTIONAL)
+
+32
+
+SYMM
+
+25
+
+32X 0.5
+0.3
+
+24
+
+32X 0.3
+0.2
+
+0.1
+0.05
+
+C A B
+
+C
+
+NOTES:
+
+1.
+
+2.
+3.
+
+All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+per ASME Y14.5M.
+This drawing is subject to change without notice.
+The package thermal pad must be soldered to the printed circuit board for optimal thermal and mechanical performance.
+
+4228523/A   02/2022
+
+www.ti.com
+
+RHB0032D
+
+EXAMPLE BOARD LAYOUT
+VQFN - 1 mm max height
+
+PLASTIC QUAD FLATPACK-NO LEAD
+
+32X (0.6)
+
+32X (0.25)
+
+32
+
+(4.8)
+
+(    3.15)
+
+25
+
+1
+
+8
+
+28X (0.5)
+
+SYMM
+
+(R0.05) TYP
+
+24
+
+17
+
+(4.8)
+
+2X
+(1.33)
+
+33
+
+(Ø0.2)
+VIA TYP
+
+9
+
+16
+
+2X (1.33)
+
+SYMM
+
+LAND PATTERN EXAMPLE
+EXPOSED METAL SHOWN
+SCALE: 15X
+
+0.07 MAX
+ALL AROUND
+
+EXPOSED
+ METAL
+
+METAL
+
+SOLDER MASK
+OPENING
+
+NON SOLDER MASK
+DEFINED
+(PREFERRED)
+
+EXPOSED
+ METAL
+
+SOLDER MASK
+DEFINED
+
+0.07 MIN
+ALL AROUND
+
+SOLDER MASK
+OPENING
+
+METAL UNDER
+SOLDER MASK
+
+SOLDER MASK DETAILS
+
+4228523/A   02/2022
+
+NOTES: (continued)
+
+4.
+
+5.
+
+This package is designed to be soldered to a thermal pad on the board. For more information, see Texas Instruments literature
+number SLUA271 (www.ti.com/lit/slua271).
+Vias are optional depending on application, refer to device data sheet. If any vias are implemented, refer to their locations shown
+
+          on this view. It is recommended that vias under paste be filled, plugged or tented.
+
+www.ti.com
+
+RHB0032D
+
+EXAMPLE STENCIL DESIGN
+VQFN - 1 mm max height
+
+PLASTIC QUAD FLATPACK-NO LEAD
+
+(4.8)
+
+32
+
+4X (    1.37)
+
+25
+
+33
+
+24
+
+(4.8)
+
+2X
+(0.785)
+
+17
+
+32X (0.6)
+
+32X (0.25)
+
+28X (0.5)
+
+SYMM
+
+1
+
+8
+
+(R0.05) TYP
+
+9
+
+16
+
+2X (0.785)
+
+SYMM
+
+SOLDER PASTE EXAMPLE
+BASED ON 0.125 mm THICK STENCIL
+
+EXPOSED PAD
+75% PRINTED COVERAGE BY AREA
+SCALE: 15X
+
+NOTES: (continued)
+
+6.   Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+
+design recommendations.
+
+4228523/A   02/2022
+
+www.ti.com
+
+PACKAGE OUTLINE
+
+TSSOP - 1.2 mm max height
+
+SMALL OUTLINE PACKAGE
+
+C
+
+SEATING
+PLANE
+
+0.1 C
+
+DBT0038A
+
+SCALE  2.000
+
+6.55
+6.25 TYP
+
+PIN 1 INDEX AREA
+
+38
+
+38 X 0.5
+
+2X
+9
+
+A
+
+1
+
+9.75
+9.65
+NOTE 3
+
+19
+
+B
+
+4.45
+4.35
+NOTE 4
+
+20
+
+38 X 0.23
+0.17
+0.1
+
+C A B
+
+1.2 MAX
+
+0.25
+GAGE PLANE
+
+SEE DETAIL  A
+
+(0.15) TYP
+
+-80
+
+0.75
+0.50
+
+0.15
+0.05
+
+A  20DETAIL A
+TYPICAL
+
+4220221/A   05/2020
+
+NOTES: 
+
+1. All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+    per ASME Y14.5M. 
+2. This drawing is subject to change without notice. 
+3. This dimension does not include mold flash, protrusions, or gate burrs. Mold flash, protrusions, or gate burrs shall not
+    exceed 0.15 mm per side. 
+4. This dimension does not include interlead flash. Interlead flash shall not exceed 0.25 mm per side.
+5. Reference JEDEC registration MO-153.
+
+www.ti.com
+
+ 
+ 
+DBT0038A
+
+EXAMPLE BOARD LAYOUT
+
+TSSOP - 1.2 mm max height
+
+SMALL OUTLINE PACKAGE
+
+38 X (1.5)
+
+SYMM
+
+(R0.05) TYP
+
+38
+
+1
+
+38 X (0.3)
+
+38 X (0.5)
+
+SYMM
+
+19
+
+20
+
+(5.8)
+
+LAND PATTERN EXAMPLE
+EXPOSED METAL SHOWN
+SCALE: 10X
+
+SOLDER MASK
+OPENING
+
+METAL
+
+METAL UNDER
+SOLDER MASK
+
+SOLDER MASK
+OPENING
+
+EXPOSED METAL
+
+EXPOSED METAL
+
+0.05 MAX
+ALL AROUND
+
+NON-SOLDER MASK
+DEFINED
+(PREFERRED)
+
+0.05 MIN
+ALL AROUND
+
+SOLDER MASK
+DEFINED
+
+SOLDER MASK DETAILS
+
+15.000
+
+4220221/A   05/2020
+
+NOTES: (continued)
+
+6. Publication IPC-7351 may have alternate designs. 
+7. Solder mask tolerances between and around signal pads can vary based on board fabrication site.
+
+www.ti.com
+
+ 
+ 
+DBT0038A
+
+EXAMPLE STENCIL DESIGN
+
+TSSOP - 1.2 mm max height
+
+SMALL OUTLINE PACKAGE
+
+38 X (1.5)
+
+SYMM
+
+(R0.05) TYP
+
+38
+
+1
+
+38 X (0.3)
+
+38 X (0.5)
+
+SYMM
+
+19
+
+20
+
+(5.8)
+
+SOLDER PASTE EXAMPLE
+BASED ON 0.125 mm THICK STENCIL
+SCALE: 10X
+
+NOTES: (continued)
+
+8. Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+    design recommendations.   
+9. Board assembly site may have different recommendations for stencil design.
+
+4220221/A   05/2020
+
+www.ti.com
+
+ 
+ 
+IMPORTANT NOTICE AND DISCLAIMER
+TI PROVIDES TECHNICAL AND RELIABILITY DATA (INCLUDING DATASHEETS), DESIGN RESOURCES (INCLUDING REFERENCE 
+DESIGNS), APPLICATION OR OTHER DESIGN ADVICE, WEB TOOLS, SAFETY INFORMATION, AND OTHER RESOURCES “AS IS” 
+AND WITH ALL FAULTS, AND DISCLAIMS ALL WARRANTIES, EXPRESS AND IMPLIED, INCLUDING WITHOUT LIMITATION ANY 
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT OF THIRD 
+PARTY INTELLECTUAL PROPERTY RIGHTS.
+
+These resources are intended for skilled developers designing with TI products. You are solely responsible for (1) selecting the appropriate 
+TI products for your application, (2) designing, validating and testing your application, and (3) ensuring your application meets applicable 
+standards, and any other safety, security, regulatory or other requirements.
+
+These resources are subject to change without notice. TI grants you permission to use these resources only for development of an 
+application that uses the TI products described in the resource. Other reproduction and display of these resources is prohibited. No license 
+is granted to any other TI intellectual property right or to any third party intellectual property right. TI disclaims responsibility for, and you fully 
+indemnify TI and its representatives against any claims, damages, costs, losses, and liabilities arising out of your use of these resources.
+
+TI’s products are provided subject to TI’s Terms of Sale, TI’s General Quality Guidelines, or other applicable terms available either on 
+ti.com or provided in conjunction with such TI products. TI’s provision of these resources does not expand or otherwise alter TI’s applicable 
+warranties or warranty disclaimers for TI products. Unless TI explicitly designates a product as custom or customer-specified, TI products 
+are standard, catalog, general purpose devices.
+
+TI objects to and rejects any additional or different terms you may propose.
+
+IMPORTANT NOTICE
+
+Copyright © 2025, Texas Instruments Incorporated
+
+Last updated 10/2025
+
+
