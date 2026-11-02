@@ -301,11 +301,18 @@ public:
   // ===========================================================================
 
   /**
-   * @brief Set the input voltage range and update active reference.
+   * @brief Set the input voltage range; in effect on the chip when this returns.
    *
-   * Changes the hardware reference voltage used for SAR conversions by
-   * sending a CONTINUE frame with the updated range bit. Also updates
-   * the internal active_vref_ used by CountToVoltage() and VoltageToCount().
+   * The chip takes DI06 (range), DI05 (power-down) and DI03:00 (GPIO outputs)
+   * only from a mode frame with DI11 = 1 (SLAS605C Tables 1, 2 and 5); a
+   * CONTINUE frame ignores DI11:00 (Table 7). The call therefore sends a mode
+   * frame for the current mode (Manual: the current channel; Auto-1/Auto-2:
+   * no counter reset) with DI11 = 1, then one CONTINUE frame. A range written
+   * in frame N applies to the input acquired in frame N+1 (Figure 50), so the
+   * extra frame flushes the one conversion still made with the old range:
+   * every result clocked out after this returns uses the new range, and the
+   * driver's active reference (CountToVoltage(), VoltageToCount()) matches it.
+   * In Auto-1 / Auto-2 the two frames advance the channel counter by two.
    *
    * @warning Alarm thresholds are stored in the hardware as raw counts.
    *          Changing the range changes the count produced for any given
@@ -315,7 +322,9 @@ public:
    *          SetRange() to correct the hardware registers.
    *
    * @param range Vref or TwoVref
-   * @return true on success
+   * @return true on success. false if a transfer failed: when the mode frame
+   *         itself failed nothing changed; when only the flush frame failed
+   *         the chip has the new range and GetRange() reports it.
    */
   bool SetRange(Range range) noexcept;
 
@@ -323,11 +332,23 @@ public:
   Range GetRange() const noexcept { return range_; }
 
   /**
-   * @brief Set the power-down mode.
+   * @brief Set the power-down mode; in effect on the chip when this returns.
+   *
+   * Same two frames as SetRange(). With DI05 = 1 the chip powers down on the
+   * 16th SCLK falling edge of the frame after the one that wrote it
+   * (SLAS605C 8.3.2), i.e. at the end of the flush frame. With DI05 = 0 it
+   * powers up on the next CS falling edge; the conversion of that frame is
+   * the one invalid conversion after power-up (7.6) and is discarded.
+   *
    * @param pd Normal or PowerDown
-   * @return true on success
+   * @return true on success (see SetRange() for the failure cases)
    */
   bool SetPowerDown(PowerDown pd) noexcept;
+
+  /** @brief Get the current power-down setting. */
+  PowerDown GetPowerDown() const noexcept {
+    return power_down_;
+  }
 
   // ===========================================================================
   // GPIO Output Control
@@ -343,10 +364,21 @@ public:
    * adc.SetGPIOOutputs(ads7952::gpio::kNone);  // All low
    * @endcode
    *
+   * The levels are written with the same two frames as SetRange(): a mode
+   * frame with DI11 = 1, then a CONTINUE frame, on whose CS falling edge the
+   * chip drives the new levels (SLAS605C 8.1: GPO data is refreshed on the CS
+   * falling edge from the SDI data of the previous frame). The pins show the
+   * new levels when this returns.
+   *
    * @param gpio_state Bits [3:0] — 1 = high, 0 = low per pin
-   * @return true on success, false if the SPI transfer failed
+   * @return true on success (see SetRange() for the failure cases)
    */
   bool SetGPIOOutputs(uint8_t gpio_state) noexcept;
+
+  /** @brief Get the GPIO output levels last written (bits [3:0]). */
+  uint8_t GetGPIOOutputs() const noexcept {
+    return gpio_output_state_;
+  }
 
   // ===========================================================================
   // Diagnostics
@@ -444,6 +476,17 @@ private:
   /** @brief Build the range/power/gpio portion of a mode control frame. */
   uint16_t commonControlBits() const noexcept;
 
+  /**
+   * @brief Program DI06:00 (range, power-down, GPIO outputs) into the chip.
+   *
+   * Sends a mode frame for the current mode with DI11 = 1 and @p ctrl, then a
+   * CONTINUE frame so the setting is in effect when this returns. @p commit
+   * runs after the mode frame went out (the chip has latched @p ctrl), so the
+   * driver's mirror follows what the chip actually uses.
+   */
+  template <typename Commit>
+  bool programControlBits(uint16_t ctrl, Commit commit) noexcept;
+
   /** @brief Count set bits in a 16-bit value. */
   static constexpr uint8_t popcount16(uint16_t x) noexcept;
 
@@ -468,6 +511,7 @@ private:
   uint16_t auto1_mask_        = ADS7952_CFG::DEFAULT_AUTO1_MASK;
   uint8_t  auto2_last_ch_     = ADS7952_CFG::DEFAULT_AUTO2_LAST_CH;
   uint8_t  gpio_output_state_ = 0;
+  uint8_t manual_channel_ = 0; ///< Channel selected by the last Manual frame
 };
 
 } // namespace ads7952

@@ -1,7 +1,7 @@
 # Modes and the frame pipeline
 
-How the ADS7952 picks channels, why a result arrives two frames after its command, and which settings need a
-mode frame before the chip applies them.
+How the ADS7952 picks channels, why a result arrives two frames after its command, and how the range, power-down
+and GPIO settings reach the chip.
 
 ## Three channel modes
 
@@ -61,22 +61,33 @@ returns `Error::Timeout` if it never does. `ReadAllChannels()` restarts Auto-1 a
 is in the mask, until every programmed channel has arrived or the budget (one frame per channel plus
 `READ_ALL_MAX_EXTRA_FRAMES`, default 4) runs out.
 
-## Settings that need a mode frame
+## Range, power-down and GPIO outputs
 
-A continue frame (DI15:12 = `0000`) keeps the mode, and the chip **ignores DI11:00** in it (datasheet Table 7).
-`SetRange()`, `SetPowerDown()` and `SetGPIOOutputs()` update the driver's state and send a continue frame, so the
-chip applies the new range, power-down or GPIO levels only with the next frame that has DI11 = 1:
+The range (DI06), power-down (DI05) and GPIO output levels (DI03:00) live in the mode-control register. The chip
+takes them only from a Manual, Auto-1 or Auto-2 frame with the programming bit DI11 = 1 (datasheet Tables 1, 2
+and 5); with DI11 = 0 it keeps the previous values, and a continue frame (DI15:12 = `0000`) ignores DI11:00
+altogether (Table 7).
 
-| Call | Sends DI11 = 1 | Applies a pending range, power-down or GPIO change |
-| --- | :---: | :---: |
-| `EnterManualMode()`, `EnterAuto1Mode()`, `EnterAuto2Mode()` | yes | yes |
-| `ReadAllChannels()` | yes | yes |
-| `ReadChannel()`, `RawManualFrames()` | no | no |
-| `SetRange()`, `SetPowerDown()`, `SetGPIOOutputs()` | no | no |
+`SetRange()`, `SetPowerDown()` and `SetGPIOOutputs()` therefore send two frames:
 
-Call one of the `Enter...Mode()` functions after changing these settings, as the [API guide](api-guide.md#configure)
-does. `CountToVoltage()` switches to the new reference at once, so until the chip has latched the range, counts
-are converted with the wrong full scale.
+1. A mode frame for the mode the chip is in, with DI11 = 1 and the new bits: Manual re-selects the current channel,
+   Auto-1 and Auto-2 keep counting (DI10 = 0, no counter reset). The chip latches the bits at the end of this
+   frame, and the driver updates its own copy (`GetRange()`, `GetActiveVref()`, ...) at the same point.
+2. One continue frame. A range written in frame N applies to the input acquired in frame N + 1 (Figure 50), GPIO
+   outputs change on the CS falling edge of frame N + 1 (section 8.1), and DI05 = 1 powers the chip down on the
+   16th SCLK of frame N + 1 (section 8.3.2). The reply of this frame is the last conversion made with the old
+   range, and the driver drops it.
+
+When the call returns, the chip runs with the new setting and every result clocked out from then on was converted
+with it, so `CountToVoltage()` and the voltages in `ReadResult` / `ChannelReadings` always use the full scale the
+chip used. In Auto-1 and Auto-2 the two frames advance the channel counter by two, which `ReadAllChannels()`
+resets anyway.
+
+| Call | Sends DI11 = 1 with the range, power-down and GPIO bits |
+| --- | :---: |
+| `SetRange()`, `SetPowerDown()`, `SetGPIOOutputs()` | yes, then one flush frame |
+| `EnterManualMode()`, `EnterAuto1Mode()`, `EnterAuto2Mode()`, `ReadAllChannels()` | yes (the bits the driver holds) |
+| `ReadChannel()`, `RawManualFrames()` | no: DI11 = 0, the chip keeps its settings |
 
 ## Programming sequences
 

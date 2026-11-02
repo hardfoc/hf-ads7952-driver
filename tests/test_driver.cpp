@@ -150,14 +150,123 @@ void test_gpio_alarm_routing() {
   CHECK(chip.gpio0HighOrLowAlarm() && !chip.gpio1LowAlarm());
 }
 
-void test_range_latches_on_mode_frame() {
+// SLAS605C Tables 1, 2, 5, 7: DI06:00 are only taken from a mode frame with DI11 = 1, never from a
+// CONTINUE frame. The setters must leave the chip running with the new setting when they return.
+void test_range_takes_effect_on_return() {
+  for (const auto start : {ads7952::Mode::Manual, ads7952::Mode::Auto1, ads7952::Mode::Auto2}) {
+    MockAds7952 chip;
+    Adc adc(chip, 2.5f, 5.0f);
+    CHECK(adc.EnsureInitialized());
+    if (start == ads7952::Mode::Manual)
+      CHECK(adc.EnterManualMode(4));
+    if (start == ads7952::Mode::Auto2)
+      CHECK(adc.EnterAuto2Mode());
+    const auto dev_mode = chip.mode;
+
+    CHECK(adc.SetRange(ads7952::Range::TwoVref));
+    CHECK(chip.range_2vref);      // latched by the chip, no Enter*Mode() needed
+    CHECK(chip.mode == dev_mode); // and still in the same mode
+    CHECK(adc.GetMode() == start);
+    CHECK(std::fabs(adc.GetActiveVref() - 5.0f) < 1e-6f);
+    if (start == ads7952::Mode::Manual) {
+      CHECK(((chip.sent[chip.sent.size() - 2] >> 7) & 0x0F) == 4); // Manual: channel kept
+    }
+
+    CHECK(adc.SetRange(ads7952::Range::Vref));
+    CHECK(!chip.range_2vref);
+    CHECK(std::fabs(adc.GetActiveVref() - 2.5f) < 1e-6f);
+  }
+}
+
+// The voltage scale the driver reports always matches the range the chip converted with.
+void test_voltage_scale_follows_chip() {
+  MockAds7952 chip;
+  chip.analog = true;
+  chip.vref = 2.5f;
+  for (uint8_t ch = 0; ch < 12; ++ch)
+    chip.volts[ch] = 0.2f + 0.15f * ch; // 0.2 V .. 1.85 V: inside both ranges
+  Adc adc(chip, 2.5f, 5.0f);
+  CHECK(adc.EnsureInitialized());
+  const float lsb2 = 5.0f / 4095.0f;
+
+  auto r = adc.ReadChannel(6);
+  CHECK(r.ok() && std::fabs(r.voltage - chip.volts[6]) < lsb2);
+
+  CHECK(adc.SetRange(ads7952::Range::TwoVref));
+  r = adc.ReadChannel(6);
+  CHECK(r.ok() && std::fabs(r.voltage - chip.volts[6]) < lsb2); // not 2x the input
+
+  // Every frame clocked out after SetRange() returns was converted in the new range: frame 0 of a
+  // raw trace already carries the 2 x VREF count.
+  CHECK(adc.EnterManualMode(9));
+  CHECK(adc.SetRange(ads7952::Range::Vref));
+  uint16_t words[3] = {};
+  CHECK(adc.RawManualFrames(9, words, 3) == 3);
+  for (const uint16_t w : words) {
+    CHECK((w >> 12) == 9);
+    CHECK(std::fabs(adc.CountToVoltage(w & 0x0FFF) - chip.volts[9]) < 2.5f / 4095.0f);
+  }
+
+  CHECK(adc.SetRange(ads7952::Range::TwoVref));
+  const auto all = adc.ReadAllChannels();
+  CHECK(all.ok());
+  for (uint8_t ch = 0; ch < 12; ++ch)
+    CHECK(std::fabs(all.voltage[ch] - chip.volts[ch]) < lsb2);
+}
+
+void test_power_down_takes_effect_on_return() {
+  MockAds7952 chip;
+  Adc adc(chip);
+  CHECK(adc.EnsureInitialized());
+  CHECK(adc.SetPowerDown(ads7952::PowerDown::PowerDown));
+  CHECK(chip.power_down);   // DI05 latched
+  CHECK(chip.powered_down); // and the device is down (16th SCLK of the following frame)
+  CHECK(adc.GetPowerDown() == ads7952::PowerDown::PowerDown);
+  CHECK(adc.SetPowerDown(ads7952::PowerDown::Normal));
+  CHECK(!chip.power_down);
+  CHECK(!chip.powered_down); // awake again on the CS falling edge of the flush frame
+  const auto r = adc.ReadChannel(2);
+  CHECK(r.ok() && r.count == chip.input[2]); // the invalid post-wake conversion was not returned
+}
+
+void test_gpio_outputs_take_effect_on_return() {
+  MockAds7952 chip;
+  Adc adc(chip);
+  CHECK(adc.EnsureInitialized());
+  ads7952::GPIOConfig cfg;
+  cfg.direction_mask = ads7952::gpio::kGPIO2 | ads7952::gpio::kGPIO3;
+  CHECK(adc.ProgramGPIO(cfg));
+  CHECK(adc.SetGPIOOutputs(ads7952::gpio::kGPIO2));
+  CHECK(chip.gpio_out_reg == ads7952::gpio::kGPIO2);
+  CHECK(chip.gpio_pins == ads7952::gpio::kGPIO2); // driven on the pin already
+  CHECK(adc.GetGPIOOutputs() == ads7952::gpio::kGPIO2);
+  CHECK(adc.SetGPIOOutputs(ads7952::gpio::kGPIO3));
+  CHECK(chip.gpio_pins == ads7952::gpio::kGPIO3);
+  CHECK(adc.SetRange(ads7952::Range::TwoVref)); // other setters keep the outputs
+  CHECK(chip.gpio_pins == ads7952::gpio::kGPIO3);
+}
+
+// A failed mode frame changes nothing; a failed flush frame leaves the chip (and the driver) with
+// the new setting.
+void test_setter_bus_errors() {
   MockAds7952 chip;
   Adc adc(chip, 2.5f, 5.0f);
   CHECK(adc.EnsureInitialized());
-  CHECK(adc.SetRange(ads7952::Range::TwoVref));
-  CHECK(std::fabs(adc.GetActiveVref() - 5.0f) < 1e-6f);
-  CHECK(adc.EnterAuto1Mode()); // the documented way to latch the range bit
+  chip.transfers_before_failure = 0;
+  CHECK(!adc.SetRange(ads7952::Range::TwoVref));
+  CHECK(adc.GetRange() == ads7952::Range::Vref);
+  CHECK(std::fabs(adc.GetActiveVref() - 2.5f) < 1e-6f);
+  CHECK(!adc.SetPowerDown(ads7952::PowerDown::PowerDown));
+  CHECK(adc.GetPowerDown() == ads7952::PowerDown::Normal);
+  CHECK(!adc.SetGPIOOutputs(ads7952::gpio::kGPIO1));
+  CHECK(adc.GetGPIOOutputs() == 0);
+
+  chip.transfers_before_failure = 1;
+  CHECK(!adc.SetRange(ads7952::Range::TwoVref));
   CHECK(chip.range_2vref);
+  CHECK(adc.GetRange() == ads7952::Range::TwoVref);
+  CHECK(std::fabs(adc.GetActiveVref() - 5.0f) < 1e-6f);
+  chip.transfers_before_failure = -1;
 }
 
 void test_conversion_helpers() {
@@ -287,7 +396,11 @@ int main() {
   test_read_subset();
   test_programming_frames();
   test_gpio_alarm_routing();
-  test_range_latches_on_mode_frame();
+  test_range_takes_effect_on_return();
+  test_voltage_scale_follows_chip();
+  test_power_down_takes_effect_on_return();
+  test_gpio_outputs_take_effect_on_return();
+  test_setter_bus_errors();
   test_conversion_helpers();
   test_reference_and_supply_limits();
   test_bus_errors_propagate();

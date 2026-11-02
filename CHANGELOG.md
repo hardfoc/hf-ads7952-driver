@@ -26,6 +26,14 @@ The driver has not been released yet; its version in `cmake/hf_ads7952_build_set
 
 ### Fixed
 
+- `SetRange()`, `SetPowerDown()` and `SetGPIOOutputs()` take effect on the chip before they return. They sent a
+  continue frame, whose DI11:00 the chip ignores (SLAS605C Table 7), so the change only landed at the next
+  `Enter...Mode()` while `CountToVoltage()` had already switched scale: voltages were off by a factor of 2 in
+  between. They now send a mode frame for the current mode with the programming bit DI11 = 1 (Tables 1, 2, 5),
+  then one flush frame, after which the range applies to every result clocked out (Figure 50), the GPIO pins show
+  the new levels (section 8.1) and the chip is powered down or awake (section 8.3.2). The driver's range, active
+  reference, power-down and GPIO state change only once the chip has latched them. In Auto-1 / Auto-2 the two
+  frames advance the channel counter by two. New getters: `GetPowerDown()`, `GetGPIOOutputs()`.
 - `GPIO01AlarmMode::GPIO1_HighAlarm` is renamed `GPIO1_LowAlarm`: its code (DI06:04 = `100`) makes GPIO1 the low
   alarm output (SLAS605C Table 11), and the chip has no GPIO1 high-alarm setting. The old name stays as a
   `[[deprecated]]` alias with the same value, so existing code builds (with a warning) and behaves as before;

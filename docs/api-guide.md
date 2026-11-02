@@ -45,9 +45,9 @@ the chip was reset or lost power. Every read returns `Error::NotInitialized` unt
 Build masks with `ads7952::ChannelMask(0, 2, 4)`, `ChannelRangeMask(first, last)` or the constants
 `kAllChannels`, `kEvenChannels`, `kOddChannels`, `kFirstFour`, `kSecondFour`, `kThirdFour`. Bit N is channel N.
 
-`SetRange()` changes the driver's full scale at once, but the chip applies the new range only with the next mode
-frame, hence the `EnterAuto1Mode()` after it. [Modes and the frame pipeline](modes-and-pipeline.md#settings-that-need-a-mode-frame)
-explains which calls send one.
+`SetRange()` is in effect on the chip when it returns, in whatever mode the chip is in, and the driver's full scale
+changes with it. [Modes and the frame pipeline](modes-and-pipeline.md#range-power-down-and-gpio-outputs) shows the
+two frames it sends.
 
 ## Read
 
@@ -95,8 +95,9 @@ pins; `reset_all_registers` resets every chip register in the next frame. On the
 --8<-- "tests/docs/api_tasks.cpp:write"
 ```
 
-The power-down and GPIO bits travel in every mode frame, like the range. In power-down the chip draws about 1 µA;
-the next mode frame with the bit cleared wakes it, and it is ready after 1 µs.
+`SetGPIOOutputs()` and `SetPowerDown()` work like `SetRange()`: when they return, the pins show the new levels, or
+the chip is powered down (about 1 µA) or awake again. Waking takes 1 µs and costs one invalid conversion, which
+falls in the frame the driver drops.
 
 ## Read raw frames
 

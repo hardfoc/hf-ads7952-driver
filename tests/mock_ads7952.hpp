@@ -8,6 +8,15 @@
  * 0000) keep the mode and ignore DI11:00 (Table 7). Range, power-down and GPIO bits are latched
  * only from mode frames with DI11 = 1 (Manual: also with DI11 = 0 for the channel address). The
  * first frame after power-up returns an invalid conversion.
+ *
+ * Timing of the latched settings (the reason the driver's setters send a second frame):
+ * - range: the value latched by frame N applies to the input acquired in frame N+1, so the
+ *   conversion clocked out in frame N+1 still used the old range (Figure 50);
+ * - GPIO outputs: driven on the CS falling edge of frame N+1 from DI03:00 written in frame N,
+ *   for pins whose direction bit is 1 (section 8.1, Table 11);
+ * - power-down: DI05 = 1 written in frame N powers down at the 16th SCLK of frame N+1; DI05 = 0
+ *   powers up on the next CS falling edge, whose conversion is invalid (8.3.2, 7.6).
+ * With `analog` set, each channel converts `volts[ch]` with the range used for its acquisition.
  */
 #pragma once
 
@@ -28,6 +37,9 @@ public:
 
   // --- what the test sets --------------------------------------------------
   std::array<uint16_t, 12> input{}; ///< 12-bit count each channel converts to
+  bool analog = false;              ///< convert volts[] with the acquisition's range instead
+  std::array<float, 12> volts{};    ///< analog input of each channel (when analog)
+  float vref = 2.5f;                ///< voltage at REFP (when analog)
 
   // --- what the test reads back ------------------------------------------
   std::vector<uint16_t> sent; ///< every DI15:0 word, in order
@@ -35,8 +47,11 @@ public:
   DevMode mode = DevMode::Manual;
   uint16_t auto1_mask = 0;
   uint8_t auto2_last = 0;
-  bool range_2vref = false;
-  bool power_down = false;
+  bool range_2vref = false;  ///< DI06 as latched (mode-control register)
+  bool power_down = false;   ///< DI05 as latched (mode-control register)
+  uint8_t gpio_out_reg = 0;  ///< DI03:00 as latched (mode-control register)
+  uint8_t gpio_pins = 0;     ///< levels driven on the GPIO output pins right now
+  bool powered_down = false; ///< the device is in power-down right now
   uint16_t gpio_prog = 0; ///< last GPIO program register word (DI09:00)
   std::array<uint16_t, 12> alarm_high{};
 
@@ -86,14 +101,42 @@ private:
   uint16_t frame(uint16_t di) {
     sent.push_back(di);
 
+    // CS falling edge: GPO pins take DI03:00 of the previous frame (outputs only); DI05 = 0 wakes
+    // the device, and that frame's conversion is invalid.
+    gpio_pins = static_cast<uint8_t>(gpio_out_reg & gpio_prog & 0x0F);
+    bool invalid = first_frame_;
+    if (powered_down && !power_down) {
+      powered_down = false;
+      invalid = true;
+    }
+    const bool power_down_at_end = power_down;
+
     // Output: the channel that was acquired during the previous frame, sampled at this CS falling
-    // edge.
-    uint16_t dout = first_frame_
+    // edge, converted with the range that applied to that acquisition.
+    uint16_t dout = invalid
                         ? 0x0000
-                        : static_cast<uint16_t>((acquiring_ << 12) | (input[acquiring_] & 0x0FFF));
+                        : static_cast<uint16_t>((acquiring_ << 12) |
+                                                (convert(acquiring_, acquiring_2vref_) & 0x0FFF));
     first_frame_ = false;
     acquiring_ = pending_;
+    acquiring_2vref_ = range_2vref; // this frame's acquisition uses the range latched so far
+    dout = process(di, dout);
+    if (power_down_at_end) {
+      powered_down = true; // 16th SCLK falling edge of the frame after DI05 = 1
+    }
+    return dout;
+  }
 
+  uint16_t convert(uint8_t ch, bool two_vref) const {
+    if (!analog) {
+      return input[ch];
+    }
+    const float fs = vref * (two_vref ? 2.0f : 1.0f);
+    const float c = volts[ch] / fs * 4095.0f + 0.5f;
+    return static_cast<uint16_t>(c < 0.0f ? 0.0f : (c > 4095.0f ? 4095.0f : c));
+  }
+
+  uint16_t process(uint16_t di, uint16_t dout) {
     // Programming sequences in progress take the frame; the device keeps converting in its mode.
     if (prog_ == Prog::Auto1Mask) {
       auto1_mask = di & 0x0FFF;
@@ -179,6 +222,7 @@ private:
   void latch(uint16_t di) {
     range_2vref = (di & 0x0040) != 0;
     power_down = (di & 0x0020) != 0;
+    gpio_out_reg = static_cast<uint8_t>(di & 0x000F);
   }
 
   void advance() {
@@ -208,6 +252,7 @@ private:
 
   bool first_frame_ = true;
   uint8_t acquiring_ = 0;
+  bool acquiring_2vref_ = false;
   uint8_t pending_ = 0;
   Prog prog_ = Prog::None;
   uint8_t alarm_group_ = 0;

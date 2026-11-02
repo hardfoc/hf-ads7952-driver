@@ -8,14 +8,14 @@ The values the driver needs about your board, where each one is set, and the com
 | --- | --- | --- | --- |
 | Reference voltage (REFP) | constructor `vref`, `SetVref()` | `DEFAULT_VREF`, 2.5 V | No: conversion only |
 | Analog supply (+VA) | constructor `va`, `SetVA()` | `DEFAULT_VA`, 5.0 V | No: stored for your use (`GetVA()`) |
-| Input range | constructor `initial_range`, `SetRange()` | `DEFAULT_RANGE`, `Range::Vref` | Yes, with the next mode frame |
+| Input range | constructor `initial_range`, `SetRange()` | `DEFAULT_RANGE`, `Range::Vref` | Yes, in effect when `SetRange()` returns |
 | Auto-1 mask | `ProgramAuto1Channels()` | `DEFAULT_AUTO1_MASK`, `0x0FFF` | Yes, by `EnsureInitialized()` |
 | Auto-2 last channel | `ProgramAuto2LastChannel()` | `DEFAULT_AUTO2_LAST_CH`, 11 | Yes, by `EnsureInitialized()` |
-| Power-down | `SetPowerDown()` | `PowerDown::Normal` | Yes, with the next mode frame |
+| Power-down | `SetPowerDown()` | `PowerDown::Normal` | Yes, in effect when `SetPowerDown()` returns |
 | GPIO functions and outputs | `ProgramGPIO()`, `SetGPIOOutputs()` | all inputs | Yes |
 
 The constructor's `initial_range` sets the driver's full scale only. The chip starts in the 0 to VREF range after
-power-up and takes `Range::TwoVref` with the first mode frame, which `EnsureInitialized()` sends.
+power-up and takes `Range::TwoVref` with the Auto-1 mode frame that `EnsureInitialized()` sends.
 
 ```cpp
 --8<-- "tests/docs/api_tasks.cpp:configure"
