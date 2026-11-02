@@ -32,10 +32,9 @@ The active reference is VREF in `Range::Vref` and 2 × VREF in `Range::TwoVref`.
 | `Range::TwoVref` | 0 V to 2 × VREF | 2 × VREF ≤ +VA |
 
 !!! note "Clamping of `vref` and `va`"
-    The constructor, `SetVref()` and `SetVA()` clamp their arguments to `ADS7952_CFG::MIN_VREF` ...
-    `MAX_VREF` (1.0 V to 2.5 V) and `MIN_VA` ... `MAX_VA` (2.7 V to 5.5 V). The datasheet's reference range is
-    2.0 V to 3.0 V and its +VA maximum is 5.25 V, so a reference above 2.5 V is converted as 2.5 V. Use a 2.5 V
-    reference, or change `MAX_VREF`, until the limits are aligned.
+    The constructor, `SetVref()` and `SetVA()` clamp their arguments to the datasheet's recommended operating
+    conditions (SLAS605C section 7.3): `ADS7952_CFG::MIN_VREF` ... `MAX_VREF` is 2.0 V to 3.0 V and `MIN_VA` ...
+    `MAX_VA` is 2.7 V to 5.25 V. A `vref` outside 2.0 V to 3.0 V is converted with the nearest limit.
 
 The driver does not limit `Range::TwoVref` to +VA: with 2.5 V at REFP, use it only on a 5 V analog supply.
 

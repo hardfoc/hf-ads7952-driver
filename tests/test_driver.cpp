@@ -135,6 +135,25 @@ void test_conversion_helpers() {
   CHECK(std::fabs(adc.CountToVoltage(4095) - 2.5f) < 1e-6f);
 }
 
+// SLAS605C 7.3 Recommended Operating Conditions: V(REF) 2.0 V .. 3.0 V, +VA 2.7 V .. 5.25 V.
+void test_reference_and_supply_limits() {
+  MockAds7952 chip;
+  Adc adc(chip, 3.0f, 5.25f);
+  CHECK(std::fabs(adc.GetVref() - 3.0f) < 1e-6f); // 3.0 V is in range, not clamped to 2.5 V
+  CHECK(std::fabs(adc.GetVA() - 5.25f) < 1e-6f);
+  CHECK(std::fabs(adc.CountToVoltage(4095) - 3.0f) < 1e-6f);
+  adc.SetVref(1.5f); // below the 2.0 V minimum
+  CHECK(std::fabs(adc.GetVref() - 2.0f) < 1e-6f);
+  adc.SetVref(3.3f); // above the 3.0 V maximum
+  CHECK(std::fabs(adc.GetVref() - 3.0f) < 1e-6f);
+  adc.SetVA(5.5f); // above the 5.25 V maximum
+  CHECK(std::fabs(adc.GetVA() - 5.25f) < 1e-6f);
+  adc.SetVA(2.0f); // below the 2.7 V minimum
+  CHECK(std::fabs(adc.GetVA() - 2.7f) < 1e-6f);
+  static_assert(ADS7952_CFG::MIN_VREF == 2.0f && ADS7952_CFG::MAX_VREF == 3.0f);
+  static_assert(ADS7952_CFG::MIN_VA == 2.7f && ADS7952_CFG::MAX_VA == 5.25f);
+}
+
 void test_raw_frames() {
   MockAds7952 chip;
   Adc adc(chip);
@@ -157,6 +176,7 @@ int main() {
   test_programming_frames();
   test_range_latches_on_mode_frame();
   test_conversion_helpers();
+  test_reference_and_supply_limits();
   test_raw_frames();
   std::printf("%d checks, %d failures\n", g_checks, g_failures);
   return g_failures == 0 ? 0 : 1;

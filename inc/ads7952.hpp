@@ -361,7 +361,7 @@ public:
    * Use this for runtime calibration when Vref is measured externally.
    * Updates both vref_ and two_vref_ (2×Vref) accordingly.
    *
-   * @param vref New Vref voltage in volts (clamped to 1.0V–2.5V)
+   * @param vref New Vref voltage in volts (clamped to 2.0V–3.0V, ADS7952_CFG::MIN_VREF..MAX_VREF)
    * @note Does not send any SPI commands — purely for software calculations.
    */
   void SetVref(float vref) noexcept;
@@ -373,7 +373,7 @@ public:
    * resistor divider on an ADC channel). VA is used for validation
    * and ratiometric sensor calculations.
    *
-   * @param va New VA voltage in volts (clamped to 2.7V–5.5V)
+   * @param va New VA voltage in volts (clamped to 2.7V–5.25V, ADS7952_CFG::MIN_VA..MAX_VA)
    * @note Does not send any SPI commands — purely for software calculations.
    */
   void SetVA(float va) noexcept;
@@ -441,7 +441,7 @@ private:
   SpiType &spi_;
 
   // Voltage references
-  float vref_;          ///< REFP pin voltage (1.0V to 2.5V per datasheet)
+  float vref_;          ///< REFP pin voltage (2.0V to 3.0V per datasheet 7.3)
   float va_;            ///< VA supply voltage (for validation/ratiometric use)
   float two_vref_;      ///< 2 × vref (full-scale for 2×Vref range mode)
   float active_vref_;   ///< Currently selected reference for conversions

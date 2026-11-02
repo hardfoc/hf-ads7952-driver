@@ -19,6 +19,9 @@ The driver has not been released yet; its version in `cmake/hf_ads7952_build_set
 
 ### Fixed
 
+- `ADS7952_CFG::MIN_VREF` / `MAX_VREF` are 2.0 V / 3.0 V and `MAX_VA` is 5.25 V, the recommended operating
+  conditions of SLAS605C section 7.3 (they were 1.0 V / 2.5 V and 5.5 V). A reference between 2.5 V and 3.0 V is no
+  longer converted as 2.5 V; a `vref` below 2.0 V is now clamped to 2.0 V.
 - `examples/esp32/components/hf_ads7952/idf_component.yml`: `repository` and `issues` point at
   `https://github.com/hardfoc/hf-ads7952-driver` (they named a repository that does not exist).
 - The `hf_ads7952` CMake target now puts `src/` on the include path, so code that links it finds `ads7952.ipp`;

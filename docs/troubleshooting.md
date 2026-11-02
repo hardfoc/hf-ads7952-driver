@@ -22,7 +22,7 @@ apart from analog problems (right address, wrong count). [API guide](api-guide.m
 | Every count is 0 | MXO not connected to AINP, AINP floating, or no reference | Short MXO (pin 7) to AINP (pin 8); AINM to AGND; check REFP |
 | Counts stuck at 4095 | Input above the range | Use `Range::TwoVref` (needs 2 × VREF ≤ +VA) or scale the input |
 | Every channel reads about the same count | Source impedance too high: the sampling capacitor keeps the previous channel's charge | 50 Ω or less into each input, or about 150 pF at each input; or lower SCLK |
-| Voltages off by a fixed factor | `vref` passed to the driver is not the voltage at REFP, or it was clamped (above 2.5 V) | Measure REFP; `SetVref()`; see [Configuration](configuration.md#reference-and-range) |
+| Voltages off by a fixed factor | `vref` passed to the driver is not the voltage at REFP, or it was clamped (outside 2.0 V to 3.0 V) | Measure REFP; `SetVref()`; see [Configuration](configuration.md#reference-and-range) |
 | Voltages off by exactly 2 after `SetRange()` | The chip has not latched the new range yet: `SetRange()` sends a continue frame, which the chip ignores | Call `EnterAuto1Mode()` (or another `Enter...Mode()`) after `SetRange()` |
 | The first conversion after power-up is wrong | The chip's first conversion is invalid by design | `EnsureInitialized()` discards it; after a reset call `EnsureInitialized(true)` |
 
