@@ -46,14 +46,14 @@ idf.py -B build flash monitor
 Edit `main/esp32_ads7952_test_config.hpp` to match your hardware:
 
 | Setting | Default | Description |
-|---------|---------|-------------|
-| `PIN_NUM_MISO` | 13 | SPI MISO (SDO from ADS7952) |
-| `PIN_NUM_MOSI` | 11 | SPI MOSI (SDI to ADS7952) |
-| `PIN_NUM_CLK` | 12 | SPI SCLK |
-| `PIN_NUM_CS` | 10 | SPI CS (directly controlled) |
-| `SPI_FREQ_HZ` | 1 MHz | SPI clock frequency (max 20 MHz) |
-| `VREF` | 2.5 V | External reference voltage |
-| `VA` | 5.0 V | Analog supply voltage |
+| --- | --- | --- |
+| `SPIPins::MISO` | 13 | SPI MISO (SDO from ADS7952) |
+| `SPIPins::MOSI` | 11 | SPI MOSI (SDI to ADS7952) |
+| `SPIPins::SCLK` | 12 | SPI SCLK |
+| `SPIPins::CS` | 10 | SPI CS, driven by the SPI peripheral |
+| `SPIParams::FREQUENCY` | 4 MHz | SPI clock frequency (ADS7952 maximum: 20 MHz) |
+| `SPIParams::MODE` | 0 | SPI mode (CPOL = 0, CPHA = 0) |
+| `ADCSpecs::VREF` | 2.5 V | External reference voltage |
 
 ## Directory Structure
 
@@ -85,7 +85,7 @@ The ESP32 SPI interface is implemented in `esp32_ads7952_bus.hpp` using the CRTP
 
 ```cpp
 class Esp32Ads7952SpiBus : public ads7952::SpiInterface<Esp32Ads7952SpiBus> {
-    int transfer_impl(const uint8_t* tx, uint8_t* rx, size_t len);
+    void transfer(const uint8_t* tx, uint8_t* rx, std::size_t len);
 };
 ```
 
