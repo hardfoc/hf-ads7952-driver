@@ -18,13 +18,13 @@ has programmed into the chip.
 | Read | `ReadChannel(ch)`, `ReadAllChannels()`, `RawManualFrames(ch, out, n)` | `ReadResult`, `ChannelReadings`, frame count |
 | Modes | `EnterManualMode(ch)`, `EnterAuto1Mode(reset)`, `EnterAuto2Mode(reset)`, `GetMode()` | `bool` |
 | Sequences | `ProgramAuto1Channels(mask)`, `ProgramAuto2LastChannel(ch)` | `bool` |
-| Alarms and GPIOs | `ProgramAlarm()`, `ProgramAlarmVoltage()`, `ProgramGPIO(config)`, `SetGPIOOutputs(bits)` | `bool` (`void` for outputs) |
+| Alarms and GPIOs | `ProgramAlarm()`, `ProgramAlarmVoltage()`, `ProgramGPIO(config)`, `SetGPIOOutputs(bits)` | `bool` |
 | Range and power | `SetRange(range)`, `SetPowerDown(pd)` | `bool` |
 | Conversion | `CountToVoltage()`, `VoltageToCount()`, `SetVref()`, `SetVA()`, `GetActiveVref()` | volts, counts |
 
-Reads return a struct with an `error` field and an `ok()` helper. The other calls return `false` only for an
-argument out of range (a channel above 11): the SPI port returns nothing, so the driver cannot see a bus failure
-there.
+Reads return a struct with an `error` field and an `ok()` helper (`Error::SpiError` when the port's `transfer()`
+reported a bus error). The other calls return `false` for an argument out of range (a channel above 11) or a
+failed transfer; see [Porting](porting.md#bus-errors).
 
 ## Initialise
 
@@ -45,9 +45,9 @@ the chip was reset or lost power. Every read returns `Error::NotInitialized` unt
 Build masks with `ads7952::ChannelMask(0, 2, 4)`, `ChannelRangeMask(first, last)` or the constants
 `kAllChannels`, `kEvenChannels`, `kOddChannels`, `kFirstFour`, `kSecondFour`, `kThirdFour`. Bit N is channel N.
 
-`SetRange()` changes the driver's full scale at once, but the chip applies the new range only with the next mode
-frame, hence the `EnterAuto1Mode()` after it. [Modes and the frame pipeline](modes-and-pipeline.md#settings-that-need-a-mode-frame)
-explains which calls send one.
+`SetRange()` is in effect on the chip when it returns, in whatever mode the chip is in, and the driver's full scale
+changes with it. [Modes and the frame pipeline](modes-and-pipeline.md#range-power-down-and-gpio-outputs) shows the
+two frames it sends.
 
 ## Read
 
@@ -80,8 +80,11 @@ call it: program the thresholds again after `SetRange()` or `SetVref()`.
 | `GPIO` | `000` | GPIO | GPIO |
 | `GPIO0_HighAndLowAlarm` | `001` | High or low alarm | GPIO |
 | `GPIO0_HighAlarm` | `010` | High alarm | GPIO |
-| `GPIO1_HighAlarm` | `100` | GPIO | **Low** alarm (the datasheet's function for this code) |
+| `GPIO1_LowAlarm` | `100` | GPIO | Low alarm |
 | `GPIO1_LowAlarm_GPIO0_HighAlarm` | `110` | High alarm | Low alarm |
+
+The chip has no code that makes GPIO1 a high-alarm output (SLAS605C Table 11). `GPIO1_HighAlarm`, the old, misleading
+name of `GPIO1_LowAlarm`, is kept as a deprecated alias with the same code.
 
 `GPIOConfig::gpio2_as_range_input` and `gpio3_as_powerdown_input` hand the range and power-down control to those
 pins; `reset_all_registers` resets every chip register in the next frame. On the VQFN package only GPIO0 exists.
@@ -92,8 +95,9 @@ pins; `reset_all_registers` resets every chip register in the next frame. On the
 --8<-- "tests/docs/api_tasks.cpp:write"
 ```
 
-The power-down and GPIO bits travel in every mode frame, like the range. In power-down the chip draws about 1 µA;
-the next mode frame with the bit cleared wakes it, and it is ready after 1 µs.
+`SetGPIOOutputs()` and `SetPowerDown()` work like `SetRange()`: when they return, the pins show the new levels, or
+the chip is powered down (about 1 µA) or awake again. Waking takes 1 µs and costs one invalid conversion, which
+falls in the frame the driver drops.
 
 ## Read raw frames
 
@@ -115,9 +119,10 @@ on the bench to see the address pipeline advance; it leaves the chip in Manual m
 | `Error::NotInitialized` | `EnsureInitialized()` has not succeeded | Call it |
 | `Error::InvalidChannel` | Channel above 11 | Fix the caller |
 | `Error::Timeout` | The requested channel address never came back in the frame budget | Check SPI mode, CS framing and MISO; re-initialise after a chip reset |
-| A `bool` call returns `false` | Channel or last channel above 11 | Fix the caller |
+| `Error::SpiError` | The port's `transfer()` returned `false` | Check the port and the bus; the read stopped at that frame |
+| A `bool` call returns `false` | Channel or last channel above 11, or the port's `transfer()` returned `false` | Fix the caller, or check the bus |
 
-`Error::SpiError`, `ProgrammingFailed` and `ModeChangeFailed` exist in the enum but no call returns them today.
+`ProgrammingFailed` and `ModeChangeFailed` exist in the enum but no call returns them today.
 [Troubleshooting](troubleshooting.md) maps symptoms to causes.
 
 ## Calibrate the conversion

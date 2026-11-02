@@ -65,7 +65,7 @@ apps:
     category: "example"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
-    ci_enabled: false
+    ci_enabled: true
     featured: true
     hardware_required: true
     features:
@@ -84,7 +84,7 @@ apps:
     category: "example"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
-    ci_enabled: false
+    ci_enabled: true
     featured: true
     hardware_required: true
     features:
@@ -103,7 +103,7 @@ apps:
     category: "example"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
-    ci_enabled: false
+    ci_enabled: true
     featured: true
     hardware_required: true
     features:

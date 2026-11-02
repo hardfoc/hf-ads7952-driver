@@ -85,7 +85,9 @@ bool ADS7952<SpiType>::EnsureInitialized(bool force) noexcept {
 template <typename SpiType>
 bool ADS7952<SpiType>::Initialize() noexcept {
   // Datasheet: first conversion after power-up is invalid — discard it
-  spiTransfer16(reg::Mode::CONTINUE);
+  if (!spiTransfer16(reg::Mode::CONTINUE)) {
+    return false;
+  }
 
   // Program Auto-1 with default channel mask
   if (!ProgramAuto1Channels(auto1_mask_)) {
@@ -138,12 +140,21 @@ ReadResult ADS7952<SpiType>::ReadChannel(uint8_t channel) noexcept {
   // tap.
   uint16_t cmd = reg::Mode::MANUAL | reg::PROGRAM_RETAIN
                | reg::ChannelSelect(channel) | ctrl;
-  spiTransfer16(cmd);
+  result.channel = channel;
+  if (!spiTransfer16(cmd)) {
+    result.error = Error::SpiError;
+    return result;
+  }
   mode_ = Mode::Manual;
+  manual_channel_ = channel;
 
   const uint16_t cont = reg::Mode::CONTINUE | ctrl;
   for (uint8_t i = 0; i < ADS7952_CFG::MANUAL_READ_MAX_FRAMES; ++i) {
-    const uint16_t resp = spiTransfer16(cont);
+    uint16_t resp = 0;
+    if (!spiTransfer16(cont, &resp)) {
+      result.error = Error::SpiError;
+      return result;
+    }
     const uint8_t  ch   = reg::Response::GetChannel(resp);
     if (ch == channel) {
       result.channel = ch;
@@ -187,7 +198,10 @@ ChannelReadings ADS7952<SpiType>::ReadAllChannels() noexcept {
   // is stale — discard.
   uint16_t cmd = reg::Mode::AUTO_1 | reg::PROGRAM_ENABLE
                | reg::RESET_COUNTER | ctrl;
-  spiTransfer16(cmd);
+  if (!spiTransfer16(cmd)) {
+    result.error = Error::SpiError;
+    return result;
+  }
   mode_ = Mode::Auto1;
 
   // Read until all programmed channels are received (with safety margin).
@@ -196,7 +210,11 @@ ChannelReadings ADS7952<SpiType>::ReadAllChannels() noexcept {
       num_enabled + ADS7952_CFG::READ_ALL_MAX_EXTRA_FRAMES;
 
   for (uint8_t i = 0; i < max_frames; ++i) {
-    uint16_t resp = spiTransfer16(cont);
+    uint16_t resp = 0;
+    if (!spiTransfer16(cont, &resp)) {
+      result.error = Error::SpiError;
+      return result;
+    }
     uint8_t  ch   = reg::Response::GetChannel(resp);
     uint16_t data = reg::Response::GetData(resp);
 
@@ -248,8 +266,11 @@ bool ADS7952<SpiType>::EnterManualMode(uint8_t channel) noexcept {
 
   uint16_t cmd = reg::Mode::MANUAL | reg::PROGRAM_ENABLE
                | reg::ChannelSelect(channel) | commonControlBits();
-  spiTransfer16(cmd);
+  if (!spiTransfer16(cmd)) {
+    return false;
+  }
   mode_ = Mode::Manual;
+  manual_channel_ = channel;
   return true;
 }
 
@@ -259,7 +280,9 @@ bool ADS7952<SpiType>::EnterAuto1Mode(bool reset_counter) noexcept {
   uint16_t cmd = reg::Mode::AUTO_1 | reg::PROGRAM_ENABLE
                | (reset_counter ? reg::RESET_COUNTER : reg::NO_RESET_COUNTER)
                | commonControlBits();
-  spiTransfer16(cmd);
+  if (!spiTransfer16(cmd)) {
+    return false;
+  }
   mode_ = Mode::Auto1;
   return true;
 }
@@ -270,7 +293,9 @@ bool ADS7952<SpiType>::EnterAuto2Mode(bool reset_counter) noexcept {
   uint16_t cmd = reg::Mode::AUTO_2 | reg::PROGRAM_ENABLE
                | (reset_counter ? reg::RESET_COUNTER : reg::NO_RESET_COUNTER)
                | commonControlBits();
-  spiTransfer16(cmd);
+  if (!spiTransfer16(cmd)) {
+    return false;
+  }
   mode_ = Mode::Auto2;
   return true;
 }
@@ -283,11 +308,15 @@ template <typename SpiType>
 /** @copydoc ADS7952::ProgramAuto1Channels(uint16_t) */
 bool ADS7952<SpiType>::ProgramAuto1Channels(uint16_t channel_mask) noexcept {
   // Frame 1: Enter Auto-1 programming mode
-  spiTransfer16(reg::Mode::AUTO_1_PROG);
+  if (!spiTransfer16(reg::Mode::AUTO_1_PROG)) {
+    return false;
+  }
 
   // Frame 2: Channel enable mask in bits [11:0]
   // (bits [15:12] are "don't care" per datasheet Table 3)
-  spiTransfer16(channel_mask & 0x0FFF);
+  if (!spiTransfer16(channel_mask & 0x0FFF)) {
+    return false;
+  }
 
   auto1_mask_ = channel_mask & 0x0FFF;
   return true;
@@ -303,7 +332,9 @@ bool ADS7952<SpiType>::ProgramAuto2LastChannel(uint8_t last_channel) noexcept {
   if (last_channel >= reg::NUM_CHANNELS) return false;
 
   // Single frame: mode + last channel address in bits [9:6]
-  spiTransfer16(reg::Mode::AUTO_2_PROG | reg::Auto2LastChannel(last_channel));
+  if (!spiTransfer16(reg::Mode::AUTO_2_PROG | reg::Auto2LastChannel(last_channel))) {
+    return false;
+  }
 
   auto2_last_ch_ = last_channel;
   return true;
@@ -343,8 +374,8 @@ bool ADS7952<SpiType>::ProgramGPIO(const GPIOConfig &config) noexcept {
     case GPIO01AlarmMode::GPIO0_HighAlarm:
       frame |= reg::GPIOProg::GPIO0_HI_ALARM;
       break;
-    case GPIO01AlarmMode::GPIO1_HighAlarm:
-      frame |= reg::GPIOProg::GPIO1_HI_ALARM;
+    case GPIO01AlarmMode::GPIO1_LowAlarm:
+      frame |= reg::GPIOProg::GPIO1_LO_ALARM;
       break;
     case GPIO01AlarmMode::GPIO1_LowAlarm_GPIO0_HighAlarm:
       frame |= reg::GPIOProg::GPIO1_LO_GPIO0_HI_ALARM;
@@ -354,8 +385,7 @@ bool ADS7952<SpiType>::ProgramGPIO(const GPIOConfig &config) noexcept {
   // Direction mask (bits [3:0])
   frame |= static_cast<uint16_t>(config.direction_mask & 0x0F);
 
-  spiTransfer16(frame);
-  return true;
+  return spiTransfer16(frame);
 }
 
 // =============================================================================
@@ -382,7 +412,9 @@ bool ADS7952<SpiType>::ProgramAlarm(uint8_t channel, AlarmBound bound,
   }
 
   // Frame 1: Enter alarm group programming mode
-  spiTransfer16(group_mode);
+  if (!spiTransfer16(group_mode)) {
+    return false;
+  }
 
   // Frame 2: Alarm data — channel in group, hi/lo select, exit, threshold
   uint16_t alarm_frame = reg::Alarm::ChannelInGroup(ch_in_grp);
@@ -395,12 +427,12 @@ bool ADS7952<SpiType>::ProgramAlarm(uint8_t channel, AlarmBound bound,
   alarm_frame |= reg::Alarm::EXIT_NEXT_FRAME;
   alarm_frame |= reg::Alarm::Threshold12To10(threshold_12bit);
 
-  spiTransfer16(alarm_frame);
+  if (!spiTransfer16(alarm_frame)) {
+    return false;
+  }
 
   // Frame 3: Any frame to complete the exit (continue mode)
-  spiTransfer16(reg::Mode::CONTINUE | commonControlBits());
-
-  return true;
+  return spiTransfer16(reg::Mode::CONTINUE | commonControlBits());
 }
 
 template <typename SpiType>
@@ -415,28 +447,56 @@ bool ADS7952<SpiType>::ProgramAlarmVoltage(uint8_t channel, AlarmBound bound,
 // =============================================================================
 
 template <typename SpiType>
+template <typename Commit>
+bool ADS7952<SpiType>::programControlBits(uint16_t ctrl, Commit commit) noexcept {
+  // SLAS605C Tables 1, 2, 5: DI06:00 are taken only from a mode frame with
+  // DI11 = 1 (DI11 = 0 retains the previous values). A CONTINUE frame
+  // ignores DI11:00 entirely (Table 7), so it cannot carry a new setting.
+  // Re-issue the current mode: Manual re-selects the current channel,
+  // Auto-1/Auto-2 keep counting (DI10 = 0, no counter reset).
+  uint16_t cmd = reg::PROGRAM_ENABLE | ctrl;
+  switch (mode_) {
+  case Mode::Auto1:
+    cmd |= reg::Mode::AUTO_1 | reg::NO_RESET_COUNTER;
+    break;
+  case Mode::Auto2:
+    cmd |= reg::Mode::AUTO_2 | reg::NO_RESET_COUNTER;
+    break;
+  case Mode::Manual:
+  default:
+    cmd |= reg::Mode::MANUAL | reg::ChannelSelect(manual_channel_);
+    break;
+  }
+  if (!spiTransfer16(cmd)) {
+    return false; // not sent: chip and driver keep the old setting
+  }
+  commit(); // the chip latched DI06:00 at the CS rising edge of that frame
+
+  // One more frame makes the setting effective before returning
+  // (Figure 50: the range written in frame N applies to the input acquired
+  // in frame N+1; section 8.1: GPO pins update on the CS falling edge of
+  // frame N+1; 8.3.2: DI05 = 1 powers down at the 16th SCLK of frame N+1).
+  // Its reply is the last conversion made with the old range: discarded.
+  return spiTransfer16(reg::Mode::CONTINUE);
+}
+
+template <typename SpiType>
 /** @copydoc ADS7952::SetRange(Range) */
 bool ADS7952<SpiType>::SetRange(Range range) noexcept {
-  range_ = range;
-
-  // Update active voltage reference
-  active_vref_ = (range == Range::TwoVref) ? two_vref_ : vref_;
-
-  // Send a mode frame with the updated range bit so the device latches it
-  uint16_t cmd = reg::Mode::CONTINUE | commonControlBits();
-  spiTransfer16(cmd);
-  return true;
+  const uint16_t ctrl = (commonControlBits() & ~reg::RANGE_2VREF) |
+                        (range == Range::TwoVref ? reg::RANGE_2VREF : reg::RANGE_VREF);
+  return programControlBits(ctrl, [&] {
+    range_ = range;
+    active_vref_ = (range == Range::TwoVref) ? two_vref_ : vref_;
+  });
 }
 
 template <typename SpiType>
 /** @copydoc ADS7952::SetPowerDown(PowerDown) */
 bool ADS7952<SpiType>::SetPowerDown(PowerDown pd) noexcept {
-  power_down_ = pd;
-
-  // Send a frame so the device latches the new power-down setting
-  uint16_t cmd = reg::Mode::CONTINUE | commonControlBits();
-  spiTransfer16(cmd);
-  return true;
+  const uint16_t ctrl = (commonControlBits() & ~reg::POWER_DOWN) |
+                        (pd == PowerDown::PowerDown ? reg::POWER_DOWN : reg::POWER_NORMAL);
+  return programControlBits(ctrl, [&] { power_down_ = pd; });
 }
 
 // =============================================================================
@@ -445,12 +505,10 @@ bool ADS7952<SpiType>::SetPowerDown(PowerDown pd) noexcept {
 
 template <typename SpiType>
 /** @copydoc ADS7952::SetGPIOOutputs(uint8_t) */
-void ADS7952<SpiType>::SetGPIOOutputs(uint8_t gpio_state) noexcept {
-  gpio_output_state_ = gpio_state & 0x0F;
-
-  // The GPIO output bits [3:0] are sent with every mode control frame.
-  // Send a continue frame to latch the new output levels.
-  spiTransfer16(reg::Mode::CONTINUE | commonControlBits());
+bool ADS7952<SpiType>::SetGPIOOutputs(uint8_t gpio_state) noexcept {
+  const uint8_t state = gpio_state & 0x0F;
+  const uint16_t ctrl = static_cast<uint16_t>((commonControlBits() & ~0x000Fu) | state);
+  return programControlBits(ctrl, [&] { gpio_output_state_ = state; });
 }
 
 // =============================================================================
@@ -466,13 +524,18 @@ uint8_t ADS7952<SpiType>::RawManualFrames(uint8_t channel, uint16_t* out,
     return 0;
   }
   const uint16_t ctrl = commonControlBits();
-  out[0] = spiTransfer16(reg::Mode::MANUAL | reg::PROGRAM_RETAIN
-                         | reg::ChannelSelect(channel) | ctrl);
-  const uint16_t cont = reg::Mode::CONTINUE | ctrl;
-  for (uint8_t i = 1; i < n; ++i) {
-    out[i] = spiTransfer16(cont);
+  if (!spiTransfer16(reg::Mode::MANUAL | reg::PROGRAM_RETAIN | reg::ChannelSelect(channel) | ctrl,
+                     &out[0])) {
+    return 0;
   }
   mode_ = Mode::Manual;
+  manual_channel_ = channel;
+  const uint16_t cont = reg::Mode::CONTINUE | ctrl;
+  for (uint8_t i = 1; i < n; ++i) {
+    if (!spiTransfer16(cont, &out[i])) {
+      return i; // words 0..i-1 are valid
+    }
+  }
   return n;
 }
 
@@ -481,16 +544,21 @@ uint8_t ADS7952<SpiType>::RawManualFrames(uint8_t channel, uint16_t* out,
 // =============================================================================
 
 template <typename SpiType>
-/** @copydoc ADS7952::spiTransfer16(uint16_t) */
-uint16_t ADS7952<SpiType>::spiTransfer16(uint16_t command) noexcept {
+/** @copydoc ADS7952::spiTransfer16(uint16_t,uint16_t*) */
+bool ADS7952<SpiType>::spiTransfer16(uint16_t command, uint16_t* response) noexcept {
   uint8_t tx[2] = {
       static_cast<uint8_t>((command >> 8) & 0xFF),  // MSB first
       static_cast<uint8_t>(command & 0xFF)};
   uint8_t rx[2] = {0, 0};
 
-  spi_.transfer(tx, rx, 2);
+  // detail::Transfer: a bool-returning port reports bus errors; a legacy
+  // void-returning port is treated as always successful.
+  const bool ok = detail::Transfer(spi_, tx, rx, 2);
 
-  return (static_cast<uint16_t>(rx[0]) << 8) | rx[1];
+  if (response != nullptr) {
+    *response = ok ? static_cast<uint16_t>((static_cast<uint16_t>(rx[0]) << 8) | rx[1]) : 0;
+  }
+  return ok;
 }
 
 template <typename SpiType>

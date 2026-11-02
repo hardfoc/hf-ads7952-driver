@@ -7,7 +7,8 @@ static analysis, on every pull request.
 
 The tests build the real driver against a model of the ADS7952's SPI behaviour: a channel selected in frame N is
 returned in frame N + 2 with its address in DO15:12, Auto-1 and Auto-2 walk their sequences, continue frames ignore
-DI11:00, and the program registers (Auto-1 mask, Auto-2 last channel, GPIO, alarms) record what they receive.
+DI11:00, and the program registers (Auto-1 mask, Auto-2 last channel, GPIO, alarms) record what they receive. The
+model can fail a transfer on demand, to check that bus errors reach the caller.
 
 ```bash
 cmake -S . -B build-host -DHF_ADS7952_BUILD_TESTS=ON
@@ -17,8 +18,9 @@ ctest --test-dir build-host --output-on-failure
 
 | File | Covers |
 | --- | --- |
-| [`tests/test_driver.cpp`](../tests/test_driver.cpp) | Initialisation, single and sequence reads, error codes, programming frames, range latching, conversion helpers, raw frames |
+| [`tests/test_driver.cpp`](../tests/test_driver.cpp) | Initialisation, single and sequence reads, error codes, bus-error propagation, `void` legacy ports, programming frames, GPIO alarm routing, range latching, reference and supply limits, conversion helpers, raw frames |
 | [`tests/mock_ads7952.hpp`](../tests/mock_ads7952.hpp) | The chip model |
+| [`tests/install_consumer.cmake`](../tests/install_consumer.cmake) | `cmake --install` into the build tree, then a `find_package(hf_ads7952)` consumer linking `hf::ads7952` builds against the installed headers |
 
 ## Documentation snippets
 

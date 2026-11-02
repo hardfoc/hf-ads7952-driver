@@ -69,11 +69,13 @@ public:
    * @param rx Pointer to buffer for received data (len bytes). If nullptr,
    *           received data is ignored.
    * @param len Number of bytes to transfer.
+   * @return true when the transaction completed, false on an ESP-IDF error
+   *         (the driver then fails the call that sent the frame).
    */
-  void transfer(const uint8_t *tx, uint8_t *rx, std::size_t len) {
+  bool transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) {
     if (!initialized_ || spi_device_ == nullptr) {
       ESP_LOGE(TAG, "SPI bus not initialized");
-      return;
+      return false;
     }
 
     spi_transaction_t trans = {};
@@ -84,6 +86,7 @@ public:
     esp_err_t ret = spi_device_transmit(spi_device_, &trans);
     if (ret != ESP_OK) {
       ESP_LOGE(TAG, "SPI transfer failed: %s", esp_err_to_name(ret));
+      return false;
     }
 
 #if ESP32_ADS7952_ENABLE_DETAILED_SPI_LOGGING
@@ -94,6 +97,7 @@ public:
                len >= 1 ? rx[0] : 0, len >= 2 ? rx[1] : 0);
     }
 #endif
+    return true;
   }
 
   /**

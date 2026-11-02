@@ -20,8 +20,7 @@ bool configure(Adc& adc) {
   }
 
   // 0..2 x VREF: only valid while 2 x VREF <= +VA (2.5 V reference, 5 V supply).
-  adc.SetRange(ads7952::Range::TwoVref);
-  if (!adc.EnterAuto1Mode()) {                         // a mode frame latches the range bit on the chip
+  if (!adc.SetRange(ads7952::Range::TwoVref)) {        // in effect on the chip when it returns
     return false;
   }
   // --8<-- [end:configure]
@@ -75,15 +74,14 @@ bool alarms(Adc& adc) {
 
 bool outputs_and_power(Adc& adc) {
   // --8<-- [start:write]
-  // GPIO outputs and power-down ride in every mode frame; a mode frame latches them.
-  adc.SetGPIOOutputs(ads7952::gpio::kGPIO2);           // GPIO2 high, GPIO3 low
-  adc.SetPowerDown(ads7952::PowerDown::PowerDown);
-  if (!adc.EnterAuto1Mode()) {                         // latched here: the chip powers down
+  // Each call is in effect on the chip when it returns.
+  if (!adc.SetGPIOOutputs(ads7952::gpio::kGPIO2)) {    // GPIO2 high, GPIO3 low
     return false;
   }
-
-  adc.SetPowerDown(ads7952::PowerDown::Normal);
-  if (!adc.EnterAuto1Mode()) {                         // awake again
+  if (!adc.SetPowerDown(ads7952::PowerDown::PowerDown)) {  // the chip is powered down
+    return false;
+  }
+  if (!adc.SetPowerDown(ads7952::PowerDown::Normal)) {     // awake again
     return false;
   }
   // --8<-- [end:write]
@@ -103,6 +101,8 @@ void errors(Adc& adc) {
     break;
   case ads7952::Error::Timeout:                        // the address never came back: check the bus
     adc.EnsureInitialized(true);                       // after a reset or brown-out, program again
+    break;
+  case ads7952::Error::SpiError:                       // the port's transfer() returned false
     break;
   default:
     break;

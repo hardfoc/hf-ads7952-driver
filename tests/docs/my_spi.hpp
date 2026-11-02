@@ -13,14 +13,15 @@
 #include <cstdint>
 
 // Platform hook: your SDK's call. Declared only, so the docs build checks the port compiles.
-void platform_spi_transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) noexcept;  // CS low .. CS high
+bool platform_spi_transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) noexcept;  // CS low .. CS high
 
 // --8<-- [start:port]
 class MySpi : public ads7952::SpiInterface<MySpi> {
 public:
   // One 16-bit frame: SPI mode 0, MSB first, CS low for both bytes and high again afterwards.
-  void transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) {
-    platform_spi_transfer(tx, rx, len);
+  // Return false on a bus error: the driver call that sent the frame then fails.
+  bool transfer(const uint8_t* tx, uint8_t* rx, std::size_t len) {
+    return platform_spi_transfer(tx, rx, len);
   }
 };
 // --8<-- [end:port]
