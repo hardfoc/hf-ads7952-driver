@@ -1321,6 +1321,11 @@ apart from analog problems (right address, wrong count). <a href="../api-guide/#
 <td><code>EnsureInitialized(true)</code> after any reset; check <code>valid_mask</code></td>
 </tr>
 <tr>
+<td>Reads return <code>Error::SpiError</code>, <code>bool</code> calls return <code>false</code></td>
+<td>The port's <code>transfer()</code> returned <code>false</code>: the SDK reported a bus error</td>
+<td>Check the SPI host, pins and bus lock in the port; see <a href="../porting/#bus-errors">Porting</a></td>
+</tr>
+<tr>
 <td>Every read returns <code>Error::NotInitialized</code></td>
 <td><code>EnsureInitialized()</code> was never called on this object</td>
 <td>Call it once after power-up</td>
@@ -1354,13 +1359,13 @@ apart from analog problems (right address, wrong count). <a href="../api-guide/#
 </tr>
 <tr>
 <td>Voltages off by a fixed factor</td>
-<td><code>vref</code> passed to the driver is not the voltage at REFP, or it was clamped (above 2.5 V)</td>
+<td><code>vref</code> passed to the driver is not the voltage at REFP, or it was clamped (outside 2.0 V to 3.0 V)</td>
 <td>Measure REFP; <code>SetVref()</code>; see <a href="../configuration/#reference-and-range">Configuration</a></td>
 </tr>
 <tr>
 <td>Voltages off by exactly 2 after <code>SetRange()</code></td>
-<td>The chip has not latched the new range yet: <code>SetRange()</code> sends a continue frame, which the chip ignores</td>
-<td>Call <code>EnterAuto1Mode()</code> (or another <code>Enter...Mode()</code>) after <code>SetRange()</code></td>
+<td><code>SetRange()</code> returned <code>false</code> (bus error) and the chip kept the old range, or GPIO2 is configured as the range input and its pin decides the range</td>
+<td>Check the return value; with <code>gpio2_as_range_input</code>, drive GPIO2 to match <code>SetRange()</code></td>
 </tr>
 <tr>
 <td>The first conversion after power-up is wrong</td>
@@ -1390,14 +1395,14 @@ apart from analog problems (right address, wrong count). <a href="../api-guide/#
 <td>Call <code>ProgramAlarmVoltage()</code> again after <code>SetRange()</code> or <code>SetVref()</code></td>
 </tr>
 <tr>
-<td><code>GPIO1_HighAlarm</code> gives a low alarm</td>
-<td>That code (DI06:04 = <code>100</code>) is the datasheet's GPIO1 low-alarm setting</td>
-<td>Use it as a low alarm; see <a href="../api-guide/#program-alarms-and-gpios">API guide</a></td>
+<td>Deprecation warning for <code>GPIO1_HighAlarm</code></td>
+<td>It was misnamed: its code (DI06:04 = <code>100</code>) makes GPIO1 the <strong>low</strong> alarm output, and the chip has no GPIO1 high alarm</td>
+<td>Use <code>GPIO1_LowAlarm</code> (same code); see <a href="../api-guide/#program-alarms-and-gpios">API guide</a></td>
 </tr>
 <tr>
 <td>GPIO outputs do not change</td>
-<td>GPIO not configured as output, or no mode frame since <code>SetGPIOOutputs()</code></td>
-<td>Set the bit in <code>direction_mask</code>; call an <code>Enter...Mode()</code> after <code>SetGPIOOutputs()</code></td>
+<td>GPIO not configured as output, or assigned an alarm, range or power-down function</td>
+<td>Set the bit in <code>direction_mask</code> and leave the pin's function as GPIO in <code>ProgramGPIO()</code></td>
 </tr>
 <tr>
 <td>Only GPIO0 responds</td>

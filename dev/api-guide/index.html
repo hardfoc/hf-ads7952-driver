@@ -1400,7 +1400,7 @@
 <p>How to do the common jobs with the driver: initialise, configure, read, program alarms and GPIOs, and handle
 errors.</p>
 <p>Every snippet on this page is compiled by the host CI from
-<a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/tests/docs/api_tasks.cpp"><code>tests/docs/api_tasks.cpp</code></a>, with <code>Adc</code> standing for <code>ads7952::ADS7952&lt;MySpi&gt;</code>.
+<a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/tests/docs/api_tasks.cpp"><code>tests/docs/api_tasks.cpp</code></a>, with <code>Adc</code> standing for <code>ads7952::ADS7952&lt;MySpi&gt;</code>.
 The <a href="../api-reference/">API reference</a> lists every member.</p>
 <h2 id="the-shape-of-the-api">The shape of the API<a class="headerlink" href="#the-shape-of-the-api" title="Permanent link">&para;</a></h2>
 <p>One <code>ADS7952&lt;SpiType&gt;</code> object per chip. It owns no hardware: it holds a reference to your port and mirrors what it
@@ -1437,7 +1437,7 @@ has programmed into the chip.</p>
 <tr>
 <td>Alarms and GPIOs</td>
 <td><code>ProgramAlarm()</code>, <code>ProgramAlarmVoltage()</code>, <code>ProgramGPIO(config)</code>, <code>SetGPIOOutputs(bits)</code></td>
-<td><code>bool</code> (<code>void</code> for outputs)</td>
+<td><code>bool</code></td>
 </tr>
 <tr>
 <td>Range and power</td>
@@ -1451,9 +1451,9 @@ has programmed into the chip.</p>
 </tr>
 </tbody>
 </table>
-<p>Reads return a struct with an <code>error</code> field and an <code>ok()</code> helper. The other calls return <code>false</code> only for an
-argument out of range (a channel above 11): the SPI port returns nothing, so the driver cannot see a bus failure
-there.</p>
+<p>Reads return a struct with an <code>error</code> field and an <code>ok()</code> helper (<code>Error::SpiError</code> when the port's <code>transfer()</code>
+reported a bus error). The other calls return <code>false</code> for an argument out of range (a channel above 11) or a
+failed transfer; see <a href="../porting/#bus-errors">Porting</a>.</p>
 <h2 id="initialise">Initialise<a class="headerlink" href="#initialise" title="Permanent link">&para;</a></h2>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"ads7952.hpp"</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
@@ -1493,16 +1493,15 @@ the chip was reset or lost power. Every read returns <code>Error::NotInitialized
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">// 0..2 x VREF: only valid while 2 x VREF &lt;= +VA (2.5 V reference, 5 V supply).</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">adc</span><span class="p">.</span><span class="n">SetRange</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">Range</span><span class="o">::</span><span class="n">TwoVref</span><span class="p">);</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">EnterAuto1Mode</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">                         </span><span class="c1">// a mode frame latches the range bit on the chip</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">SetRange</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">Range</span><span class="o">::</span><span class="n">TwoVref</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">        </span><span class="c1">// in effect on the chip when it returns</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Build masks with <code>ads7952::ChannelMask(0, 2, 4)</code>, <code>ChannelRangeMask(first, last)</code> or the constants
 <code>kAllChannels</code>, <code>kEvenChannels</code>, <code>kOddChannels</code>, <code>kFirstFour</code>, <code>kSecondFour</code>, <code>kThirdFour</code>. Bit N is channel N.</p>
-<p><code>SetRange()</code> changes the driver's full scale at once, but the chip applies the new range only with the next mode
-frame, hence the <code>EnterAuto1Mode()</code> after it. <a href="../modes-and-pipeline/#settings-that-need-a-mode-frame">Modes and the frame pipeline</a>
-explains which calls send one.</p>
+<p><code>SetRange()</code> is in effect on the chip when it returns, in whatever mode the chip is in, and the driver's full scale
+changes with it. <a href="../modes-and-pipeline/#range-power-down-and-gpio-outputs">Modes and the frame pipeline</a> shows the
+two frames it sends.</p>
 <h2 id="read">Read<a class="headerlink" href="#read" title="Permanent link">&para;</a></h2>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// One channel: Manual mode, three frames, keyed on the channel address in the reply.</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">const</span><span class="w"> </span><span class="n">ads7952</span><span class="o">::</span><span class="n">ReadResult</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc</span><span class="p">.</span><span class="n">ReadChannel</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
@@ -1600,10 +1599,10 @@ call it: program the thresholds again after <code>SetRange()</code> or <code>Set
 <td>GPIO</td>
 </tr>
 <tr>
-<td><code>GPIO1_HighAlarm</code></td>
+<td><code>GPIO1_LowAlarm</code></td>
 <td><code>100</code></td>
 <td>GPIO</td>
-<td><strong>Low</strong> alarm (the datasheet's function for this code)</td>
+<td>Low alarm</td>
 </tr>
 <tr>
 <td><code>GPIO1_LowAlarm_GPIO0_HighAlarm</code></td>
@@ -1613,23 +1612,25 @@ call it: program the thresholds again after <code>SetRange()</code> or <code>Set
 </tr>
 </tbody>
 </table>
+<p>The chip has no code that makes GPIO1 a high-alarm output (SLAS605C Table 11). <code>GPIO1_HighAlarm</code>, the old, misleading
+name of <code>GPIO1_LowAlarm</code>, is kept as a deprecated alias with the same code.</p>
 <p><code>GPIOConfig::gpio2_as_range_input</code> and <code>gpio3_as_powerdown_input</code> hand the range and power-down control to those
 pins; <code>reset_all_registers</code> resets every chip register in the next frame. On the VQFN package only GPIO0 exists.</p>
 <h2 id="write-outputs-and-power-down">Write outputs and power down<a class="headerlink" href="#write-outputs-and-power-down" title="Permanent link">&para;</a></h2>
-<div class="language-cpp highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// GPIO outputs and power-down ride in every mode frame; a mode frame latches them.</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">adc</span><span class="p">.</span><span class="n">SetGPIOOutputs</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">gpio</span><span class="o">::</span><span class="n">kGPIO2</span><span class="p">);</span><span class="w">           </span><span class="c1">// GPIO2 high, GPIO3 low</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">adc</span><span class="p">.</span><span class="n">SetPowerDown</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">PowerDown</span><span class="o">::</span><span class="n">PowerDown</span><span class="p">);</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">EnterAuto1Mode</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">                         </span><span class="c1">// latched here: the chip powers down</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">}</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">adc</span><span class="p">.</span><span class="n">SetPowerDown</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">PowerDown</span><span class="o">::</span><span class="n">Normal</span><span class="p">);</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">EnterAuto1Mode</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">                         </span><span class="c1">// awake again</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">}</span>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// Each call is in effect on the chip when it returns.</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">SetGPIOOutputs</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">gpio</span><span class="o">::</span><span class="n">kGPIO2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">    </span><span class="c1">// GPIO2 high, GPIO3 low</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">SetPowerDown</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">PowerDown</span><span class="o">::</span><span class="n">PowerDown</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// the chip is powered down</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">}</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">SetPowerDown</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">PowerDown</span><span class="o">::</span><span class="n">Normal</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">     </span><span class="c1">// awake again</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>The power-down and GPIO bits travel in every mode frame, like the range. In power-down the chip draws about 1 µA;
-the next mode frame with the bit cleared wakes it, and it is ready after 1 µs.</p>
+<p><code>SetGPIOOutputs()</code> and <code>SetPowerDown()</code> work like <code>SetRange()</code>: when they return, the pins show the new levels, or
+the chip is powered down (about 1 µA) or awake again. Waking takes 1 µs and costs one invalid conversion, which
+falls in the frame the driver drops.</p>
 <h2 id="read-raw-frames">Read raw frames<a class="headerlink" href="#read-raw-frames" title="Permanent link">&para;</a></h2>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Bring-up: clock frames by hand and see the address pipeline (CH in DO15:12, count in DO11:0).</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">uint16_t</span><span class="w"> </span><span class="n">words</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
@@ -1654,9 +1655,11 @@ on the bench to see the address pipeline advance; it leaves the chip in Manual m
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">case</span><span class="w"> </span><span class="no">ads7952</span><span class="o">::</span><span class="no">Error</span><span class="o">::</span><span class="no">Timeout</span><span class="p">:</span><span class="w">                        </span><span class="c1">// the address never came back: check the bus</span>
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="n">adc</span><span class="p">.</span><span class="n">EnsureInitialized</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span><span class="w">                       </span><span class="c1">// after a reset or brown-out, program again</span>
 </span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span><span class="k">break</span><span class="p">;</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">default</span><span class="o">:</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">case</span><span class="w"> </span><span class="no">ads7952</span><span class="o">::</span><span class="no">Error</span><span class="o">::</span><span class="no">SpiError</span><span class="p">:</span><span class="w">                       </span><span class="c1">// the port's transfer() returned false</span>
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">  </span><span class="k">break</span><span class="p">;</span>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="p">}</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="k">default</span><span class="o">:</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">  </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">}</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -1683,13 +1686,18 @@ on the bench to see the address pipeline advance; it leaves the chip in Manual m
 <td>Check SPI mode, CS framing and MISO; re-initialise after a chip reset</td>
 </tr>
 <tr>
+<td><code>Error::SpiError</code></td>
+<td>The port's <code>transfer()</code> returned <code>false</code></td>
+<td>Check the port and the bus; the read stopped at that frame</td>
+</tr>
+<tr>
 <td>A <code>bool</code> call returns <code>false</code></td>
-<td>Channel or last channel above 11</td>
-<td>Fix the caller</td>
+<td>Channel or last channel above 11, or the port's <code>transfer()</code> returned <code>false</code></td>
+<td>Fix the caller, or check the bus</td>
 </tr>
 </tbody>
 </table>
-<p><code>Error::SpiError</code>, <code>ProgrammingFailed</code> and <code>ModeChangeFailed</code> exist in the enum but no call returns them today.
+<p><code>ProgrammingFailed</code> and <code>ModeChangeFailed</code> exist in the enum but no call returns them today.
 <a href="../troubleshooting/">Troubleshooting</a> maps symptoms to causes.</p>
 <h2 id="calibrate-the-conversion">Calibrate the conversion<a class="headerlink" href="#calibrate-the-conversion" title="Permanent link">&para;</a></h2>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Software only: the scale used by CountToVoltage(), VoltageToCount() and the results.</span>

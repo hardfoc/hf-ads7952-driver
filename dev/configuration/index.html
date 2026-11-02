@@ -1315,7 +1315,7 @@
 <td>Input range</td>
 <td>constructor <code>initial_range</code>, <code>SetRange()</code></td>
 <td><code>DEFAULT_RANGE</code>, <code>Range::Vref</code></td>
-<td>Yes, with the next mode frame</td>
+<td>Yes, in effect when <code>SetRange()</code> returns</td>
 </tr>
 <tr>
 <td>Auto-1 mask</td>
@@ -1333,7 +1333,7 @@
 <td>Power-down</td>
 <td><code>SetPowerDown()</code></td>
 <td><code>PowerDown::Normal</code></td>
-<td>Yes, with the next mode frame</td>
+<td>Yes, in effect when <code>SetPowerDown()</code> returns</td>
 </tr>
 <tr>
 <td>GPIO functions and outputs</td>
@@ -1344,7 +1344,7 @@
 </tbody>
 </table>
 <p>The constructor's <code>initial_range</code> sets the driver's full scale only. The chip starts in the 0 to VREF range after
-power-up and takes <code>Range::TwoVref</code> with the first mode frame, which <code>EnsureInitialized()</code> sends.</p>
+power-up and takes <code>Range::TwoVref</code> with the Auto-1 mode frame that <code>EnsureInitialized()</code> sends.</p>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Auto-1 scans any subset; Auto-2 scans CH0..last. Program them once after EnsureInitialized().</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">ProgramAuto1Channels</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">ChannelMask</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
@@ -1354,10 +1354,9 @@ power-up and takes <code>Range::TwoVref</code> with the first mode frame, which 
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">// 0..2 x VREF: only valid while 2 x VREF &lt;= +VA (2.5 V reference, 5 V supply).</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">adc</span><span class="p">.</span><span class="n">SetRange</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">Range</span><span class="o">::</span><span class="n">TwoVref</span><span class="p">);</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">EnterAuto1Mode</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">                         </span><span class="c1">// a mode frame latches the range bit on the chip</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">SetRange</span><span class="p">(</span><span class="n">ads7952</span><span class="o">::</span><span class="n">Range</span><span class="o">::</span><span class="n">TwoVref</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">        </span><span class="c1">// in effect on the chip when it returns</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
 </span></code></pre></div>
 <h2 id="reference-and-range">Reference and range<a class="headerlink" href="#reference-and-range" title="Permanent link">&para;</a></h2>
 <p>The active reference is VREF in <code>Range::Vref</code> and 2 × VREF in <code>Range::TwoVref</code>. A count converts as
@@ -1385,14 +1384,13 @@ power-up and takes <code>Range::TwoVref</code> with the first mode frame, which 
 </table>
 <div class="admonition note">
 <p class="admonition-title">Clamping of <code>vref</code> and <code>va</code></p>
-<p>The constructor, <code>SetVref()</code> and <code>SetVA()</code> clamp their arguments to <code>ADS7952_CFG::MIN_VREF</code> ...
-<code>MAX_VREF</code> (1.0 V to 2.5 V) and <code>MIN_VA</code> ... <code>MAX_VA</code> (2.7 V to 5.5 V). The datasheet's reference range is
-2.0 V to 3.0 V and its +VA maximum is 5.25 V, so a reference above 2.5 V is converted as 2.5 V. Use a 2.5 V
-reference, or change <code>MAX_VREF</code>, until the limits are aligned.</p>
+<p>The constructor, <code>SetVref()</code> and <code>SetVA()</code> clamp their arguments to the datasheet's recommended operating
+conditions (SLAS605C section 7.3): <code>ADS7952_CFG::MIN_VREF</code> ... <code>MAX_VREF</code> is 2.0 V to 3.0 V and <code>MIN_VA</code> ...
+<code>MAX_VA</code> is 2.7 V to 5.25 V. A <code>vref</code> outside 2.0 V to 3.0 V is converted with the nearest limit.</p>
 </div>
 <p>The driver does not limit <code>Range::TwoVref</code> to +VA: with 2.5 V at REFP, use it only on a 5 V analog supply.</p>
 <h2 id="compile-time-defaults">Compile-time defaults<a class="headerlink" href="#compile-time-defaults" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_config.hpp"><code>inc/ads7952_config.hpp</code></a> defines the defaults in the <code>ADS7952_CFG</code> namespace. Each
+<p><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_config.hpp"><code>inc/ads7952_config.hpp</code></a> defines the defaults in the <code>ADS7952_CFG</code> namespace. Each
 can be overridden with a define, from Kconfig in ESP-IDF or from CMake:</p>
 <table>
 <thead>
@@ -1468,9 +1466,9 @@ can be overridden with a define, from Kconfig in ESP-IDF or from CMake:</p>
 <code>ESP-IDF</code> has no Kconfig file for the driver: add the options to your project's <code>Kconfig</code> with these names and
 <code>sdkconfig.h</code> provides the <code>CONFIG_</code> macros.</p>
 <h2 id="where-the-defaults-come-from">Where the defaults come from<a class="headerlink" href="#where-the-defaults-come-from" title="Permanent link">&para;</a></h2>
-<p>Each value is in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_config.hpp"><code>inc/ads7952_config.hpp</code></a> and in the
+<p>Each value is in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_config.hpp"><code>inc/ads7952_config.hpp</code></a> and in the
 <a href="../api-reference/">API reference</a>; the chip's own reset state (Manual mode, CH0, range 1, all GPIOs inputs) is in
-the <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/docs/datasheet/ads7952.pdf">datasheet</a>, Tables 1 to 13.</p>
+the <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/docs/datasheet/ads7952.pdf">datasheet</a>, Tables 1 to 13.</p>
 
 
 

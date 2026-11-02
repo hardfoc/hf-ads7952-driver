@@ -790,10 +790,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#settings-that-need-a-mode-frame" class="md-nav__link">
+  <a href="#range-power-down-and-gpio-outputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Settings that need a mode frame
+        Range, power-down and GPIO outputs
       
     </span>
   </a>
@@ -1262,10 +1262,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#settings-that-need-a-mode-frame" class="md-nav__link">
+  <a href="#range-power-down-and-gpio-outputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Settings that need a mode frame
+        Range, power-down and GPIO outputs
       
     </span>
   </a>
@@ -1309,8 +1309,8 @@
 
 
 <h1 id="modes-and-the-frame-pipeline">Modes and the frame pipeline<a class="headerlink" href="#modes-and-the-frame-pipeline" title="Permanent link">&para;</a></h1>
-<p>How the ADS7952 picks channels, why a result arrives two frames after its command, and which settings need a
-mode frame before the chip applies them.</p>
+<p>How the ADS7952 picks channels, why a result arrives two frames after its command, and how the range, power-down
+and GPIO settings reach the chip.</p>
 <h2 id="three-channel-modes">Three channel modes<a class="headerlink" href="#three-channel-modes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1402,7 +1402,7 @@ Manual; <code>ReadAllChannels()</code> moves it back to Auto-1 and restarts the 
 </div>
 <p>Other values of DI15:12 open the program registers: <code>0100</code> GPIO, <code>1000</code> and <code>1001</code> the Auto-1 mask and Auto-2 last
 channel, <code>1100</code> to <code>1110</code> the alarm thresholds of channels 0-3, 4-7 and 8-11. The constants are in
-<a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_registers.hpp"><code>inc/ads7952_registers.hpp</code></a>; the driver keeps DI04 at 0 so every reply is tagged.</p>
+<a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_registers.hpp"><code>inc/ads7952_registers.hpp</code></a>; the driver keeps DI04 at 0 so every reply is tagged.</p>
 <h2 id="the-reply-word-and-its-latency">The reply word and its latency<a class="headerlink" href="#the-reply-word-and-its-latency" title="Permanent link">&para;</a></h2>
 <p>The reply on SDO is the conversion of the input sampled at this frame's CS falling edge:</p>
 <div class="hf-registers">
@@ -1433,44 +1433,47 @@ until DO15:12 equals the channel it asked for (at most <code>ADS7952_CFG::MANUAL
 returns <code>Error::Timeout</code> if it never does. <code>ReadAllChannels()</code> restarts Auto-1 and keeps each reply whose address
 is in the mask, until every programmed channel has arrived or the budget (one frame per channel plus
 <code>READ_ALL_MAX_EXTRA_FRAMES</code>, default 4) runs out.</p>
-<h2 id="settings-that-need-a-mode-frame">Settings that need a mode frame<a class="headerlink" href="#settings-that-need-a-mode-frame" title="Permanent link">&para;</a></h2>
-<p>A continue frame (DI15:12 = <code>0000</code>) keeps the mode, and the chip <strong>ignores DI11:00</strong> in it (datasheet Table 7).
-<code>SetRange()</code>, <code>SetPowerDown()</code> and <code>SetGPIOOutputs()</code> update the driver's state and send a continue frame, so the
-chip applies the new range, power-down or GPIO levels only with the next frame that has DI11 = 1:</p>
+<h2 id="range-power-down-and-gpio-outputs">Range, power-down and GPIO outputs<a class="headerlink" href="#range-power-down-and-gpio-outputs" title="Permanent link">&para;</a></h2>
+<p>The range (DI06), power-down (DI05) and GPIO output levels (DI03:00) live in the mode-control register. The chip
+takes them only from a Manual, Auto-1 or Auto-2 frame with the programming bit DI11 = 1 (datasheet Tables 1, 2
+and 5); with DI11 = 0 it keeps the previous values, and a continue frame (DI15:12 = <code>0000</code>) ignores DI11:00
+altogether (Table 7).</p>
+<p><code>SetRange()</code>, <code>SetPowerDown()</code> and <code>SetGPIOOutputs()</code> therefore send two frames:</p>
+<ol>
+<li>A mode frame for the mode the chip is in, with DI11 = 1 and the new bits: Manual re-selects the current channel,
+   Auto-1 and Auto-2 keep counting (DI10 = 0, no counter reset). The chip latches the bits at the end of this
+   frame, and the driver updates its own copy (<code>GetRange()</code>, <code>GetActiveVref()</code>, ...) at the same point.</li>
+<li>One continue frame. A range written in frame N applies to the input acquired in frame N + 1 (Figure 50), GPIO
+   outputs change on the CS falling edge of frame N + 1 (section 8.1), and DI05 = 1 powers the chip down on the
+   16<sup>th</sup> SCLK of frame N + 1 (section 8.3.2). The reply of this frame is the last conversion made with the old
+   range, and the driver drops it.</li>
+</ol>
+<p>When the call returns, the chip runs with the new setting and every result clocked out from then on was converted
+with it, so <code>CountToVoltage()</code> and the voltages in <code>ReadResult</code> / <code>ChannelReadings</code> always use the full scale the
+chip used. In Auto-1 and Auto-2 the two frames advance the channel counter by two, which <code>ReadAllChannels()</code>
+resets anyway.</p>
 <table>
 <thead>
 <tr>
 <th>Call</th>
-<th style="text-align: center;">Sends DI11 = 1</th>
-<th style="text-align: center;">Applies a pending range, power-down or GPIO change</th>
+<th style="text-align: center;">Sends DI11 = 1 with the range, power-down and GPIO bits</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>EnterManualMode()</code>, <code>EnterAuto1Mode()</code>, <code>EnterAuto2Mode()</code></td>
-<td style="text-align: center;">yes</td>
-<td style="text-align: center;">yes</td>
+<td><code>SetRange()</code>, <code>SetPowerDown()</code>, <code>SetGPIOOutputs()</code></td>
+<td style="text-align: center;">yes, then one flush frame</td>
 </tr>
 <tr>
-<td><code>ReadAllChannels()</code></td>
-<td style="text-align: center;">yes</td>
-<td style="text-align: center;">yes</td>
+<td><code>EnterManualMode()</code>, <code>EnterAuto1Mode()</code>, <code>EnterAuto2Mode()</code>, <code>ReadAllChannels()</code></td>
+<td style="text-align: center;">yes (the bits the driver holds)</td>
 </tr>
 <tr>
 <td><code>ReadChannel()</code>, <code>RawManualFrames()</code></td>
-<td style="text-align: center;">no</td>
-<td style="text-align: center;">no</td>
-</tr>
-<tr>
-<td><code>SetRange()</code>, <code>SetPowerDown()</code>, <code>SetGPIOOutputs()</code></td>
-<td style="text-align: center;">no</td>
-<td style="text-align: center;">no</td>
+<td style="text-align: center;">no: DI11 = 0, the chip keeps its settings</td>
 </tr>
 </tbody>
 </table>
-<p>Call one of the <code>Enter...Mode()</code> functions after changing these settings, as the <a href="../api-guide/#configure">API guide</a>
-does. <code>CountToVoltage()</code> switches to the new reference at once, so until the chip has latched the range, counts
-are converted with the wrong full scale.</p>
 <h2 id="programming-sequences">Programming sequences<a class="headerlink" href="#programming-sequences" title="Permanent link">&para;</a></h2>
 <table>
 <thead>

@@ -1308,12 +1308,42 @@
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
+<li>Every ESP32 example app (<code>basic_adc_reading</code>, <code>multi_mode</code>, <code>alarm_gpio</code>, <code>driver_integration_test</code>) is in the
+  CI build matrix; only <code>driver_integration_test</code> was built before.</li>
+<li>The SPI port's <code>transfer()</code> now returns <code>bool</code> (<code>true</code> = frame clocked, <code>false</code> = bus error), and the driver
+  propagates it: <code>bool</code> calls return <code>false</code>, <code>ReadChannel()</code> / <code>ReadAllChannels()</code> return <code>Error::SpiError</code>,
+  <code>RawManualFrames()</code> returns the number of frames that got through, and the driver's mirrored state only changes
+  after a successful transfer. <code>SetGPIOOutputs()</code> returns <code>bool</code> instead of <code>void</code>. Ports with a <code>void</code> <code>transfer()</code>
+  still compile (detected at compile time) and are treated as never failing; any other return type is a compile
+  error, so an SDK status code is not silently read as a bool. The ESP32 example port returns <code>false</code> on an
+  ESP-IDF error.</li>
 <li>Documentation moved to the HardFOC MkDocs platform: new page set (quickstart, hardware, modes and the frame
   pipeline, architecture, API guide, porting, testing), code snippets compiled by the host build from
   <code>tests/docs/</code>, Doxygen under <code>/api/</code>, versioned with mike. The Jekyll site files are gone.</li>
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
+<li><code>SetRange()</code>, <code>SetPowerDown()</code> and <code>SetGPIOOutputs()</code> take effect on the chip before they return. They sent a
+  continue frame, whose DI11:00 the chip ignores (SLAS605C Table 7), so the change only landed at the next
+  <code>Enter...Mode()</code> while <code>CountToVoltage()</code> had already switched scale: voltages were off by a factor of 2 in
+  between. They now send a mode frame for the current mode with the programming bit DI11 = 1 (Tables 1, 2, 5),
+  then one flush frame, after which the range applies to every result clocked out (Figure 50), the GPIO pins show
+  the new levels (section 8.1) and the chip is powered down or awake (section 8.3.2). The driver's range, active
+  reference, power-down and GPIO state change only once the chip has latched them. In Auto-1 / Auto-2 the two
+  frames advance the channel counter by two. New getters: <code>GetPowerDown()</code>, <code>GetGPIOOutputs()</code>.</li>
+<li><code>GPIO01AlarmMode::GPIO1_HighAlarm</code> is renamed <code>GPIO1_LowAlarm</code>: its code (DI06:04 = <code>100</code>) makes GPIO1 the low
+  alarm output (SLAS605C Table 11), and the chip has no GPIO1 high-alarm setting. The old name stays as a
+  <code>[[deprecated]]</code> alias with the same value, so existing code builds (with a warning) and behaves as before;
+  <code>reg::GPIOProg::GPIO1_HI_ALARM</code> likewise becomes <code>GPIO1_LO_ALARM</code>.</li>
+<li><code>ADS7952_CFG::MIN_VREF</code> / <code>MAX_VREF</code> are 2.0 V / 3.0 V and <code>MAX_VA</code> is 5.25 V, the recommended operating
+  conditions of SLAS605C section 7.3 (they were 1.0 V / 2.5 V and 5.5 V). A reference between 2.5 V and 3.0 V is no
+  longer converted as 2.5 V; a <code>vref</code> below 2.0 V is now clamped to 2.0 V.</li>
+<li><code>examples/esp32/components/hf_ads7952/idf_component.yml</code>: <code>repository</code> and <code>issues</code> point at
+  <code>https://github.com/hardfoc/hf-ads7952-driver</code> (they named a repository that does not exist).</li>
+<li>An installed package exports its target as <code>hf::ads7952</code>, the name the documentation and the package config
+  give (it was exported as <code>hf::hf_ads7952</code>, so <code>find_package(hf_ads7952)</code> consumers failed to link the documented
+  name). <code>hf::hf_ads7952</code> remains available from the package config. A host test installs the driver and builds a
+  <code>find_package()</code> consumer against it, checking that every header the public headers include is installed.</li>
 <li>The <code>hf_ads7952</code> CMake target now puts <code>src/</code> on the include path, so code that links it finds <code>ads7952.ipp</code>;
   <code>cmake --install</code> installs the <code>.ipp</code> next to the headers.</li>
 </ul>

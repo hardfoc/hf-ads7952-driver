@@ -1398,7 +1398,7 @@ to set either.</p>
 <code>find_package(hf_ads7952 CONFIG REQUIRED)</code> and linked as <code>hf::ads7952</code>.</p>
 <h2 id="esp-idf">ESP-IDF<a class="headerlink" href="#esp-idf" title="Permanent link">&para;</a></h2>
 <p>The ESP-IDF component wrapper is
-<a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/examples/esp32/components/hf_ads7952/CMakeLists.txt"><code>examples/esp32/components/hf_ads7952/</code></a>. Copy that folder
+<a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/examples/esp32/components/hf_ads7952/CMakeLists.txt"><code>examples/esp32/components/hf_ads7952/</code></a>. Copy that folder
 into your project's <code>components/</code> (or point <code>EXTRA_COMPONENT_DIRS</code> at it) and set the <code>HF_ADS7952_ROOT</code> cache
 variable to the driver checkout; the wrapper stops with a clear message when the path is wrong. Your component then
 declares <code>REQUIRES hf_ads7952</code>.</p>
@@ -1414,17 +1414,17 @@ declares <code>REQUIRES hf_ads7952</code>.</p>
 <tbody>
 <tr>
 <td>Settings</td>
-<td><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/cmake/hf_ads7952_build_settings.cmake"><code>cmake/hf_ads7952_build_settings.cmake</code></a></td>
+<td><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/cmake/hf_ads7952_build_settings.cmake"><code>cmake/hf_ads7952_build_settings.cmake</code></a></td>
 <td>Target name, include directories, version: the single source of truth</td>
 </tr>
 <tr>
 <td>Library</td>
-<td><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/CMakeLists.txt"><code>CMakeLists.txt</code></a></td>
+<td><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/CMakeLists.txt"><code>CMakeLists.txt</code></a></td>
 <td><code>INTERFACE</code> target, install and package export</td>
 </tr>
 <tr>
 <td>ESP-IDF</td>
-<td><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/examples/esp32/components/hf_ads7952/CMakeLists.txt"><code>examples/esp32/components/hf_ads7952/CMakeLists.txt</code></a></td>
+<td><a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/examples/esp32/components/hf_ads7952/CMakeLists.txt"><code>examples/esp32/components/hf_ads7952/CMakeLists.txt</code></a></td>
 <td>IDF component wrapper over the same settings</td>
 </tr>
 </tbody>
@@ -1433,7 +1433,7 @@ declares <code>REQUIRES hf_ads7952</code>.</p>
 (<code>HF_ADS7952_VERSION_MAJOR</code>, <code>_MINOR</code>, <code>_PATCH</code>, <code>HF_ADS7952_VERSION_STRING</code>). The driver class also reports it:
 <code>ADS7952&lt;MySpi&gt;::GetDriverVersionMajor()</code>, <code>GetDriverVersionMinor()</code> and <code>GetDriverVersionPatch()</code>.</p>
 <h2 id="compile-time-switches">Compile-time switches<a class="headerlink" href="#compile-time-switches" title="Permanent link">&para;</a></h2>
-<p>The defaults in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_config.hpp"><code>inc/ads7952_config.hpp</code></a> can be overridden with <code>CONFIG_ADS7952_*</code>
+<p>The defaults in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_config.hpp"><code>inc/ads7952_config.hpp</code></a> can be overridden with <code>CONFIG_ADS7952_*</code>
 defines: reference and supply voltage, the power-up Auto-1 mask and Auto-2 last channel, the default range and the
 frame budgets of the read loops. <a href="../configuration/#compile-time-defaults">Configuration</a> lists them.</p>
 <h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>

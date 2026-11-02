@@ -1177,13 +1177,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="hf-figure-desc">
 <summary>Figure description and sources</summary>
 <p>From top to bottom. Your application talks to one ADS7952<SpiType> object, whose public calls (listed from inc/ads7952.hpp) read channels, switch modes and program sequences, alarms and GPIOs. The core builds the 16-bit command words, keys every result on the channel address in DO15:12 and converts counts to volts. It reaches the bus through the CRTP SpiInterface (inc/ads7952_spi_interface.hpp), whose one method the platform port implements: a full-duplex transfer with chip select held low. Below it is the hardware.</p>
-<p>Drawn from: <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952.hpp"><code>inc/ads7952.hpp</code></a> <code>ADS7952 public calls</code>; <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a> <code>SpiInterface</code>; figure module <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952.hpp"><code>inc/ads7952.hpp</code></a> <code>ADS7952 public calls</code>; <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a> <code>SpiInterface</code>; figure module <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a></p>
+<p>Figure module: <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>ADS7952 public calls</code> in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952.hpp"><code>inc/ads7952.hpp</code></a></li>
-<li><code>SpiInterface</code> in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a></li>
+<li><code>ADS7952 public calls</code> in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952.hpp"><code>inc/ads7952.hpp</code></a></li>
+<li><code>SpiInterface</code> in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a></li>
 </ul>
 
 

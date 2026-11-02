@@ -934,6 +934,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#bus-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bus errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#reference-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1251,6 +1262,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#bus-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bus errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#reference-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1311,7 +1333,7 @@
 <h1 id="porting">Porting<a class="headerlink" href="#porting" title="Permanent link">&para;</a></h1>
 <p>Run the driver on a new MCU by writing one class: the SPI interface, with one method.</p>
 <p>The driver never calls your SDK directly. It calls <code>transfer()</code> on a class you derive from
-<code>ads7952::SpiInterface&lt;Self&gt;</code> (in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a>). The base
+<code>ads7952::SpiInterface&lt;Self&gt;</code> (in <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a>). The base
 class uses CRTP: the call is resolved at compile time, so there are no virtual functions, no vtable and nothing to
 allocate.</p>
 <figure class="hf-figure">
@@ -1322,7 +1344,7 @@ allocate.</p>
 <details class="hf-figure-desc">
 <summary>Figure description and sources</summary>
 <p>From top to bottom. Your application talks to one ADS7952<SpiType> object, whose public calls (listed from inc/ads7952.hpp) read channels, switch modes and program sequences, alarms and GPIOs. The core builds the 16-bit command words, keys every result on the channel address in DO15:12 and converts counts to volts. It reaches the bus through the CRTP SpiInterface (inc/ads7952_spi_interface.hpp), whose one method the platform port implements: a full-duplex transfer with chip select held low. Below it is the hardware.</p>
-<p>Drawn from: <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952.hpp"><code>inc/ads7952.hpp</code></a> <code>ADS7952 public calls</code>; <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a> <code>SpiInterface</code>; figure module <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952.hpp"><code>inc/ads7952.hpp</code></a> <code>ADS7952 public calls</code>; <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/inc/ads7952_spi_interface.hpp"><code>inc/ads7952_spi_interface.hpp</code></a> <code>SpiInterface</code>; figure module <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
 </details>
 <h2 id="what-you-implement">What you implement<a class="headerlink" href="#what-you-implement" title="Permanent link">&para;</a></h2>
 <table>
@@ -1334,8 +1356,8 @@ allocate.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>void transfer(const uint8_t* tx, uint8_t* rx, std::size_t len)</code></td>
-<td>Assert CS, clock <code>len</code> bytes out of <code>tx</code> while reading <code>len</code> bytes into <code>rx</code>, release CS. The driver always passes <code>len = 2</code> and both buffers</td>
+<td><code>bool transfer(const uint8_t* tx, uint8_t* rx, std::size_t len)</code></td>
+<td>Assert CS, clock <code>len</code> bytes out of <code>tx</code> while reading <code>len</code> bytes into <code>rx</code>, release CS. Return <code>true</code> when the frame went out, <code>false</code> on a bus error. The driver always passes <code>len = 2</code> and both buffers</td>
 </tr>
 </tbody>
 </table>
@@ -1345,10 +1367,11 @@ is set by SCLK and CS.</p>
 <div class="language-cpp highlight"><span class="filename">my_spi.hpp</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MySpi</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">ads7952</span><span class="o">::</span><span class="n">SpiInterface</span><span class="o">&lt;</span><span class="n">MySpi</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">public</span><span class="o">:</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="c1">// One 16-bit frame: SPI mode 0, MSB first, CS low for both bytes and high again afterwards.</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">transfer</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">rx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">platform_spi_transfer</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="n">rx</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="c1">// Return false on a bus error: the driver call that sent the frame then fails.</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">transfer</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">rx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">platform_spi_transfer</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="n">rx</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">};</span>
 </span></code></pre></div>
 <p>Rules the transfer must follow:</p>
 <ul>
@@ -1358,16 +1381,23 @@ is set by SCLK and CS.</p>
 <li><strong>CS high for at least 20 ns</strong> between frames (t<sub>w1</sub>). Most SPI peripherals give far more.</li>
 <li><strong>Byte order as given.</strong> <code>tx[0]</code> is DI15:8 and goes first; <code>rx[0]</code> receives DO15:8.</li>
 </ul>
-<p><code>transfer()</code> returns <code>void</code>, so a port cannot report a bus failure to the driver. Log it in the port; the driver
-sees the garbage reply and <code>ReadChannel()</code> returns <code>Error::Timeout</code> when the channel address does not come back.</p>
+<h2 id="bus-errors">Bus errors<a class="headerlink" href="#bus-errors" title="Permanent link">&para;</a></h2>
+<p>Return <code>false</code> from <code>transfer()</code> when your SDK reports a failure. The driver stops the call that sent the frame:
+<code>EnsureInitialized()</code>, the <code>Enter...Mode()</code>, <code>Program...()</code> and <code>Set...()</code> calls return <code>false</code>, <code>ReadChannel()</code> and
+<code>ReadAllChannels()</code> return <code>Error::SpiError</code>, and <code>RawManualFrames()</code> returns the number of frames that got through.
+The driver's mirrored state (mode, sequence masks, range, power-down, GPIO outputs) changes only when the frames
+that change it went out.</p>
+<p>Return a <code>bool</code>, not your SDK's status code: the driver rejects any other return type at compile time, so an
+<code>esp_err_t</code> (where 0 is success) cannot be read as <code>false</code>. A port written for the earlier contract, with a <code>void</code>
+<code>transfer()</code>, still compiles; the driver treats it as never failing.</p>
 <h2 id="reference-implementation">Reference implementation<a class="headerlink" href="#reference-implementation" title="Permanent link">&para;</a></h2>
-<p>The ESP32 examples use <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/examples/esp32/main/esp32_ads7952_bus.hpp"><code>esp32_ads7952_bus.hpp</code></a>: an ESP-IDF
+<p>The ESP32 examples use <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/examples/esp32/main/esp32_ads7952_bus.hpp"><code>esp32_ads7952_bus.hpp</code></a>: an ESP-IDF
 <code>spi_master</code> device in mode 0 with hardware CS, one <code>spi_device_transmit()</code> per frame. Start from it for any
 ESP-IDF target.</p>
 <h2 id="check-your-port">Check your port<a class="headerlink" href="#check-your-port" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Build it: the port on this page is compiled by the host CI from
-   <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/5281551eb53a77c60f05aaa11a9614dd97c5d82a/tests/docs/my_spi.hpp"><code>tests/docs/my_spi.hpp</code></a>, with the driver instantiated over it.</li>
+   <a href="https://github.com/hardfoc/hf-ads7952-driver/blob/e442d29067272ee9319e33f045e2e880ac30e29c/tests/docs/my_spi.hpp"><code>tests/docs/my_spi.hpp</code></a>, with the driver instantiated over it.</li>
 <li>Call <code>EnsureInitialized()</code>, then <code>RawManualFrames(5, words, 4)</code>: <code>words[2] &gt;&gt; 12</code> must be 5. If the address
    never matches, look at the bus with a logic analyser (mode, CS framing, byte order).</li>
 <li>Put a known voltage on one input and compare <code>ReadChannel()</code> with a meter. Use the measured REFP with
