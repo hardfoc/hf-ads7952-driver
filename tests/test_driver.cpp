@@ -36,9 +36,9 @@ void test_init_programs_defaults() {
   CHECK(chip.mode == MockAds7952::DevMode::Auto1);
   CHECK(adc.GetMode() == ads7952::Mode::Auto1);
   const auto frames = chip.sent.size();
-  CHECK(adc.EnsureInitialized());          // idempotent: no SPI traffic
+  CHECK(adc.EnsureInitialized()); // idempotent: no SPI traffic
   CHECK(chip.sent.size() == frames);
-  CHECK(adc.EnsureInitialized(true));      // forced: runs again
+  CHECK(adc.EnsureInitialized(true)); // forced: runs again
   CHECK(chip.sent.size() > frames);
 }
 
@@ -119,7 +119,7 @@ void test_range_latches_on_mode_frame() {
   CHECK(adc.EnsureInitialized());
   CHECK(adc.SetRange(ads7952::Range::TwoVref));
   CHECK(std::fabs(adc.GetActiveVref() - 5.0f) < 1e-6f);
-  CHECK(adc.EnterAuto1Mode());             // the documented way to latch the range bit
+  CHECK(adc.EnterAuto1Mode()); // the documented way to latch the range bit
   CHECK(chip.range_2vref);
 }
 
@@ -139,14 +139,14 @@ void test_raw_frames() {
   MockAds7952 chip;
   Adc adc(chip);
   uint16_t words[4] = {};
-  CHECK(adc.RawManualFrames(3, words, 4) == 0);  // not initialised
+  CHECK(adc.RawManualFrames(3, words, 4) == 0); // not initialised
   CHECK(adc.EnsureInitialized());
   CHECK(adc.RawManualFrames(3, words, 4) == 4);
-  CHECK((words[2] >> 12) == 3);                 // N + 2
+  CHECK((words[2] >> 12) == 3); // N + 2
   CHECK((words[2] & 0x0FFF) == chip.input[3]);
 }
 
-}  // namespace
+} // namespace
 
 int main() {
   test_init_programs_defaults();

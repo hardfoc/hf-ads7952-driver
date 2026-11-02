@@ -2,11 +2,12 @@
  * @file mock_ads7952.hpp
  * @brief A model of the ADS7952's SPI behaviour for the host tests.
  *
- * The model follows SLAS605C: every frame is 16 bits; a channel selected in frame N is acquired during frame N+1
- * and its conversion is clocked out in frame N+2, tagged with its 4-bit address in DO15:12. Auto-1 walks the
- * programmed mask, Auto-2 walks CH0..last. CONTINUE frames (DI15:12 = 0000) keep the mode and ignore DI11:00
- * (Table 7). Range, power-down and GPIO bits are latched only from mode frames with DI11 = 1 (Manual: also with
- * DI11 = 0 for the channel address). The first frame after power-up returns an invalid conversion.
+ * The model follows SLAS605C: every frame is 16 bits; a channel selected in frame N is acquired
+ * during frame N+1 and its conversion is clocked out in frame N+2, tagged with its 4-bit address in
+ * DO15:12. Auto-1 walks the programmed mask, Auto-2 walks CH0..last. CONTINUE frames (DI15:12 =
+ * 0000) keep the mode and ignore DI11:00 (Table 7). Range, power-down and GPIO bits are latched
+ * only from mode frames with DI11 = 1 (Manual: also with DI11 = 0 for the channel address). The
+ * first frame after power-up returns an invalid conversion.
  */
 #pragma once
 
@@ -21,22 +22,22 @@ class MockAds7952 : public ads7952::SpiInterface<MockAds7952> {
 public:
   MockAds7952() noexcept {
     for (uint8_t ch = 0; ch < 12; ++ch) {
-      input[ch] = static_cast<uint16_t>(100U * ch + 7U);  // a distinct count on every channel
+      input[ch] = static_cast<uint16_t>(100U * ch + 7U); // a distinct count on every channel
     }
   }
 
   // --- what the test sets --------------------------------------------------
-  std::array<uint16_t, 12> input{};  ///< 12-bit count each channel converts to
+  std::array<uint16_t, 12> input{}; ///< 12-bit count each channel converts to
 
   // --- what the test reads back ------------------------------------------
-  std::vector<uint16_t> sent;        ///< every DI15:0 word, in order
+  std::vector<uint16_t> sent; ///< every DI15:0 word, in order
   enum class DevMode : uint8_t { Manual, Auto1, Auto2 };
   DevMode mode = DevMode::Manual;
   uint16_t auto1_mask = 0;
   uint8_t auto2_last = 0;
   bool range_2vref = false;
   bool power_down = false;
-  uint16_t gpio_prog = 0;            ///< last GPIO program register word (DI09:00)
+  uint16_t gpio_prog = 0; ///< last GPIO program register word (DI09:00)
   std::array<uint16_t, 12> alarm_high{};
   std::array<uint16_t, 12> alarm_low{};
 
@@ -57,8 +58,11 @@ private:
   uint16_t frame(uint16_t di) {
     sent.push_back(di);
 
-    // Output: the channel that was acquired during the previous frame, sampled at this CS falling edge.
-    uint16_t dout = first_frame_ ? 0x0000 : static_cast<uint16_t>((acquiring_ << 12) | (input[acquiring_] & 0x0FFF));
+    // Output: the channel that was acquired during the previous frame, sampled at this CS falling
+    // edge.
+    uint16_t dout = first_frame_
+                        ? 0x0000
+                        : static_cast<uint16_t>((acquiring_ << 12) | (input[acquiring_] & 0x0FFF));
     first_frame_ = false;
     acquiring_ = pending_;
 
@@ -84,47 +88,55 @@ private:
     const uint8_t code = static_cast<uint8_t>(di >> 12);
     const bool program = (di & 0x0800) != 0;
     switch (code) {
-    case 0x0:  // CONTINUE: DI11:00 ignored
+    case 0x0: // CONTINUE: DI11:00 ignored
       advance();
       break;
-    case 0x1:  // Manual: channel address always applies
+    case 0x1: // Manual: channel address always applies
       mode = DevMode::Manual;
       pending_ = static_cast<uint8_t>((di >> 7) & 0x0F) % 12;
-      if (program) latch(di);
+      if (program)
+        latch(di);
       break;
-    case 0x2:  // Auto-1
+    case 0x2: // Auto-1
       mode = DevMode::Auto1;
       if (program) {
         latch(di);
-        if (di & 0x0400) pending_ = nextInMask(0, true);
-        else advance();
+        if (di & 0x0400)
+          pending_ = nextInMask(0, true);
+        else
+          advance();
       } else {
         advance();
       }
       break;
-    case 0x3:  // Auto-2
+    case 0x3: // Auto-2
       mode = DevMode::Auto2;
       if (program) {
         latch(di);
-        if (di & 0x0400) pending_ = 0;
-        else advance();
+        if (di & 0x0400)
+          pending_ = 0;
+        else
+          advance();
       } else {
         advance();
       }
       break;
-    case 0x4:  // GPIO program register
+    case 0x4: // GPIO program register
       gpio_prog = di & 0x03FF;
       advance();
       break;
-    case 0x8:  // Auto-1 program: mask in the next frame
+    case 0x8: // Auto-1 program: mask in the next frame
       prog_ = Prog::Auto1Mask;
       advance();
       break;
-    case 0x9:  // Auto-2 program: last channel in DI09:06
+    case 0x9: // Auto-2 program: last channel in DI09:06
       auto2_last = static_cast<uint8_t>((di >> 6) & 0x0F);
       advance();
       break;
-    case 0xC: case 0xD: case 0xE: case 0xF:
+    case 0xC:
+    case 0xD:
+    case 0xE:
+    case 0xF:
       prog_ = Prog::Alarm;
       alarm_group_ = static_cast<uint8_t>(code & 0x3);
       advance();
@@ -143,18 +155,25 @@ private:
 
   void advance() {
     switch (mode) {
-    case DevMode::Manual: break;  // keeps the last selected channel
-    case DevMode::Auto1: pending_ = nextInMask(static_cast<uint8_t>(pending_ + 1), false); break;
-    case DevMode::Auto2: pending_ = (pending_ >= auto2_last) ? 0 : static_cast<uint8_t>(pending_ + 1); break;
+    case DevMode::Manual:
+      break; // keeps the last selected channel
+    case DevMode::Auto1:
+      pending_ = nextInMask(static_cast<uint8_t>(pending_ + 1), false);
+      break;
+    case DevMode::Auto2:
+      pending_ = (pending_ >= auto2_last) ? 0 : static_cast<uint8_t>(pending_ + 1);
+      break;
     }
   }
 
   uint8_t nextInMask(uint8_t from, bool reset) const {
     const uint16_t mask = auto1_mask & 0x0FFF;
-    if (mask == 0) return 0;
+    if (mask == 0)
+      return 0;
     for (uint8_t i = 0; i < 12; ++i) {
       const uint8_t ch = static_cast<uint8_t>((reset ? i : from + i) % 12);
-      if (mask & (1U << ch)) return ch;
+      if (mask & (1U << ch))
+        return ch;
     }
     return 0;
   }
