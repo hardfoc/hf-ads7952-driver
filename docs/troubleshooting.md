@@ -1,19 +1,10 @@
----
-layout: default
-title: "🐛 Troubleshooting"
-description: "Common issues and solutions for the HF-ADS7952 driver"
-parent: "📚 Documentation"
-nav_order: 9
-permalink: /docs/troubleshooting/
----
-
-# 🐛 Troubleshooting
+# Troubleshooting
 
 Common issues and their solutions when working with the HF-ADS7952 driver.
 
 ---
 
-## 📋 Error Codes Quick Reference
+## Error Codes Quick Reference
 
 The driver returns `Error` enum values from most operations:
 

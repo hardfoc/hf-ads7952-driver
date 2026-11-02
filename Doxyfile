@@ -8,7 +8,7 @@ DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME = "HF-ADS7952 Driver"
 PROJECT_NUMBER         = 1.0.0
 PROJECT_LOGO           =
-OUTPUT_DIRECTORY       = docs
+OUTPUT_DIRECTORY       = build/doxygen
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -183,18 +183,8 @@ IGNORE_PREFIX          =
 #---------------------------------------------------------------------------
 
 GENERATE_HTML          = YES
-HTML_OUTPUT            = doxygen
+HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
-HTML_HEADER            =
-HTML_FOOTER            =
-HTML_STYLESHEET        =
-HTML_EXTRA_STYLESHEET  = _config/doxygen-extensions/doxygen-awesome-css/doxygen-awesome.css
-HTML_EXTRA_FILES       =
-HTML_COLORSTYLE        = AUTO_DARK
-HTML_COLORSTYLE_HUE    = 209
-HTML_COLORSTYLE_SAT    = 255
-HTML_COLORSTYLE_GAMMA  = 113
-HTML_DYNAMIC_MENUS     = YES
 HTML_DYNAMIC_SECTIONS  = NO
 HTML_CODE_FOLDING      = YES
 HTML_INDEX_NUM_ENTRIES = 100
@@ -203,9 +193,6 @@ GENERATE_HTMLHELP      = NO
 GENERATE_CHI           = NO
 GENERATE_QHP           = NO
 GENERATE_ECLIPSEHELP   = NO
-DISABLE_INDEX          = NO
-GENERATE_TREEVIEW      = YES
-FULL_SIDEBAR           = NO
 ENUM_VALUES_PER_LINE   = 4
 TREEVIEW_WIDTH         = 250
 EXT_LINKS_IN_WINDOW    = NO
@@ -275,7 +262,6 @@ SKIP_FUNCTION_MACROS   = YES
 TAGFILES               =
 # Tag file for optional cross-tree linking (do not point TAGFILES at a missing
 # file — generate this tree first, then add TAGFILES in the consumer Doxyfile).
-GENERATE_TAGFILE       = docs/doxygen/hf-ads7952.tag
 EXTERNAL_GROUPS        = YES
 EXTERNAL_PAGES         = YES
 

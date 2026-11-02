@@ -1,13 +1,4 @@
----
-layout: default
-title: "🔩 CMake Integration"
-description: "CMake integration guide for the HF-ADS7952 driver"
-parent: "📚 Documentation"
-nav_order: 6
-permalink: /docs/cmake_integration/
----
-
-# 🔩 CMake Integration
+# CMake Integration
 
 This guide covers the CMake build system integration for the HF-ADS7952 driver.
 

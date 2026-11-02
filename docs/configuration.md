@@ -1,13 +1,4 @@
----
-layout: default
-title: "⚙️ Configuration"
-description: "Compile-time configuration, Kconfig, voltage references, and operating modes for the ADS7952 driver"
-parent: "📚 Documentation"
-nav_order: 5
-permalink: /docs/configuration/
----
-
-# ⚙️ Configuration
+# Configuration
 
 The ADS7952 driver provides compile-time configuration through `ads7952_config.hpp`. All defaults can be overridden via Kconfig (ESP-IDF), CMake defines, or direct preprocessor definitions.
 

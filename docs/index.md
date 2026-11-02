@@ -1,18 +1,8 @@
----
-layout: default
-title: "📚 Documentation"
-description: "Complete documentation for the HardFOC ADS7952 12-channel 12-bit SAR ADC Driver"
-nav_order: 2
-parent: "HardFOC ADS7952 Driver"
-permalink: /docs/
-has_children: true
----
-
 # HF-ADS7952 Documentation
 
 Welcome! This documentation covers everything you need to install, configure, and use the **HF-ADS7952** driver — a portable C++20 driver for the Texas Instruments ADS7952 12-channel, 12-bit SAR ADC.
 
-## 📚 Documentation Structure
+## Documentation Structure
 
 ### **Getting Started**
 
@@ -37,7 +27,7 @@ Welcome! This documentation covers everything you need to install, configure, an
 
 ---
 
-## 🚀 Quick Start Path
+## Quick Start Path
 
 **New to ADS7952?** Follow this recommended learning path:
 
@@ -50,7 +40,7 @@ Welcome! This documentation covers everything you need to install, configure, an
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -81,7 +71,7 @@ The driver handles the ADS7952's **SPI pipeline** internally — the response to
 
 ---
 
-## 📋 Device Quick Reference
+## Device Quick Reference
 
 | Parameter | Value |
 |-----------|-------|
@@ -99,7 +89,7 @@ The driver handles the ADS7952's **SPI pipeline** internally — the response to
 
 ---
 
-## 💡 Need Help?
+## Need Help?
 
 - **🐛 Something not working?** Check the [Troubleshooting](troubleshooting.md) guide
 - **❓ API questions?** Review the [API Reference](api_reference.md)

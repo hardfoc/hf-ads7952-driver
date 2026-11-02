@@ -1,13 +1,4 @@
----
-layout: default
-title: "💡 Examples"
-description: "Walkthrough of all ADS7952 example applications"
-parent: "📚 Documentation"
-nav_order: 8
-permalink: /docs/examples/
----
-
-# 💡 Examples
+# Examples
 
 This page walks through all 4 example applications included in the repository. Examples are located in `examples/esp32/main/` and target the ESP32-S3 with ESP-IDF.
 

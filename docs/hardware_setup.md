@@ -1,13 +1,4 @@
----
-layout: default
-title: "🔌 Hardware Setup"
-description: "Wiring, SPI configuration, power supply, and decoupling for the ADS7952"
-parent: "📚 Documentation"
-nav_order: 3
-permalink: /docs/hardware_setup/
----
-
-# 🔌 Hardware Setup
+# Hardware Setup
 
 ![ADS7952 12-channel SAR ADC: Auto-1 sequencing and 16-bit SPI frame layout](assets/ads7952-frame.svg)
 
@@ -143,7 +134,7 @@ If you don't need GPIO/alarm features, these pins can be left unconnected.
 
 ---
 
-## ⚠️ Important Notes
+## Important Notes
 
 1. **Level Shifting**: If your MCU runs at 3.3 V and DVDD is set to 5 V, use level shifters on SPI lines. If DVDD = 3.3 V, direct 3.3 V logic connections are safe.
 

@@ -1,13 +1,4 @@
----
-layout: default
-title: "⚡ Quick Start"
-description: "Get up and running with HF-ADS7952 in minutes"
-parent: "📚 Documentation"
-nav_order: 2
-permalink: /docs/quickstart/
----
-
-# ⚡ Quick Start
+# Quick Start
 
 Get the ADS7952 driver reading ADC channels in under 20 lines.
 

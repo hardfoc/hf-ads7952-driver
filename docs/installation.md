@@ -1,13 +1,4 @@
----
-layout: default
-title: "🛠️ Installation"
-description: "How to install and integrate the HF-ADS7952 driver library"
-parent: "📚 Documentation"
-nav_order: 1
-permalink: /docs/installation/
----
-
-# 🛠️ Installation
+# Installation
 
 This guide explains how to obtain and install the HF-ADS7952 driver library.
 

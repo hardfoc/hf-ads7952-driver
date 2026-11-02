@@ -1,11 +1,3 @@
----
-layout: default
-title: "HardFOC ADS7952 Driver"
-description: "Portable C++20 driver for the Texas Instruments ADS7952 12-channel 12-bit SAR ADC with SPI interface, auto-sequencing, GPIO, and alarm thresholds"
-nav_order: 1
-permalink: /
----
-
 # HF-ADS7952 Driver
 
 **Portable C++20 driver for the Texas Instruments ADS7952 12-channel, 12-bit SAR ADC with SPI interface**
@@ -15,19 +7,19 @@ permalink: /
 [![CI](https://github.com/hardfoc/hf-ads7952-driver/actions/workflows/esp32-examples-build-ci.yml/badge.svg?branch=main)](https://github.com/hardfoc/hf-ads7952-driver/actions/workflows/esp32-examples-build-ci.yml)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://hardfoc.github.io/hf-ads7952-driver/)
 
-## 📚 Table of Contents
-1. [Overview](#-overview)
-2. [Features](#-features)
-3. [Quick Start](#-quick-start)
-4. [Installation](#-installation)
-5. [API Reference](#-api-reference)
-6. [Examples](#-examples)
-7. [Documentation](#-documentation)
-8. [References](#-references)
-9. [Contributing](#-contributing)
-10. [License](#-license)
+## Table of Contents
+1. [Overview](#overview)
+2. [Features](#features)
+3. [Quick Start](#quick-start)
+4. [Installation](#installation)
+5. [API Reference](#api-reference)
+6. [Examples](#examples)
+7. [Documentation](#documentation)
+8. [References](#references)
+9. [Contributing](#contributing)
+10. [License](#license)
 
-## 📦 Overview
+## Overview
 
 > **📖 [📚🌐 Live Complete Documentation](https://hardfoc.github.io/hf-ads7952-driver/)** —
 > Interactive guides, examples, and step-by-step tutorials
@@ -40,7 +32,7 @@ The driver uses a **CRTP-based** `SpiInterface` for hardware abstraction, allowi
 
 ![ADS7952 12-channel SAR ADC: Auto-1 sequencing and 16-bit SPI frame layout](docs/assets/ads7952-frame.svg)
 
-## ✨ Features
+## Features
 
 - ✅ **12-channel, 12-bit** SAR ADC — up to 1 MSPS sampling rate
 - ✅ **Manual mode** — select and read individual channels with 2-frame SPI pipeline
@@ -57,7 +49,7 @@ The driver uses a **CRTP-based** `SpiInterface` for hardware abstraction, allowi
 - ✅ **Modern C++20** — constexpr registers, enum classes, zero-overhead CRTP design
 - ✅ **ESP-IDF Ready** — component wrapper, 4 examples, and 30+ integration tests included
 
-## 🚀 Quick Start
+## Quick Start
 
 ```cpp
 #include "ads7952.hpp"
@@ -94,7 +86,7 @@ if (all.ok()) {
 
 For detailed setup, see [Installation](docs/installation.md) and [Quick Start Guide](docs/quickstart.md).
 
-## 🔧 Installation
+## Installation
 
 1. **Clone or add as submodule** into your project
 2. **Implement the SPI interface** for your platform (see [Platform Integration](docs/platform_integration.md))
@@ -106,7 +98,7 @@ For detailed setup, see [Installation](docs/installation.md) and [Quick Start Gu
 
 For detailed installation instructions, see [docs/installation.md](docs/installation.md).
 
-## 📖 API Reference
+## API Reference
 
 ### Core Operations
 
@@ -149,7 +141,7 @@ For detailed installation instructions, see [docs/installation.md](docs/installa
 
 For complete API documentation, see [docs/api_reference.md](docs/api_reference.md).
 
-## 📊 Examples
+## Examples
 
 | Example | Description |
 |---------|-------------|
@@ -162,7 +154,7 @@ For ESP32-S3 build instructions, see the [examples/esp32](examples/esp32/) direc
 
 Detailed example walkthroughs are available in [docs/examples.md](docs/examples.md).
 
-## 📚 Documentation
+## Documentation
 
 Complete documentation is available in the [docs directory](docs/index.md):
 
@@ -178,7 +170,7 @@ Complete documentation is available in the [docs directory](docs/index.md):
 | [🐛 Troubleshooting](docs/troubleshooting.md) | Error codes, SPI debugging, common hardware issues |
 | [🔩 CMake Integration](docs/cmake_integration.md) | Build system setup, ESP-IDF component, FetchContent |
 
-## 🔗 References
+## References
 
 | Resource | Link |
 |----------|------|
@@ -188,11 +180,11 @@ Complete documentation is available in the [docs directory](docs/index.md):
 | Linux spidev (Kernel docs) | <https://www.kernel.org/doc/html/latest/spi/spidev.html> |
 | C++20 language reference | <https://en.cppreference.com/w/cpp/20> |
 
-## 🤝 Contributing
+## Contributing
 
 Pull requests and suggestions are welcome! Please follow the existing code style and include tests for new features.
 
-## 📄 License
+## License
 
 This project is licensed under the **GNU General Public License v3.0**.
 See the [LICENSE](LICENSE) file for details.

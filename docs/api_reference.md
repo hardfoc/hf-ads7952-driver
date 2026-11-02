@@ -1,13 +1,4 @@
----
-layout: default
-title: "📖 API Reference"
-description: "Complete API reference for the HF-ADS7952 driver"
-parent: "📚 Documentation"
-nav_order: 7
-permalink: /docs/api_reference/
----
-
-# 📖 API Reference
+# API Reference
 
 Complete API documentation for the ADS7952 driver library.
 

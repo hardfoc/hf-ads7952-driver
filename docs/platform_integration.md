@@ -1,13 +1,4 @@
----
-layout: default
-title: "🔧 Platform Integration"
-description: "Implement the CRTP SPI interface for your platform"
-parent: "📚 Documentation"
-nav_order: 4
-permalink: /docs/platform_integration/
----
-
-# 🔧 Platform Integration
+# Platform Integration
 
 The HF-ADS7952 driver uses the **Curiously Recurring Template Pattern (CRTP)** to provide a zero-overhead hardware abstraction for the SPI bus. This guide shows how to implement the SPI interface for your platform.
 
