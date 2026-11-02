@@ -31,3 +31,10 @@ target_link_libraries(hf_ads7952_doc_snippets PRIVATE ${HF_ADS7952_TARGET_NAME})
 target_include_directories(hf_ads7952_doc_snippets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/docs)
 target_compile_features(hf_ads7952_doc_snippets PRIVATE cxx_std_20)
 target_compile_options(hf_ads7952_doc_snippets PRIVATE -Wall -Wextra)
+
+# `cmake --install` must ship every header the public headers include (ads7952.ipp, the generated
+# ads7952_version.h) and export the documented target hf::ads7952. Installs into the build tree and builds a
+# consumer with find_package().
+add_test(NAME hf_ads7952_install_consumer
+  COMMAND ${CMAKE_COMMAND} -DBIN=${PROJECT_BINARY_DIR} -DSRC=${PROJECT_SOURCE_DIR}
+          -DCXX=${CMAKE_CXX_COMPILER} -P ${CMAKE_CURRENT_SOURCE_DIR}/install_consumer.cmake)

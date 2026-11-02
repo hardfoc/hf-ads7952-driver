@@ -20,6 +20,7 @@ ctest --test-dir build-host --output-on-failure
 | --- | --- |
 | [`tests/test_driver.cpp`](../tests/test_driver.cpp) | Initialisation, single and sequence reads, error codes, bus-error propagation, `void` legacy ports, programming frames, GPIO alarm routing, range latching, reference and supply limits, conversion helpers, raw frames |
 | [`tests/mock_ads7952.hpp`](../tests/mock_ads7952.hpp) | The chip model |
+| [`tests/install_consumer.cmake`](../tests/install_consumer.cmake) | `cmake --install` into the build tree, then a `find_package(hf_ads7952)` consumer linking `hf::ads7952` builds against the installed headers |
 
 ## Documentation snippets
 

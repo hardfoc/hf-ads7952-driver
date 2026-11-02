@@ -42,6 +42,8 @@ endif()
 # Namespaced Consumer Alias
 # =============================================================================
 add_library(hf::ads7952 ALIAS ${HF_ADS7952_TARGET_NAME})
+# Installed copies export the same name: hf:: + EXPORT_NAME = hf::ads7952 (was hf::hf_ads7952).
+set_target_properties(${HF_ADS7952_TARGET_NAME} PROPERTIES EXPORT_NAME ads7952)
 
 #===============================================================================
 # Versioning

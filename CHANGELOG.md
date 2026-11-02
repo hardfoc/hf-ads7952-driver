@@ -43,5 +43,9 @@ The driver has not been released yet; its version in `cmake/hf_ads7952_build_set
   longer converted as 2.5 V; a `vref` below 2.0 V is now clamped to 2.0 V.
 - `examples/esp32/components/hf_ads7952/idf_component.yml`: `repository` and `issues` point at
   `https://github.com/hardfoc/hf-ads7952-driver` (they named a repository that does not exist).
+- An installed package exports its target as `hf::ads7952`, the name the documentation and the package config
+  give (it was exported as `hf::hf_ads7952`, so `find_package(hf_ads7952)` consumers failed to link the documented
+  name). `hf::hf_ads7952` remains available from the package config. A host test installs the driver and builds a
+  `find_package()` consumer against it, checking that every header the public headers include is installed.
 - The `hf_ads7952` CMake target now puts `src/` on the include path, so code that links it finds `ads7952.ipp`;
   `cmake --install` installs the `.ipp` next to the headers.

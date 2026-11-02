@@ -12,4 +12,10 @@
 
 include("${CMAKE_CURRENT_LIST_DIR}/hf_ads7952Targets.cmake")
 
+# Earlier installs exported the target as hf::hf_ads7952; keep that name working.
+if(TARGET hf::ads7952 AND NOT TARGET hf::hf_ads7952)
+  add_library(hf::hf_ads7952 INTERFACE IMPORTED)
+  set_target_properties(hf::hf_ads7952 PROPERTIES INTERFACE_LINK_LIBRARIES hf::ads7952)
+endif()
+
 check_required_components(hf_ads7952)
